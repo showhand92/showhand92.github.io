@@ -230,6 +230,8 @@ body > .row.w-100 > .col.w-100,
     align-items: baseline;
     flex-wrap: wrap;
     gap: 0.35rem;
+    margin-left: 0;
+    margin-right: 0;
 }
 
 .about .affiliations #title,
@@ -251,6 +253,7 @@ body > .row.w-100 > .col.w-100,
     margin: 0;
     font-size: 0.92rem;
     letter-spacing: 0.04em;
+    text-align: center;
 }
 
 .about .socials {
@@ -374,6 +377,7 @@ body > .row.w-100 > .col.w-100,
     padding-left: 0;
     font-size: 1.12rem;
     font-weight: 600;
+    line-height: 1.35;
 }
 
 .dates {
@@ -389,12 +393,16 @@ body > .row.w-100 > .col.w-100,
 .degree_major .col {
     padding-left: 0;
     font-size: 1rem;
+    line-height: 1.5;
 }
 
 .section-title {
     margin-top: 0;
     margin-bottom: 0.3rem;
     font-size: clamp(2.1rem, 4vw, 2.6rem);
+    line-height: 1.08;
+    margin-left: 0;
+    margin-right: 0;
 }
 
 .news,
@@ -455,18 +463,21 @@ body > .row.w-100 > .col.w-100,
     font-size: 1.35rem;
     font-weight: 600;
     line-height: 1.35;
+    overflow-wrap: anywhere;
 }
 
 .publication .section-2 {
     margin-top: 0.7rem;
     margin-bottom: 0;
     font-size: 0.95rem;
+    overflow-wrap: anywhere;
 }
 
 .publication .section-3 {
     margin-top: 0.55rem;
     font-size: 0.96rem;
     text-decoration: none;
+    overflow-wrap: anywhere;
 }
 
 .publication .section-4 {
@@ -493,6 +504,9 @@ body > .row.w-100 > .col.w-100,
     letter-spacing: 0.08em;
     text-transform: uppercase;
     text-decoration: none;
+    max-width: 100%;
+    white-space: normal;
+    text-align: center;
 }
 
 .publication .section-3 a:hover,
@@ -667,6 +681,15 @@ footer {
         font-size: clamp(2.7rem, 16vw, 3.9rem);
     }
 
+    .about .affiliations #title {
+        font-size: 0.9rem;
+        letter-spacing: 0.1em;
+    }
+
+    .about .affiliations #name {
+        font-size: 0.95rem;
+    }
+
     .about .socials a {
         width: 44px;
         height: 44px;
@@ -721,24 +744,66 @@ footer {
 
     .about #title-name {
         flex-direction: column;
-        gap: 0;
+        gap: 0.18rem;
+        align-items: center;
     }
 
     .about .affiliations #title {
-        font-size: 0.78rem;
+        font-size: 0.76rem;
+        letter-spacing: 0.08em;
     }
 
     .about .affiliations #name {
         text-align: center;
+        font-size: 0.92rem;
+        line-height: 1.45;
     }
 
-    .news_list li,
-    .publication .section-2,
-    .publication .section-3 {
-        font-size: 0.92rem;
+    .about #email {
+        font-size: 0.84rem;
+        word-break: break-word;
+    }
+
+    .section-title {
+        font-size: 1.65rem;
+    }
+
+    #institution_title {
+        font-size: 1rem;
+    }
+
+    .dates {
+        font-size: 0.82rem;
+    }
+
+    .degree_major .col {
+        font-size: 0.94rem;
     }
 
     .publication .section-1 {
-        font-size: 1.12rem;
+        font-size: 1.08rem;
+        line-height: 1.32;
+    }
+
+    .publication .section-2,
+    .publication .section-3 {
+        font-size: 0.9rem;
+    }
+
+    .publication .section-4 {
+        gap: 0.5rem;
+    }
+
+    .publication .section-3 a,
+    .publication .section-4 a,
+    .project .section-2 a,
+    .projects .project a {
+        padding: 0.42rem 0.72rem;
+        font-size: 0.72rem;
+        letter-spacing: 0.05em;
+    }
+
+    .news_list li {
+        font-size: 0.92rem;
     }
 }
