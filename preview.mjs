@@ -65,7 +65,11 @@ const server = http.createServer(async (req, res) => {
 
         res.writeHead(200, {
             "Cache-Control": "no-store",
-            "Content-Type": contentTypes[ext] || "application/octet-stream"
+            "Content-Security-Policy": "default-src 'self'; script-src 'self' https://code.jquery.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com 'unsafe-inline'; style-src 'self' https://cdn.jsdelivr.net https://fonts.googleapis.com 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net; img-src 'self' data: https:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests",
+            "Content-Type": contentTypes[ext] || "application/octet-stream",
+            "Referrer-Policy": "no-referrer",
+            "X-Content-Type-Options": "nosniff",
+            "X-Frame-Options": "DENY"
         });
         res.end(file);
     } catch {
