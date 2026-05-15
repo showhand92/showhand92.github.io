@@ -157,6 +157,7 @@ body > .row.w-100 > .col.w-100,
 .about > .row,
 .interests > .col,
 .academia > .col,
+.travel > .col,
 .news > .col,
 .publications > .col {
     padding-left: 0;
@@ -166,6 +167,7 @@ body > .row.w-100 > .col.w-100,
 .about.row,
 .interests.row,
 .academia.row,
+.travel.row,
 .news.row,
 .publications.row {
     margin-left: 0;
@@ -175,6 +177,7 @@ body > .row.w-100 > .col.w-100,
 .home-page .about,
 .home-page .interests,
 .home-page .academia,
+.home-page .travel,
 .home-page .news,
 .home-page .publications {
     position: relative;
@@ -406,8 +409,69 @@ body > .row.w-100 > .col.w-100,
 }
 
 .news,
+.travel,
 .publications {
     padding: 28px 32px;
+}
+
+.travel {
+    margin-top: 0.4rem;
+}
+
+.travel-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.4rem;
+    margin: 0;
+}
+
+.travel-kicker {
+    margin-bottom: 0.35rem;
+    font-size: 0.82rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+}
+
+.travel-card h4 {
+    margin: 0 0 0.55rem;
+    font-size: 1.55rem;
+    line-height: 1.18;
+}
+
+.travel-card p {
+    max-width: 680px;
+    margin: 0;
+    color: var(--muted);
+    font-size: 1rem;
+    line-height: 1.65;
+}
+
+.travel-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    gap: 0.45rem;
+    min-height: 44px;
+    padding: 0.55rem 1rem;
+    border: 1px solid rgba(140, 21, 21, 0.16);
+    border-radius: 999px;
+    background: rgba(140, 21, 21, 0.05);
+    font-family: 'Ubuntu Mono', monospace;
+    font-size: 0.82rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.travel-link:hover {
+    background-color: var(--accent);
+    color: white;
+}
+
+.travel-link svg {
+    width: 17px;
+    height: 17px;
 }
 
 .news {
@@ -632,6 +696,7 @@ footer {
     .home-page .about,
     .home-page .interests,
     .home-page .academia,
+    .home-page .travel,
     .home-page .news,
     .home-page .publications {
         border-radius: 24px;
@@ -643,9 +708,16 @@ footer {
 
     .interests,
     .academia,
+    .travel,
     .news,
     .publications {
         padding: 28px 24px;
+    }
+
+    .travel-card {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 1rem;
     }
 
     .interests ul {
@@ -737,6 +809,7 @@ footer {
 
     .interests,
     .academia,
+    .travel,
     .news,
     .publications {
         padding: 22px 18px;
