@@ -229,18 +229,72 @@
       main { padding: 18px; }
       .grid { grid-template-columns: 1fr 1fr; }
       .info-grid { grid-template-columns: 1fr; }
-      table {
-        min-width: 640px;
-        font-size: 14px;
-      }
-
-      .day-card {
-        overflow-x: auto;
-      }
+      table { font-size: 14px; }
     }
 
     @media (max-width: 560px) {
       .grid { grid-template-columns: 1fr; }
+
+      table,
+      thead,
+      tbody,
+      tr,
+      th,
+      td {
+        display: block;
+        width: 100%;
+      }
+
+      thead {
+        display: none;
+      }
+
+      table {
+        border-radius: 0;
+      }
+
+      tr {
+        margin: 0 0 12px;
+        padding: 12px;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.56);
+      }
+
+      td {
+        display: grid;
+        grid-template-columns: 82px minmax(0, 1fr);
+        gap: 10px;
+        padding: 7px 0;
+        border-bottom: 1px solid rgba(222, 215, 200, 0.72);
+      }
+
+      td:last-child {
+        border-bottom: 0;
+      }
+
+      th:first-child,
+      td:first-child {
+        width: 100%;
+        white-space: normal;
+      }
+
+      td::before {
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .budget-table td:nth-child(1)::before { content: "项目"; }
+      .budget-table td:nth-child(2)::before { content: "日元"; }
+      .budget-table td:nth-child(3)::before { content: "人民币"; }
+      .budget-table td:nth-child(4)::before { content: "说明"; }
+      .schedule-table td:nth-child(1)::before { content: "时间"; }
+      .schedule-table td:nth-child(2)::before { content: "安排"; }
+
+      .budget-total td {
+        background: transparent;
+      }
     }
   </style>
 </head>
@@ -286,7 +340,7 @@
       <p>以下为单人粗略估算，日元价格会随汇率、旺季和订票渠道变化；出发前以官网和订房平台为准。</p>
       <h3>总消费粗算</h3>
       <p class="budget-note">按 1 日元 ≈ 0.043 人民币估算；不含往返国际机票、购物和明显超预算餐厅。</p>
-      <table>
+      <table class="budget-table">
         <thead><tr><th>项目</th><th>日元估算</th><th>人民币估算</th><th>说明</th></tr></thead>
         <tbody>
           <tr><td>住宿</td><td>¥24,000-54,000</td><td>约 ¥1,030-2,320</td><td>3 晚商务酒店，按一个人承担整间房估算；两人分摊可减半。</td></tr>
@@ -351,7 +405,7 @@
         <span class="tag">新干线</span>
         <span class="tag">熊本城</span>
       </div>
-      <table>
+      <table class="schedule-table">
         <thead><tr><th>时间</th><th>安排</th></tr></thead>
         <tbody>
           <tr><td>10:55</td><td>D1-1 9C6609 上海浦东 → 福冈，抵达福冈机场国际航站楼。</td></tr>
@@ -379,7 +433,7 @@
         <span class="tag">新干线</span>
         <span class="tag">城山展望台</span>
       </div>
-      <table>
+      <table class="schedule-table">
         <thead><tr><th>时间</th><th>安排</th></tr></thead>
         <tbody>
           <tr><td>08:00-08:45</td><td>早餐、退房。</td></tr>
@@ -404,7 +458,7 @@
         <span class="tag">樱岛</span>
         <span class="tag">仙岩园</span>
       </div>
-      <table>
+      <table class="schedule-table">
         <thead><tr><th>时间</th><th>安排</th></tr></thead>
         <tbody>
           <tr><td>07:30-08:15</td><td>早餐。</td></tr>
@@ -430,7 +484,7 @@
         <span class="tag">博多短逛</span>
         <span class="tag">9C6538</span>
       </div>
-      <table>
+      <table class="schedule-table">
         <thead><tr><th>时间</th><th>安排</th></tr></thead>
         <tbody>
           <tr><td>08:00-09:00</td><td>早餐、退房。</td></tr>

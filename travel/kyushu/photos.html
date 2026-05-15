@@ -182,9 +182,61 @@
     @media (max-width: 620px) {
       main { padding: 18px; }
       .grid { grid-template-columns: 1fr; }
-      .priority th { display: none; }
-      .priority td { display: block; width: 100%; }
-      .priority td:first-child { font-weight: 800; color: var(--accent); }
+
+      .priority,
+      .priority thead,
+      .priority tbody,
+      .priority tr,
+      .priority th,
+      .priority td {
+        display: block;
+        width: 100%;
+      }
+
+      .priority thead {
+        display: none;
+      }
+
+      .priority {
+        border-radius: 0;
+      }
+
+      .priority tr {
+        margin: 0 0 12px;
+        padding: 12px;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.56);
+      }
+
+      .priority td {
+        display: grid;
+        grid-template-columns: 86px minmax(0, 1fr);
+        gap: 10px;
+        padding: 7px 0;
+        border-bottom: 1px solid rgba(222, 215, 200, 0.72);
+      }
+
+      .priority td:last-child {
+        border-bottom: 0;
+      }
+
+      .priority td::before {
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .priority td:nth-child(1)::before { content: "优先级"; }
+      .priority td:nth-child(2)::before { content: "景点"; }
+      .priority td:nth-child(3)::before { content: "城市"; }
+      .priority td:nth-child(4)::before { content: "适合"; }
+      .priority td:nth-child(5)::before { content: "关键词"; }
+
+      .priority td:first-child {
+        font-weight: 800;
+        color: var(--accent);
+      }
     }
   </style>
 </head>
