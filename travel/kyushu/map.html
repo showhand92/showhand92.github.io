@@ -1,0 +1,706 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>九州熊本鹿儿岛行程地图</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://a.basemaps.cartocdn.com">
+  <link rel="preconnect" href="https://b.basemaps.cartocdn.com">
+  <link rel="preconnect" href="https://c.basemaps.cartocdn.com">
+  <link rel="preconnect" href="https://d.basemaps.cartocdn.com">
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css"
+    crossorigin="">
+  <style>
+    :root {
+      --ink: #1f261f;
+      --muted: #667066;
+      --line: #ded7c8;
+      --paper: #f7f1e6;
+      --panel: #fffdf7;
+      --accent: #006d77;
+      --accent-2: #e56b2f;
+      --accent-3: #2f80ed;
+      --accent-4: #8a5cf6;
+      --sidebar-width: 460px;
+      --travel-header-offset: 160px;
+      --day1: var(--accent);
+      --day2: var(--accent-2);
+      --day3: var(--accent-3);
+      --day4: var(--accent-4);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 12% 8%, rgba(229, 107, 47, 0.16), transparent 28%),
+        radial-gradient(circle at 88% 18%, rgba(47, 128, 237, 0.14), transparent 30%),
+        var(--paper);
+      font-family: "Avenir Next", "Segoe UI", "Microsoft YaHei", sans-serif;
+      line-height: 1.65;
+    }
+
+    header {
+      padding: 34px 28px 22px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 253, 247, 0.78);
+      backdrop-filter: blur(10px);
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(30px, 5vw, 52px);
+      line-height: 1.05;
+      letter-spacing: 0.02em;
+    }
+
+    .subtitle {
+      max-width: 820px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 18px 0 0;
+    }
+
+    nav a {
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.72);
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    nav a.active {
+      color: #fff;
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: var(--sidebar-width) 8px minmax(0, 1fr);
+      min-height: calc(100vh - var(--travel-header-offset));
+    }
+
+    aside {
+      padding: 18px;
+      overflow: auto;
+      background: var(--panel);
+    }
+
+    .resizer {
+      cursor: col-resize;
+      border-left: 1px solid var(--line);
+      border-right: 1px solid var(--line);
+      background: linear-gradient(90deg, #eef3ed, #dce7dc, #eef3ed);
+    }
+
+    .resizer:hover,
+    .resizing .resizer {
+      background: #b8c9b8;
+    }
+
+    #map {
+      width: 100%;
+      min-height: calc(100vh - var(--travel-header-offset));
+    }
+
+    .day-card {
+      margin: 0 0 16px;
+      padding: 14px 14px 12px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: white;
+      box-shadow: 0 8px 24px rgba(40, 55, 42, 0.06);
+      transition: box-shadow 160ms ease, transform 160ms ease, background 160ms ease;
+    }
+
+    .day-card.active {
+      background: #fffdf2;
+      box-shadow: 0 12px 34px rgba(40, 55, 42, 0.14);
+      transform: translateY(-1px);
+    }
+
+    .day-card h2 {
+      margin: 0 0 10px;
+      font-size: 18px;
+    }
+
+    .day-card[data-day="1"] { border-left: 5px solid var(--day1); }
+    .day-card[data-day="2"] { border-left: 5px solid var(--day2); }
+    .day-card[data-day="3"] { border-left: 5px solid var(--day3); }
+    .day-card[data-day="4"] { border-left: 5px solid var(--day4); }
+
+    .day-card[data-day="1"] h2 { color: var(--day1); }
+    .day-card[data-day="2"] h2 { color: var(--day2); }
+    .day-card[data-day="3"] h2 { color: var(--day3); }
+    .day-card[data-day="4"] h2 { color: var(--day4); }
+
+    .day-card ol {
+      margin: 0;
+      padding-left: 24px;
+    }
+
+    .day-card li {
+      margin: 8px 0;
+      line-height: 1.45;
+    }
+
+    .day-card li[data-target] {
+      cursor: pointer;
+      border-radius: 10px;
+      transition: background 140ms ease, transform 140ms ease;
+    }
+
+    .day-card li[data-target]:hover {
+      background: #f1f6ef;
+      transform: translateX(2px);
+    }
+
+    .time {
+      display: inline-block;
+      min-width: 86px;
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .photo-badge {
+      display: inline-block;
+      margin-left: 6px;
+      padding: 1px 6px;
+      border-radius: 999px;
+      color: #ffffff;
+      background: #17211b;
+      font-size: 11px;
+      font-weight: 800;
+      vertical-align: 1px;
+    }
+
+    .note {
+      margin: 16px 0 0;
+      padding: 12px;
+      border-left: 4px solid #b7c6b9;
+      color: var(--muted);
+      background: #f5f7f1;
+      line-height: 1.55;
+    }
+
+    .legend {
+      margin: 12px 0 0;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #ffffff;
+    }
+
+    .legend-title {
+      margin: 0 0 8px;
+      font-weight: 700;
+    }
+
+    .legend-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 6px 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .legend-line {
+      width: 36px;
+      height: 0;
+      border-top: 4px solid #888;
+      border-radius: 999px;
+    }
+
+    .legend-line.shinkansen { border-top-style: solid; }
+    .legend-line.city { border-top-style: dashed; }
+    .legend-line.ferry { border-top-style: dotted; }
+    .legend-line.bus { border-top-style: dashed; border-top-width: 3px; }
+
+    .marker-label {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 48px;
+      min-height: 28px;
+      padding: 4px 9px;
+      border: 2px solid rgba(23, 33, 27, 0.18);
+      border-radius: 999px;
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.28), 0 0 0 3px rgba(255, 255, 255, 0.95);
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+    }
+
+    .leaflet-tooltip {
+      padding: 6px 9px;
+      border: 0;
+      border-radius: 10px;
+      color: #17211b;
+      background: rgba(255, 255, 255, 0.96);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .popup-title {
+      margin: 0 0 4px;
+      font-weight: 700;
+    }
+
+    .popup-body {
+      margin: 0;
+      line-height: 1.45;
+    }
+
+    .popup-photo {
+      display: block;
+      width: 260px;
+      max-width: 100%;
+      margin: 8px 0 6px;
+      border-radius: 12px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.16);
+    }
+
+    .popup-link {
+      color: #2364aa;
+      font-size: 12px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .popup-link:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 900px) {
+      .layout {
+        display: block;
+      }
+
+      aside {
+        border-bottom: 1px solid var(--line);
+      }
+
+      .resizer {
+        display: none;
+      }
+
+      #map {
+        min-height: 70vh;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>九州 3 晚 4 天行程地图</h1>
+    <nav aria-label="旅行页面导航">
+      <a href="./">行程计划</a>
+      <a class="active" href="./map.html">交互地图</a>
+      <a href="./photos.html">景点照片</a>
+      <a href="/">Home</a>
+    </nav>
+  </header>
+
+  <main class="layout">
+    <aside>
+      <section class="day-card" data-day="1">
+        <h2>Day 1｜福冈 -> 熊本</h2>
+        <ol>
+          <li data-target="D1-1"><span class="time">D1-1</span>9C6609 上海浦东 -> 福冈，10:55 抵达。</li>
+          <li data-target="D1-2"><span class="time">D1-2</span>12:25 地铁福冈机场站 -> 博多站。</li>
+          <li data-target="D1-3"><span class="time">D1-3</span>13:01 SAKURA 751 博多 -> 熊本。</li>
+          <li data-target="D1-4"><span class="time">D1-4</span>14:35 樱之马场城彩苑午餐/小吃。</li>
+          <li data-target="D1-5"><span class="time">D1-5</span>15:10 熊本城。<span class="photo-badge">照片</span></li>
+          <li data-target="D1-6"><span class="time">D1-6</span>18:30 下通/上通晚餐。</li>
+        </ol>
+      </section>
+
+      <section class="day-card" data-day="2">
+        <h2>Day 2｜熊本 -> 鹿儿岛</h2>
+        <ol>
+          <li data-target="D2-1"><span class="time">D2-1</span>09:10 水前寺成趣园，可选。<span class="photo-badge">照片</span></li>
+          <li data-target="D2-2"><span class="time">D2-2</span>12:40 SAKURA 749 熊本 -> 鹿儿岛中央。</li>
+          <li data-target="D2-3"><span class="time">D2-3</span>14:10 鹿儿岛中央/天文馆午餐。</li>
+          <li data-target="D2-4"><span class="time">D2-4</span>15:45 城山展望台看樱岛。<span class="photo-badge">照片</span></li>
+          <li data-target="D2-5"><span class="time">D2-5</span>18:30 天文馆晚餐。<span class="photo-badge">照片</span></li>
+        </ol>
+      </section>
+
+      <section class="day-card" data-day="3">
+        <h2>Day 3｜樱岛 + 仙岩园</h2>
+        <ol>
+          <li data-target="D3-1"><span class="time">D3-1</span>09:00 樱岛渡轮，鹿儿岛港 -> 樱岛港。</li>
+          <li data-target="D3-2"><span class="time">D3-2</span>09:30 Sakurajima Island View 巴士环线。</li>
+          <li data-target="D3-3"><span class="time">D3-3</span>10:30 汤之平展望所/熔岩步道。<span class="photo-badge">照片</span></li>
+          <li data-target="D3-4"><span class="time">D3-4</span>11:40 渡轮返回鹿儿岛港。</li>
+          <li data-target="D3-5"><span class="time">D3-5</span>12:45 仙岩园、尚古集成馆、咖啡。<span class="photo-badge">照片</span></li>
+          <li data-target="D3-6"><span class="time">D3-6</span>18:00 鹿儿岛最后一晚晚餐。<span class="photo-badge">照片</span></li>
+        </ol>
+      </section>
+
+      <section class="day-card" data-day="4">
+        <h2>Day 4｜鹿儿岛 -> 福冈机场</h2>
+        <ol>
+          <li data-target="D4-1"><span class="time">D4-1</span>10:44 SAKURA 752 鹿儿岛中央 -> 博多。</li>
+          <li data-target="D4-2"><span class="time">D4-2</span>12:30 博多站午餐/伴手礼。</li>
+          <li data-target="D4-3"><span class="time">D4-3</span>13:30 Canal City/櫛田神社短逛，可选。<span class="photo-badge">照片</span></li>
+          <li data-target="D4-4"><span class="time">D4-4</span>14:45 回博多站 -> 福冈机场，15:45 到达国际航站楼。</li>
+          <li data-target="D4-5"><span class="time">D4-5</span>18:00 9C6538 福冈 -> 上海浦东。</li>
+        </ol>
+      </section>
+
+      <div class="legend">
+        <p class="legend-title">图例</p>
+        <div class="legend-row"><span class="legend-line shinkansen" style="border-color:#006d77"></span>Day 1 新干线/城市线</div>
+        <div class="legend-row"><span class="legend-line shinkansen" style="border-color:#e56b2f"></span>Day 2 熊本 -> 鹿儿岛</div>
+        <div class="legend-row"><span class="legend-line ferry" style="border-color:#2f80ed"></span>Day 3 渡轮/樱岛/仙岩园</div>
+        <div class="legend-row"><span class="legend-line shinkansen" style="border-color:#8a5cf6"></span>Day 4 鹿儿岛 -> 福冈</div>
+        <div class="legend-row"><span class="legend-line city"></span>虚线：市内/接驳/巴士近似路线</div>
+      </div>
+
+      <p class="note">带“照片”标记的行程项，点击后会在右侧地图打开带照片的弹窗。路线线条按真实交通走廊近似绘制；重复的往返新干线和渡轮只画一条干净的共享线路。</p>
+    </aside>
+
+    <div class="resizer" id="resizer" title="拖动调整左侧行程栏宽度"></div>
+    <div id="map"></div>
+  </main>
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"
+    crossorigin=""></script>
+  <script>
+    const dayColors = {
+      1: "#006d77",
+      2: "#e56b2f",
+      3: "#2f80ed",
+      4: "#8a5cf6"
+    };
+
+    const points = [
+      { id: "D1-1", day: 1, time: "10:55", name: "9C6609 抵达福冈机场", note: "9C6609 上海浦东 PVG -> 福冈 FUK，08:00 上海起飞，10:55 福冈到达，当地时间。入境取行李后接驳到国内线/地铁侧。", lat: 33.5849, lng: 130.4516 },
+      { id: "D1-2", day: 1, time: "12:25", name: "福冈机场地铁站", note: "地铁空港线约 5 分钟到博多。", lat: 33.5972, lng: 130.4480 },
+      { id: "D1-3", day: 1, time: "12:35", name: "博多站", note: "取票/买便当；13:01 SAKURA 751 出发。", lat: 33.5902, lng: 130.4207 },
+      { id: "D1-4", day: 1, time: "14:35", name: "樱之马场城彩苑", note: "午餐/小吃，顺路进入熊本城区域。", lat: 32.8050, lng: 130.7034 },
+      { id: "D1-5", day: 1, time: "15:10", name: "熊本城", note: "常规开放 9:00-17:00，注意停止售票时间。", lat: 32.8062, lng: 130.7058, photo: "https://commons.wikimedia.org/wiki/Special:FilePath/Kumamoto%20Castle%2006s5s4272.jpg?width=700", photoSource: "https://commons.wikimedia.org/wiki/Category:Quality_images_of_Kumamoto_Castle" },
+      { id: "D1-6", day: 1, time: "18:30", name: "下通/上通商店街", note: "晚餐区域：马肉料理、熊本拉面、居酒屋。", lat: 32.8024, lng: 130.7110 },
+
+      { id: "D2-1", day: 2, time: "09:10", name: "水前寺成趣园", note: "可选。若想更轻松，可删除。", lat: 32.7897, lng: 130.7335, photo: "https://commons.wikimedia.org/wiki/Special:FilePath/Suizen-ji%20Garden%2C%20Kumamoto.jpg?width=700", photoSource: "https://commons.wikimedia.org/wiki/Category:Suizen-ji_J%C5%8Dju-en" },
+      { id: "D2-2", day: 2, time: "12:40", name: "熊本站", note: "SAKURA 749 熊本 -> 鹿儿岛中央。", lat: 32.7900, lng: 130.6890 },
+      { id: "D2-3", day: 2, time: "13:37", name: "鹿儿岛中央站", note: "抵达鹿儿岛，酒店寄存行李/午餐。", lat: 31.5838, lng: 130.5411 },
+      { id: "D2-4", day: 2, time: "15:45", name: "城山展望台", note: "俯瞰鹿儿岛市区、锦江湾、樱岛。", lat: 31.5967, lng: 130.5507, photo: "https://commons.wikimedia.org/wiki/Special:FilePath/Sakurajima%20from%20Shiroyama%20View%20Point.jpg?width=700", photoSource: "https://commons.wikimedia.org/wiki/File:Sakurajima_from_Shiroyama_View_Point.jpg" },
+      { id: "D2-5", day: 2, time: "18:30", name: "天文馆商圈", note: "晚餐区域：黑豚、萨摩料理、烧酎。", lat: 31.5907, lng: 130.5556, photo: "https://commons.wikimedia.org/wiki/Special:FilePath/G3%20Arcade%20of%20Temmonkan%20Shopping%20Street%20at%20night.jpg?width=700", photoSource: "https://commons.wikimedia.org/wiki/File:G3_Arcade_of_Temmonkan_Shopping_Street_at_night.jpg" },
+
+      { id: "D3-1", day: 3, time: "09:00", name: "鹿儿岛港樱岛渡轮码头", note: "渡轮约 15 分钟到樱岛港。", lat: 31.5960, lng: 130.5652 },
+      { id: "D3-2", day: 3, time: "09:30", name: "樱岛港", note: "转 Sakurajima Island View 巴士。", lat: 31.5921, lng: 130.5998 },
+      { id: "D3-3", day: 3, time: "10:30", name: "汤之平展望所", note: "樱岛核心观景点。", lat: 31.6018, lng: 130.6328, photo: "https://commons.wikimedia.org/wiki/Special:FilePath/Sakurajima%20at%20Sunset.jpg?width=700", photoSource: "https://commons.wikimedia.org/wiki/File:Sakurajima_at_Sunset.jpg" },
+      { id: "D3-4", day: 3, time: "11:40", name: "樱岛港返回", note: "坐渡轮回鹿儿岛市区。", lat: 31.5921, lng: 130.5998 },
+      { id: "D3-5", day: 3, time: "12:45", name: "仙岩园", note: "庭园、尚古集成馆、樱岛借景。", lat: 31.6171, lng: 130.5770, photo: "https://commons.wikimedia.org/wiki/Special:FilePath/View%20from%20Sengan-en%20-Sakurajima.jpg?width=700", photoSource: "https://commons.wikimedia.org/wiki/File:View_from_Sengan-en_-Sakurajima.jpg" },
+      { id: "D3-6", day: 3, time: "18:00", name: "天文馆商圈", note: "鹿儿岛最后一晚晚餐。", lat: 31.5907, lng: 130.5556, photo: "https://commons.wikimedia.org/wiki/Special:FilePath/G3%20Arcade%20of%20Temmonkan%20Shopping%20Street%20at%20night.jpg?width=700", photoSource: "https://commons.wikimedia.org/wiki/File:G3_Arcade_of_Temmonkan_Shopping_Street_at_night.jpg" },
+
+      { id: "D4-1", day: 4, time: "10:44", name: "鹿儿岛中央站", note: "SAKURA 752 鹿儿岛中央 -> 博多。", lat: 31.5838, lng: 130.5411 },
+      { id: "D4-2", day: 4, time: "12:30", name: "博多站", note: "午餐、伴手礼。最稳选择是站内 AMU Plaza、阪急百货、KITTE、DEITOS。", lat: 33.5902, lng: 130.4207 },
+      { id: "D4-3", day: 4, time: "13:30", name: "Canal City / 櫛田神社", note: "时间宽松才去。博多站步行约 12-15 分钟到 Canal City，櫛田神社在附近；14:45 前必须回到博多站准备去机场。", lat: 33.5900, lng: 130.4107, photo: "https://commons.wikimedia.org/wiki/Special:FilePath/Canal%20City%20Hakata%20at%20night%2020170929-3.jpg?width=700", photoSource: "https://commons.wikimedia.org/wiki/Category:Canal_City_Hakata" },
+      { id: "D4-4", day: 4, time: "15:45", name: "福冈机场国际航站楼", note: "建议 16:00 前开始办理国际航班值机。", lat: 33.5849, lng: 130.4516 },
+      { id: "D4-5", day: 4, time: "18:00", name: "福冈机场国际航站楼", note: "9C6538 福冈 -> 上海浦东。", lat: 33.5849, lng: 130.4516 }
+    ];
+
+    const routeSegments = [
+      {
+        day: 1,
+        mode: "airport-subway",
+        label: "D1-1 -> D1-3 机场接驳 + 地铁空港线",
+        coords: [[33.5849, 130.4516], [33.5892, 130.4498], [33.5972, 130.4480], [33.5898, 130.4349], [33.5902, 130.4207]]
+      },
+      {
+        day: 1,
+        mode: "shinkansen",
+        label: "D1-3 -> 熊本 九州新干线：博多 -> 熊本",
+        coords: [[33.5902, 130.4207], [33.3718, 130.4903], [33.3196, 130.5017], [33.1776, 130.4926], [33.0314, 130.4436], [32.9425, 130.5742], [32.7900, 130.6890]]
+      },
+      {
+        day: 1,
+        mode: "city",
+        label: "熊本站 -> D1-4/D1-5/D1-6 熊本市内",
+        coords: [[32.7900, 130.6890], [32.7956, 130.6983], [32.8020, 130.7036], [32.8050, 130.7034], [32.8062, 130.7058], [32.8024, 130.7110]]
+      },
+      {
+        day: 2,
+        mode: "city",
+        label: "D2-1 -> D2-2 熊本市内返回熊本站",
+        coords: [[32.7897, 130.7335], [32.7931, 130.7189], [32.7956, 130.6983], [32.7900, 130.6890]]
+      },
+      {
+        day: 2,
+        mode: "shinkansen",
+        label: "D2-2 -> D2-3 九州新干线：熊本 -> 鹿儿岛中央",
+        coords: [[32.7900, 130.6890], [32.5070, 130.6340], [32.2109, 130.3975], [32.0899, 130.3580], [31.8138, 130.3125], [31.5838, 130.5411]]
+      },
+      {
+        day: 2,
+        mode: "city",
+        label: "D2-3 -> D2-4 -> D2-5 鹿儿岛市内",
+        coords: [[31.5838, 130.5411], [31.5907, 130.5556], [31.5967, 130.5507], [31.5907, 130.5556]]
+      },
+      {
+        day: 3,
+        mode: "city",
+        label: "D3-6/酒店 -> D3-1 鹿儿岛港",
+        coords: [[31.5907, 130.5556], [31.5939, 130.5608], [31.5960, 130.5652]]
+      },
+      {
+        day: 3,
+        mode: "ferry",
+        label: "D3-1 -> D3-2 樱岛渡轮",
+        coords: [[31.5960, 130.5652], [31.5942, 130.5818], [31.5921, 130.5998]]
+      },
+      {
+        day: 3,
+        mode: "bus",
+        label: "D3-2 -> D3-3 Sakurajima Island View",
+        coords: [[31.5921, 130.5998], [31.5934, 130.6108], [31.5978, 130.6235], [31.6018, 130.6328]]
+      },
+      {
+        day: 3,
+        mode: "bus",
+        label: "D3-3 -> D3-4 返回樱岛港",
+        coords: [[31.6018, 130.6328], [31.5978, 130.6235], [31.5934, 130.6108], [31.5921, 130.5998]]
+      },
+      {
+        day: 3,
+        mode: "ferry",
+        label: "D3-4 -> D3-1 樱岛渡轮返回",
+        coords: [[31.5921, 130.5998], [31.5942, 130.5818], [31.5960, 130.5652]]
+      },
+      {
+        day: 3,
+        mode: "city",
+        label: "D3-1 -> D3-5 鹿儿岛港 -> 仙岩园",
+        coords: [[31.5960, 130.5652], [31.6049, 130.5694], [31.6171, 130.5770]]
+      },
+      {
+        day: 3,
+        mode: "city",
+        label: "D3-5 -> D3-6 仙岩园 -> 天文馆",
+        coords: [[31.6171, 130.5770], [31.6049, 130.5694], [31.5907, 130.5556]]
+      },
+      {
+        day: 4,
+        mode: "shinkansen",
+        label: "D4-1 -> D4-2 九州新干线：鹿儿岛中央 -> 博多",
+        coords: [[31.5838, 130.5411], [31.8138, 130.3125], [32.0899, 130.3580], [32.2109, 130.3975], [32.5070, 130.6340], [32.7900, 130.6890], [32.9425, 130.5742], [33.0314, 130.4436], [33.1776, 130.4926], [33.3196, 130.5017], [33.3718, 130.4903], [33.5902, 130.4207]]
+      },
+      {
+        day: 4,
+        mode: "airport-subway",
+        label: "D4-2 -> D4-3 博多短逛",
+        coords: [[33.5902, 130.4207], [33.5900, 130.4107], [33.5902, 130.4207]]
+      },
+      {
+        day: 4,
+        mode: "airport-subway",
+        label: "D4-2 -> D4-4 博多 -> 福冈机场",
+        coords: [[33.5902, 130.4207], [33.5898, 130.4349], [33.5972, 130.4480], [33.5892, 130.4498], [33.5849, 130.4516]]
+      }
+    ];
+
+    const map = L.map("map", {
+      scrollWheelZoom: true
+    }).setView([32.55, 130.55], 7);
+
+    const cartoLight = L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
+      maxZoom: 19,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+    });
+
+    const openStreetMap = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    const layerGroups = {};
+    const markerById = {};
+    const routeLinesByDay = {};
+    const allBounds = [];
+    const routeStyles = {
+      shinkansen: { weight: 5, opacity: 0.82, dashArray: null },
+      "airport-subway": { weight: 4, opacity: 0.78, dashArray: "10 6" },
+      city: { weight: 4, opacity: 0.72, dashArray: "4 7" },
+      ferry: { weight: 4, opacity: 0.82, dashArray: "2 8" },
+      bus: { weight: 4, opacity: 0.76, dashArray: "8 7" }
+    };
+
+    function addDirectionLabel(group, segment, text, color) {
+      const middle = segment.coords[Math.floor(segment.coords.length / 2)];
+      L.marker(middle, {
+        icon: L.divIcon({
+          className: "",
+          html: `<span class="marker-label" style="min-width:auto; min-height:24px; padding:3px 8px; font-size:12px; background:${color}; border-color:${color};">${text}</span>`,
+          iconSize: [92, 28],
+          iconAnchor: [46, 14]
+        }),
+        interactive: false
+      }).addTo(group);
+    }
+
+    function makeIcon(point) {
+      return L.divIcon({
+        className: "",
+        html: `<span class="marker-label" style="background:${dayColors[point.day]}; border-color:${dayColors[point.day]};">${point.id}</span>`,
+        iconSize: [58, 34],
+        iconAnchor: [29, 17]
+      });
+    }
+
+    [1, 2, 3, 4].forEach((day) => {
+      const group = L.layerGroup();
+
+      routeSegments
+        .filter((segment) => segment.day === day)
+        .forEach((segment) => {
+          const style = routeStyles[segment.mode];
+          const line = L.polyline(segment.coords, {
+            color: dayColors[day],
+            weight: style.weight,
+            opacity: style.opacity,
+            dashArray: style.dashArray
+          })
+            .bindTooltip(segment.label, { sticky: true })
+            .addTo(group);
+          routeLinesByDay[day] = routeLinesByDay[day] || [];
+          routeLinesByDay[day].push({ line, style, segment });
+          segment.coords.forEach((coord) => allBounds.push(coord));
+
+          if (segment.mode === "shinkansen") {
+            const text = day === 4 ? "新干线回福冈" : "新干线南下";
+            addDirectionLabel(group, segment, text, dayColors[day]);
+          }
+
+          if (segment.mode === "ferry") {
+            const text = segment.label.includes("返回") ? "渡轮返回" : "渡轮去樱岛";
+            addDirectionLabel(group, segment, text, dayColors[day]);
+          }
+        });
+
+      points.filter((p) => p.day === day).forEach((point) => {
+        const photoHtml = point.photo
+          ? `<img class="popup-photo" src="${point.photo}" loading="lazy" alt="${point.name}"><a class="popup-link" href="${point.photoSource}" target="_blank" rel="noreferrer">查看照片来源</a>`
+          : "";
+        const popup = `
+          <p class="popup-title">${point.id}｜${point.time}｜${point.name}</p>
+          <p class="popup-body">${point.note}</p>
+          ${photoHtml}
+        `;
+        const marker = L.marker([point.lat, point.lng], { icon: makeIcon(point) })
+          .bindTooltip(`${point.id} ${point.time} ${point.name}`, { permanent: false, direction: "top" })
+          .bindPopup(popup)
+          .addTo(group);
+        markerById[point.id] = marker;
+        allBounds.push([point.lat, point.lng]);
+      });
+
+      group.addTo(map);
+      layerGroups[`Day ${day}`] = group;
+    });
+
+    L.control.layers({
+      "OpenStreetMap": openStreetMap,
+      "轻量底图 Carto": cartoLight
+    }, layerGroups, { collapsed: false }).addTo(map);
+    map.fitBounds(allBounds, { padding: [36, 36] });
+
+    function highlightDay(day) {
+      Object.entries(routeLinesByDay).forEach(([candidateDay, lines]) => {
+        const isActive = Number(candidateDay) === Number(day);
+        lines.forEach(({ line, style }) => {
+          line.setStyle({
+            weight: isActive ? style.weight + 3 : Math.max(style.weight - 1, 2),
+            opacity: isActive ? 0.96 : 0.22
+          });
+          if (isActive) {
+            line.bringToFront();
+          }
+        });
+      });
+
+      document.querySelectorAll(".day-card").forEach((card) => {
+        card.classList.toggle("active", Number(card.dataset.day) === Number(day));
+      });
+    }
+
+    document.querySelectorAll(".day-card").forEach((card) => {
+      card.addEventListener("click", (event) => {
+        if (event.target.closest("[data-target]")) return;
+        highlightDay(card.dataset.day);
+      });
+    });
+
+    const root = document.documentElement;
+    const resizer = document.getElementById("resizer");
+    let isResizing = false;
+
+    resizer.addEventListener("pointerdown", (event) => {
+      isResizing = true;
+      document.body.classList.add("resizing");
+      resizer.setPointerCapture(event.pointerId);
+    });
+
+    resizer.addEventListener("pointermove", (event) => {
+      if (!isResizing) return;
+      const width = Math.min(Math.max(event.clientX, 320), 760);
+      root.style.setProperty("--sidebar-width", `${width}px`);
+      map.invalidateSize();
+    });
+
+    resizer.addEventListener("pointerup", () => {
+      isResizing = false;
+      document.body.classList.remove("resizing");
+      map.invalidateSize();
+    });
+
+    document.querySelectorAll("[data-target]").forEach((item) => {
+      item.addEventListener("click", () => {
+        const id = item.dataset.target;
+        const marker = markerById[id];
+        if (!marker) return;
+        const point = points.find((candidate) => candidate.id === id);
+        const dayLayer = layerGroups[`Day ${point.day}`];
+        if (dayLayer && !map.hasLayer(dayLayer)) {
+          dayLayer.addTo(map);
+        }
+        highlightDay(point.day);
+        map.flyTo(marker.getLatLng(), Math.max(map.getZoom(), 12), {
+          duration: 0.65
+        });
+        window.setTimeout(() => marker.openPopup(), 680);
+      });
+    });
+
+    highlightDay(1);
+  </script>
+</body>
+</html>

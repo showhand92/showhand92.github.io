@@ -447,6 +447,14 @@ body > .row.w-100 > .col.w-100,
     line-height: 1.65;
 }
 
+.travel-actions {
+    display: flex;
+    flex: 0 0 auto;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0.55rem;
+}
+
 .travel-link {
     display: inline-flex;
     align-items: center;
@@ -454,6 +462,7 @@ body > .row.w-100 > .col.w-100,
     flex: 0 0 auto;
     gap: 0.45rem;
     min-height: 44px;
+    min-width: 94px;
     padding: 0.55rem 1rem;
     border: 1px solid rgba(140, 21, 21, 0.16);
     border-radius: 999px;
@@ -718,6 +727,10 @@ footer {
         align-items: flex-start;
         flex-direction: column;
         gap: 1rem;
+    }
+
+    .travel-actions {
+        justify-content: flex-start;
     }
 
     .interests ul {
