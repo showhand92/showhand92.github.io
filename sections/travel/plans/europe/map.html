@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>欧洲行程地图｜瑞士 + 意大利 + 巴黎</title>
+  <title>欧洲行程地图</title>
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
   <link rel="preconnect" href="https://a.basemaps.cartocdn.com">
   <link rel="preconnect" href="https://b.basemaps.cartocdn.com">
@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://d.basemaps.cartocdn.com">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
   <link rel="stylesheet" href="../../css/travel-common.css">
-  <link rel="stylesheet" href="../../css/travel-map.css?v=20260516-topo">
+  <link rel="stylesheet" href="../../css/travel-map.css?v=20260516-options">
   <style>
     :root {
       --ink: #2d241d;
@@ -321,7 +321,7 @@
     }
   </style>
 </head>
-<body>
+<body id="top">
   <header>
     <h1>欧洲行程地图</h1>
     <p class="subtitle">D1-D12 主路线：瑞士阿尔卑斯、米兰、佛罗伦萨、罗马、巴黎与法兰克福回程。</p>
@@ -329,13 +329,13 @@
       <a href="./">行程计划</a>
       <a href="./photos.html">景点照片</a>
       <a class="active" href="./map.html">交互地图</a>
-      <a href="/sections/travel/">Travel</a>
+      <a href="/sections/travel/">返回 Travel 主页</a>
     </nav>
   </header>
 
   <main class="layout">
     <aside>
-      <section class="day-card" data-day="1">
+      <section id="day1" class="day-card" data-day="1">
         <h2>D1｜日内瓦 -> 因特拉肯</h2>
         <ol>
           <li data-target="D1-1"><span class="time">D1-1</span>07:50-09:00 抵达日内瓦机场，入境取行李。</li>
@@ -344,7 +344,7 @@
         </ol>
       </section>
 
-      <section class="day-card" data-day="2">
+      <section id="day2" class="day-card" data-day="2">
         <h2>D2｜少女峰 Jungfraujoch</h2>
         <ol>
           <li data-target="D2-1"><span class="time">D2-1</span>08:30-10:45 因特拉肯出发，经 Grindelwald / Kleine Scheidegg 上山。</li>
@@ -353,7 +353,7 @@
         </ol>
       </section>
 
-      <section class="day-card" data-day="3">
+      <section id="day3" class="day-card" data-day="3">
         <h2>D3｜布里恩茨湖 + Grindelwald First</h2>
         <ol>
           <li data-target="D3-1"><span class="time">D3-1</span>09:00-11:30 布里恩茨湖 / Iseltwald 轻松湖区线。</li>
@@ -362,7 +362,7 @@
         </ol>
       </section>
 
-      <section class="day-card" data-day="4">
+      <section id="day4" class="day-card" data-day="4">
         <h2>D4｜因特拉肯 -> 米兰</h2>
         <ol>
           <li data-target="D4-1"><span class="time">D4-1</span>08:30-12:40 因特拉肯出发，火车经 Spiez / Brig / Domodossola。</li>
@@ -371,7 +371,7 @@
         </ol>
       </section>
 
-      <section class="day-card" data-day="5">
+      <section id="day5" class="day-card" data-day="5">
         <h2>D5｜米兰 -> 佛罗伦萨</h2>
         <ol>
           <li data-target="D5-1"><span class="time">D5-1</span>08:30-10:15 高铁从米兰前往 Firenze Santa Maria Novella。</li>
@@ -380,7 +380,7 @@
         </ol>
       </section>
 
-      <section class="day-card" data-day="6">
+      <section id="day6" class="day-card" data-day="6">
         <h2>D6｜佛罗伦萨 -> 罗马</h2>
         <ol>
           <li data-target="D6-1"><span class="time">D6-1</span>09:00-10:40 高铁到 Roma Termini。</li>
@@ -388,7 +388,7 @@
         </ol>
       </section>
 
-      <section class="day-card" data-day="7">
+      <section id="day7" class="day-card" data-day="7">
         <h2>D7｜梵蒂冈</h2>
         <ol>
           <li data-target="D7-1"><span class="time">D7-1</span>07:30-12:30 梵蒂冈博物馆、西斯廷礼拜堂。</li>
@@ -396,7 +396,7 @@
         </ol>
       </section>
 
-      <section class="day-card" data-day="8">
+      <section id="day8" class="day-card" data-day="8">
         <h2>D8｜古罗马遗迹</h2>
         <ol>
           <li data-target="D8-1"><span class="time">D8-1</span>08:30-13:00 斗兽场、古罗马广场、帕拉蒂尼山。<span class="photo-badge">照片</span></li>
@@ -404,7 +404,7 @@
         </ol>
       </section>
 
-      <section class="day-card" data-day="9">
+      <section id="day9" class="day-card" data-day="9">
         <h2>D9｜罗马 -> 巴黎</h2>
         <ol>
           <li data-target="D9-1"><span class="time">D9-1</span>07:30-16:00 罗马机场飞巴黎并进城。</li>
@@ -413,7 +413,7 @@
         </ol>
       </section>
 
-      <section class="day-card" data-day="10">
+      <section id="day10" class="day-card" data-day="10">
         <h2>D10｜巴黎艺术线</h2>
         <ol>
           <li data-target="D10-1"><span class="time">D10-1</span>08:15-12:00 卢浮宫。</li>
@@ -421,7 +421,7 @@
         </ol>
       </section>
 
-      <section class="day-card" data-day="11">
+      <section id="day11" class="day-card" data-day="11">
         <h2>D11｜蒙马特 + 西岱岛</h2>
         <ol>
           <li data-target="D11-1"><span class="time">D11-1</span>08:30-12:00 蒙马特、圣心大教堂。</li>
@@ -430,7 +430,7 @@
         </ol>
       </section>
 
-      <section class="day-card" data-day="12">
+      <section id="day12" class="day-card" data-day="12">
         <h2>D12｜巴黎 -> 法兰克福 -> 上海</h2>
         <ol>
           <li data-target="D12-1"><span class="time">D12-1</span>06:15-11:50 巴黎东站出发，ICE 前往法兰克福。</li>
@@ -444,9 +444,32 @@
     <div id="map"></div>
   </main>
 
+  <details class="jump-menu">
+    <summary>目录</summary>
+    <div class="jump-panel">
+      <a href="#day1">D1｜日内瓦 -> 因特拉肯</a>
+      <a href="#day2">D2｜少女峰</a>
+      <a href="#day3">D3｜布里恩茨湖 + First</a>
+      <a href="#day4">D4｜因特拉肯 -> 米兰</a>
+      <a href="#day5">D5｜米兰 -> 佛罗伦萨</a>
+      <a href="#day6">D6｜佛罗伦萨 -> 罗马</a>
+      <a href="#day7">D7｜梵蒂冈</a>
+      <a href="#day8">D8｜罗马古遗迹</a>
+      <a href="#day9">D9｜罗马 -> 巴黎</a>
+      <a href="#day10">D10｜巴黎艺术线</a>
+      <a href="#day11">D11｜巴黎生活线</a>
+      <a href="#day12">D12｜巴黎 -> 法兰克福</a>
+      <span class="jump-divider"></span>
+      <a href="./">行程计划</a>
+      <a href="./photos.html">景点照片</a>
+      <a href="/sections/travel/">返回 Travel 主页</a>
+    </div>
+  </details>
+  <a class="back-top" href="#top" aria-label="回到顶部">Top</a>
+
   <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
   <script src="./itinerary-data.js"></script>
-  <script src="../../js/travel-map.js?v=20260516-resize"></script>
+  <script src="../../js/travel-map.js?v=20260516-options"></script>
   <script>
     const rootStyles = getComputedStyle(document.documentElement);
     const dayColors = Object.fromEntries(
@@ -499,7 +522,6 @@
         "浅色": cartoLight
       },
       layerName: (day) => `D${day}`,
-      activeMaxZoom: 11,
       resetMaxZoom: 6,
       labelOffsetOptions: {
         minDistance: 58,

@@ -14,7 +14,7 @@
     href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css"
     crossorigin="">
   <link rel="stylesheet" href="../../css/travel-common.css">
-  <link rel="stylesheet" href="../../css/travel-map.css?v=20260516-topo">
+  <link rel="stylesheet" href="../../css/travel-map.css?v=20260516-options">
   <style>
     :root {
       --ink: #1f261f;
@@ -344,7 +344,7 @@
     }
   </style>
 </head>
-<body>
+<body id="top">
   <header>
     <h1>九州行程地图</h1>
     <p class="subtitle">Day 1-Day 4 主路线：福冈入境、熊本城、鹿儿岛市区、樱岛和仙岩园，最后经博多回福冈机场。</p>
@@ -352,13 +352,13 @@
       <a href="./">行程计划</a>
       <a href="./photos.html">景点照片</a>
       <a class="active" href="./map.html">交互地图</a>
-      <a href="/sections/travel/">Travel</a>
+      <a href="/sections/travel/">返回 Travel 主页</a>
     </nav>
   </header>
 
   <main class="layout">
     <aside>
-      <section class="day-card" data-day="1">
+      <section id="day1" class="day-card" data-day="1">
         <h2>Day 1｜福冈 -> 熊本</h2>
         <ol>
           <li data-target="D1-1"><span class="time">D1-1</span>9C6609 上海浦东 -> 福冈，10:55 抵达。</li>
@@ -370,7 +370,7 @@
         </ol>
       </section>
 
-      <section class="day-card" data-day="2">
+      <section id="day2" class="day-card" data-day="2">
         <h2>Day 2｜熊本 -> 鹿儿岛</h2>
         <ol>
           <li data-target="D2-1"><span class="time">D2-1</span>09:10 水前寺成趣园，可选。<span class="photo-badge">照片</span></li>
@@ -381,7 +381,7 @@
         </ol>
       </section>
 
-      <section class="day-card" data-day="3">
+      <section id="day3" class="day-card" data-day="3">
         <h2>Day 3｜樱岛 + 仙岩园</h2>
         <ol>
           <li data-target="D3-1"><span class="time">D3-1</span>09:00 樱岛渡轮，鹿儿岛港 -> 樱岛港。</li>
@@ -393,7 +393,7 @@
         </ol>
       </section>
 
-      <section class="day-card" data-day="4">
+      <section id="day4" class="day-card" data-day="4">
         <h2>Day 4｜鹿儿岛 -> 福冈机场</h2>
         <ol>
           <li data-target="D4-1"><span class="time">D4-1</span>10:44 SAKURA 752 鹿儿岛中央 -> 博多。</li>
@@ -412,11 +412,26 @@
     <div id="map"></div>
   </main>
 
+  <details class="jump-menu">
+    <summary>目录</summary>
+    <div class="jump-panel">
+      <a href="#day1">Day 1｜福冈 -> 熊本</a>
+      <a href="#day2">Day 2｜熊本 -> 鹿儿岛</a>
+      <a href="#day3">Day 3｜樱岛 + 仙岩园</a>
+      <a href="#day4">Day 4｜鹿儿岛 -> 福冈</a>
+      <span class="jump-divider"></span>
+      <a href="./">行程计划</a>
+      <a href="./photos.html">景点照片</a>
+      <a href="/sections/travel/">返回 Travel 主页</a>
+    </div>
+  </details>
+  <a class="back-top" href="#top" aria-label="回到顶部">Top</a>
+
   <script
     src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"
     crossorigin=""></script>
   <script src="./itinerary-data.js"></script>
-  <script src="../../js/travel-map.js?v=20260516-resize"></script>
+  <script src="../../js/travel-map.js?v=20260516-options"></script>
   <script>
     const rootStyles = getComputedStyle(document.documentElement);
     const dayColors = Object.fromEntries(
@@ -474,14 +489,14 @@
         "浅色": cartoLight
       },
       layerName: (day) => `Day ${day}`,
-      activeMaxZoom: 12,
-      resetMaxZoom: 9,
       labelOffsetOptions: {
         minDistance: 58,
         sameDayOnly: true,
         manualOffsets: {
           "D2-1": [42, -30],
-          "D2-2": [-42, 26]
+          "D2-2": [-42, 26],
+          "D2-A": [-44, -28],
+          "D2-B": [46, 30]
         }
       }
     });

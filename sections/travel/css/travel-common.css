@@ -108,7 +108,7 @@
     position: fixed;
     right: 18px;
     bottom: 18px;
-    z-index: 20;
+    z-index: 1100;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -127,7 +127,7 @@
     position: fixed;
     right: 18px;
     bottom: 72px;
-    z-index: 21;
+    z-index: 1101;
     font-weight: 800;
   }
 

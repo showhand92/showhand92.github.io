@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="referrer" content="no-referrer">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests">
-  <title>Han Shao | Updating This Website with Codex</title>
+  <title>Han Shao | 用 Codex 更新这个网站</title>
   <link rel="stylesheet" href="/sections/travel/css/travel-common.css">
   <style>
     :root {
@@ -72,6 +72,11 @@
       text-decoration: none;
     }
 
+    .post-meta a:hover {
+      background: rgba(169, 68, 36, 0.1);
+      text-decoration: none;
+    }
+
     .post-article {
       max-width: 860px;
       margin: 0 auto;
@@ -87,6 +92,19 @@
       color: var(--ink);
       font-size: 17px;
       line-height: 1.78;
+    }
+
+    .post-article h2 {
+      margin: 0 0 16px;
+      color: var(--accent);
+      font-size: 22px;
+      line-height: 1.3;
+    }
+
+    .post-article h2:not(:first-child) {
+      margin-top: 32px;
+      padding-top: 26px;
+      border-top: 1px solid var(--line);
     }
 
     .post-article p:last-child {
@@ -120,23 +138,36 @@
       <a href="/sections/travel/">Travel</a>
     </nav>
     <p class="eyebrow">Blog post</p>
-    <h1>Updating This Website with Codex</h1>
-    <p class="subtitle">How this static GitHub Pages site is organized, and how Blog and Travel will be updated going forward.</p>
+    <h1>用 Codex 更新这个网站</h1>
+    <p class="subtitle">A bilingual note on rebuilding this static GitHub Pages site, and how Blog and Travel are designed.</p>
     <div class="post-meta">
       <span>May 16 2026</span>
-      <span>1 min read</span>
+      <span>2 min read</span>
+      <a href="/sections/blog/">返回 Blog 主页</a>
     </div>
   </header>
 
   <main>
     <article class="post-article">
-      <p>I recently started using Codex to update this personal website again. The site is still intentionally simple: a static GitHub Pages site with hand-written HTML, shared CSS, and a few lightweight content areas.</p>
+      <h2>中文</h2>
 
-      <p>The current structure is organized around a small set of stable pages. The homepage remains an about page with education, publications, news, and selected links. Blog is for short notes like this one. Travel is for itinerary planning pages, including maps, photo references, and route notes.</p>
+      <p>最近我开始使用 Codex 重新整理这个个人网站。它仍然是一个静态 GitHub Pages 网站，没有账号系统、数据库或后台编辑器；内容主要通过本地修改 HTML、CSS 和少量 JavaScript，再用 Git 提交和发布。</p>
 
-      <p>For now I am keeping the site static instead of adding a full backend. This keeps deployment simple and makes it easy to edit content locally, commit changes, and publish through GitHub Pages. If I need online editing, login, or database-backed content later, I may revisit the architecture.</p>
+      <p>这次更新的重点不是把网站做复杂，而是把结构变清楚。主页继续作为 About 页面，保留教育背景、论文、News 和常用入口。Blog 主要写网站更新、项目整理和技术笔记，也保留一些实现过程中的取舍。Travel 主要写具体路线、每日安排、交通票券、住宿预算和景点取舍。</p>
 
-      <p>Going forward, I plan to use Blog for writing and technical notes, and Travel for trip plans. The first travel collection is a Kyushu itinerary covering Kumamoto, Kagoshima, Sakurajima, and Sengan-en.</p>
+      <p>目前 Travel 里已经有九州和欧洲两条路线。九州计划围绕福冈进出、熊本、鹿儿岛、樱岛和仙岩园展开；欧洲计划覆盖瑞士阿尔卑斯、米兰、佛罗伦萨、罗马、巴黎和法兰克福回程。每个旅行计划都尽量包含行程、照片、地图、住宿交通和预算，但文案会以旅行内容为主，而不是解释页面功能。</p>
+
+      <p>我暂时会继续保持静态站方案。对现在的个人主页、文章和旅行计划来说，这种方式足够稳定，也更容易控制页面细节。如果以后真的需要登录、在线编辑或数据库内容，再考虑 Next.js、Supabase、Vercel 之类的前后端方案会更合适。</p>
+
+      <h2>English</h2>
+
+      <p>I recently started using Codex to rebuild this personal website. The site is still intentionally static: it runs on GitHub Pages, with hand-edited HTML, shared CSS, and a small amount of JavaScript. There is no account system, database, or admin dashboard.</p>
+
+      <p>The goal of this update is not to make the site more complex. It is to make the structure clearer. The homepage remains the About page, with education, publications, news, and selected links. Blog is for website updates, project notes, and technical writing, including the tradeoffs behind implementation decisions. Travel is for concrete trip plans: routes, daily schedules, transportation passes, accommodation areas, budgets, photos, and itinerary choices.</p>
+
+      <p>Travel currently includes two collections. The Kyushu plan focuses on Fukuoka in and out, Kumamoto, Kagoshima, Sakurajima, and Sengan-en. The Europe plan connects the Swiss Alps, Milan, Florence, Rome, Paris, and the return through Frankfurt. Each plan keeps a similar shape, but the writing should describe the trip itself rather than explain the page features.</p>
+
+      <p>For now, keeping the site static is the right tradeoff. It keeps deployment simple, makes local editing predictable, and fits the current content. If I later need login, online editing, or database-backed content, I can revisit a fuller architecture such as Next.js, Supabase, and Vercel.</p>
     </article>
   </main>
 

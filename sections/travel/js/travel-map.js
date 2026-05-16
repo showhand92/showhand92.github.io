@@ -36,6 +36,13 @@
           item.append(" ", badge);
         }
 
+        if (point.optional) {
+          const badge = document.createElement("span");
+          badge.className = "optional-badge";
+          badge.textContent = "备选";
+          item.append(" ", badge);
+        }
+
         if (point.photo) {
           const badge = document.createElement("span");
           badge.className = "photo-badge";
@@ -159,7 +166,7 @@
       routeStyles,
       baseLayers,
       layerName = (day) => `Day ${day}`,
-      activeMaxZoom = 12,
+      activeMaxZoom = 14,
       resetMaxZoom = 9,
       labelOffsetOptions = {},
       resizerId = "resizer",

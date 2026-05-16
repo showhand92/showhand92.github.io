@@ -133,7 +133,8 @@
   }
 
   .photo-badge,
-  .featured-badge {
+  .featured-badge,
+  .optional-badge {
     display: inline-block;
     margin-left: 6px;
     padding: 1px 6px;
@@ -147,6 +148,10 @@
 
   .featured-badge {
     background: var(--accent-2);
+  }
+
+  .optional-badge {
+    background: #6f746b;
   }
 
   .note {
