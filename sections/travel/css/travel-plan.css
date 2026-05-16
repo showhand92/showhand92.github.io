@@ -35,6 +35,44 @@
     overflow: hidden;
   }
 
+  .day-card.day1 { border-left: 7px solid var(--day1); }
+  .day-card.day2 { border-left: 7px solid var(--day2); }
+  .day-card.day3 { border-left: 7px solid var(--day3); }
+  .day-card.day4 { border-left: 7px solid var(--day4); }
+  .day-card.day5 { border-left: 7px solid var(--day5); }
+  .day-card.day6 { border-left: 7px solid var(--day6); }
+  .day-card.day7 { border-left: 7px solid var(--day7); }
+  .day-card.day8 { border-left: 7px solid var(--day8); }
+  .day-card.day9 { border-left: 7px solid var(--day9); }
+  .day-card.day10 { border-left: 7px solid var(--day10); }
+  .day-card.day11 { border-left: 7px solid var(--day11); }
+  .day-card.day12 { border-left: 7px solid var(--day12); }
+
+  .day-card.day1 h2,
+  .day-card.day1 td:first-child { color: var(--day1); }
+  .day-card.day2 h2,
+  .day-card.day2 td:first-child { color: var(--day2); }
+  .day-card.day3 h2,
+  .day-card.day3 td:first-child { color: var(--day3); }
+  .day-card.day4 h2,
+  .day-card.day4 td:first-child { color: var(--day4); }
+  .day-card.day5 h2,
+  .day-card.day5 td:first-child { color: var(--day5); }
+  .day-card.day6 h2,
+  .day-card.day6 td:first-child { color: var(--day6); }
+  .day-card.day7 h2,
+  .day-card.day7 td:first-child { color: var(--day7); }
+  .day-card.day8 h2,
+  .day-card.day8 td:first-child { color: var(--day8); }
+  .day-card.day9 h2,
+  .day-card.day9 td:first-child { color: var(--day9); }
+  .day-card.day10 h2,
+  .day-card.day10 td:first-child { color: var(--day10); }
+  .day-card.day11 h2,
+  .day-card.day11 td:first-child { color: var(--day11); }
+  .day-card.day12 h2,
+  .day-card.day12 td:first-child { color: var(--day12); }
+
   .tag-row {
     display: flex;
     flex-wrap: wrap;
@@ -51,21 +89,10 @@
     font-weight: 800;
   }
 
-  .tag.transport {
-    background: var(--accent);
-  }
-
-  .tag.ticket {
-    background: var(--accent-2);
-  }
-
-  .tag.flex {
-    background: var(--accent-3);
-  }
-
-  .tag.view {
-    background: var(--accent-4);
-  }
+  .tag.transport { background: var(--accent); }
+  .tag.ticket { background: var(--accent-2); }
+  .tag.flex { background: var(--accent-3); }
+  .tag.view { background: var(--accent-4); }
 
   .photo-badge,
   .featured-badge {
@@ -86,9 +113,9 @@
 
   table {
     width: 100%;
-    border-collapse: collapse;
     margin: 12px 0 4px;
     overflow: hidden;
+    border-collapse: collapse;
     border-radius: 14px;
     table-layout: fixed;
   }
@@ -110,11 +137,6 @@
     white-space: nowrap;
   }
 
-  th:nth-child(2),
-  td:nth-child(2) {
-    width: auto;
-  }
-
   th {
     color: var(--muted);
     background: var(--travel-table-head-bg, #f2e4d2);
@@ -128,6 +150,25 @@
   ul {
     margin: 8px 0 0;
     padding-left: 1.2em;
+  }
+
+  .note {
+    margin-top: 14px;
+    padding: 12px 14px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    color: var(--muted);
+    background: var(--travel-note-bg, #fff7ec);
+  }
+
+  .map-link {
+    display: inline-flex;
+    align-items: center;
+    margin-top: 8px;
+    padding: 10px 14px;
+    border-radius: 999px;
+    color: white;
+    background: var(--accent);
   }
 
   .info-grid {
@@ -153,11 +194,12 @@
     font-size: 14px;
   }
 
-  .budget-total td {
-    background: var(--travel-note-bg, #fff7ec);
-    font-weight: 800;
-  }
-
+  .booking-table,
+  .booking-table thead,
+  .booking-table tbody,
+  .booking-table tr,
+  .booking-table th,
+  .booking-table td,
   .budget-table,
   .budget-table thead,
   .budget-table tbody,
@@ -168,19 +210,23 @@
     width: 100%;
   }
 
+  .booking-table,
   .budget-table {
     border-radius: 0;
   }
 
+  .booking-table thead,
   .budget-table thead {
     display: none;
   }
 
+  .booking-table tbody,
   .budget-table tbody {
     display: grid;
     gap: 12px;
   }
 
+  .booking-table tr,
   .budget-table tr {
     margin: 0;
     padding: 12px 14px;
@@ -189,6 +235,7 @@
     background: rgba(255, 255, 255, 0.56);
   }
 
+  .booking-table td,
   .budget-table td {
     display: block;
     padding: 8px 0;
@@ -197,10 +244,12 @@
     overflow-wrap: anywhere;
   }
 
+  .booking-table td:last-child,
   .budget-table td:last-child {
     border-bottom: 0;
   }
 
+  .booking-table td::before,
   .budget-table td::before {
     display: block;
     margin-bottom: 2px;
@@ -210,32 +259,27 @@
     line-height: 1.2;
   }
 
-  .budget-table td:nth-child(1)::before {
-    content: "项目";
-  }
+  .booking-table td:nth-child(1)::before { content: "项目"; }
+  .booking-table td:nth-child(2)::before { content: var(--booking-time-label, "预约时机"); }
+  .booking-table td:nth-child(3)::before { content: var(--booking-note-label, "注意事项"); }
+  .budget-table td:nth-child(1)::before { content: "项目"; }
+  .budget-table td:nth-child(2)::before { content: var(--budget-local-label, "当地货币估算"); }
+  .budget-table td:nth-child(3)::before { content: "人民币估算"; }
+  .budget-table td:nth-child(4)::before { content: "说明"; }
 
-  .budget-table td:nth-child(2)::before {
-    content: var(--budget-local-label, "当地货币估算");
-  }
-
-  .budget-table td:nth-child(3)::before {
-    content: "人民币估算";
-  }
-
-  .budget-table td:nth-child(4)::before {
-    content: "说明";
-  }
-
+  .booking-table .budget-total,
   .budget-table .budget-total {
     background: var(--travel-note-bg, #fff7ec);
     font-weight: 800;
   }
 
+  .booking-table .budget-total td,
   .budget-table .budget-total td {
     background: transparent;
   }
 
   @media (min-width: 760px) {
+    .booking-table tbody,
     .budget-table tbody {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
@@ -264,25 +308,31 @@
       grid-template-columns: 1fr;
     }
 
-    table,
-    thead,
-    tbody,
-    tr,
-    th,
-    td {
+    .section-card,
+    .day-card {
+      padding: 16px;
+      border-radius: 18px;
+    }
+
+    .schedule-table,
+    .schedule-table thead,
+    .schedule-table tbody,
+    .schedule-table tr,
+    .schedule-table th,
+    .schedule-table td {
       display: block;
       width: 100%;
     }
 
-    thead {
-      display: none;
-    }
-
-    table {
+    .schedule-table {
       border-radius: 0;
     }
 
-    tr {
+    .schedule-table thead {
+      display: none;
+    }
+
+    .schedule-table tr {
       margin: 0 0 12px;
       padding: 12px;
       border: 1px solid var(--line);
@@ -290,40 +340,28 @@
       background: rgba(255, 255, 255, 0.56);
     }
 
-    td {
-      display: grid;
-      grid-template-columns: 82px minmax(0, 1fr);
-      gap: 10px;
-      padding: 7px 0;
+    .schedule-table td {
+      display: block;
+      padding: 0;
       border-bottom: 1px solid var(--travel-mobile-row-line, rgba(226, 210, 191, 0.72));
     }
 
-    td:last-child {
-      border-bottom: 0;
-    }
-
-    th:first-child,
-    td:first-child {
+    .schedule-table td:first-child {
       width: 100%;
+      padding-bottom: 6px;
+      font-size: 13px;
+      line-height: 1.35;
       white-space: normal;
     }
 
-    td::before {
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 800;
+    .schedule-table td:nth-child(2) {
+      padding-top: 8px;
+      color: var(--ink);
+      line-height: 1.6;
     }
 
-    .schedule-table td:nth-child(1)::before {
-      content: "时间";
-    }
-
-    .schedule-table td:nth-child(2)::before {
-      content: "安排";
-    }
-
-    .budget-total td {
-      background: transparent;
+    .schedule-table td:last-child {
+      border-bottom: 0;
     }
   }
 }
