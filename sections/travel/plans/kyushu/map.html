@@ -14,7 +14,7 @@
     href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css"
     crossorigin="">
   <link rel="stylesheet" href="../../css/travel-common.css">
-  <link rel="stylesheet" href="../../css/travel-map.css?v=20260516-resize">
+  <link rel="stylesheet" href="../../css/travel-map.css?v=20260516-topo">
   <style>
     :root {
       --ink: #1f261f;
@@ -441,6 +441,11 @@
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
 
+    const openTopoMap = L.tileLayer("https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png", {
+      maxZoom: 17,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, SRTM, &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (CC-BY-SA)'
+    });
+
     const routeStyles = {
       shinkansen: { weight: 5, opacity: 0.82, dashArray: null },
       "airport-subway": { weight: 4, opacity: 0.78, dashArray: "10 6" },
@@ -464,8 +469,9 @@
       dayColors,
       routeStyles,
       baseLayers: {
-        "OpenStreetMap": openStreetMap,
-        "轻量底图 Carto": cartoLight
+        "街道": openStreetMap,
+        "地形": openTopoMap,
+        "浅色": cartoLight
       },
       layerName: (day) => `Day ${day}`,
       activeMaxZoom: 12,
