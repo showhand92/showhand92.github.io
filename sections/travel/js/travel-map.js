@@ -125,6 +125,44 @@
     target.append(legend);
   }
 
+  function installMapPageScrollShortcuts() {
+    if (document.body.dataset.mapScrollShortcuts === "ready") return;
+    document.body.dataset.mapScrollShortcuts = "ready";
+
+    function getScrollableAside() {
+      const aside = document.querySelector("aside");
+      if (!aside) return null;
+      const overflowY = window.getComputedStyle(aside).overflowY;
+      const canScroll = aside.scrollHeight > aside.clientHeight + 2 && overflowY !== "visible";
+      return canScroll ? aside : null;
+    }
+
+    function scrollToHash(hash) {
+      const aside = getScrollableAside();
+      if (hash === "#top") {
+        aside?.scrollTo({ top: 0, behavior: "smooth" });
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        return;
+      }
+
+      const target = document.querySelector(hash);
+      if (!target) return;
+      if (aside && aside.contains(target)) {
+        aside.scrollTo({ top: target.offsetTop - aside.offsetTop - 8, behavior: "smooth" });
+      } else {
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
+
+    document.querySelectorAll('.back-top[href^="#"], .jump-panel a[href^="#"]').forEach((link) => {
+      link.addEventListener("click", (event) => {
+        event.preventDefault();
+        scrollToHash(link.getAttribute("href"));
+        link.closest("details")?.removeAttribute("open");
+      });
+    });
+  }
+
   function assignLabelOffsets(points, map, options = {}) {
     const minDistance = options.minDistance || 48;
     const sameDayOnly = options.sameDayOnly === true;
@@ -177,6 +215,7 @@
     assignLabelOffsets(points, map, labelOffsetOptions);
     renderSidebar(points);
     renderRouteSummaries(routeSegments);
+    installMapPageScrollShortcuts();
 
     const layerGroups = {};
     const markerById = {};
@@ -225,7 +264,7 @@
 
       points.filter((point) => point.day === day).forEach((point) => {
         const photoHtml = point.photo
-          ? `<img class="popup-photo" src="${point.photo}" loading="lazy" alt="${point.name}"><a class="popup-link" href="${point.photoSource}" target="_blank" rel="noreferrer">查看照片来源</a>`
+          ? `<img class="popup-photo" src="${point.photo}" loading="lazy" alt="${point.name}"><a class="popup-link" href="${point.photoSource}" target="_blank" rel="noreferrer">查看图片来源与许可</a>`
           : "";
         const popup = `
           <p class="popup-title">${point.id}｜${point.time}｜${point.name}</p>

@@ -3,6 +3,15 @@
     return (url || "").split("?")[0];
   }
 
+  function normalizeLink(url) {
+    if (!url) return "";
+    try {
+      return decodeURI(new URL(url, window.location.href).href).split("?")[0].split("#")[0];
+    } catch (error) {
+      return decodeURI(url).split("?")[0].split("#")[0];
+    }
+  }
+
   function photoDisplayUrl(url) {
     if (!url) return "";
     if (url.includes("width=")) return url.replace(/width=\d+/, "width=900");
@@ -13,6 +22,31 @@
     return new Set(
       Array.from(document.querySelectorAll("img[src]"), (image) => normalizePhotoUrl(image.src))
     );
+  }
+
+  function pointRank(point) {
+    let rank = 0;
+    if (point.kind === "visit") rank += 4;
+    if (point.featured) rank += 2;
+    if (point.photo && point.photoSource) rank += 1;
+    return rank;
+  }
+
+  function buildPointLookup(points) {
+    const lookup = new Map();
+
+    points
+      .filter((point) => point.photo || point.photoSource)
+      .slice()
+      .sort((left, right) => pointRank(right) - pointRank(left))
+      .forEach((point) => {
+        [normalizeLink(point.photoSource), normalizeLink(point.photo)].forEach((key) => {
+          if (key && !lookup.has(key)) lookup.set(key, point);
+        });
+        if (point.name && !lookup.has(point.name)) lookup.set(point.name, point);
+      });
+
+    return lookup;
   }
 
   function makeTag(text, className) {
@@ -51,11 +85,47 @@
     const source = document.createElement("a");
     source.className = "source";
     source.href = point.photoSource;
-    source.textContent = "图片来源";
+    source.textContent = "图片来源与许可";
 
     body.append(title, tags, list, source);
     card.append(image, body);
     return card;
+  }
+
+  function syncExistingCards(points) {
+    const lookup = buildPointLookup(points);
+
+    document.querySelectorAll(".spot-card").forEach((card) => {
+      const image = card.querySelector("img[src]");
+      const source = card.querySelector(".source[href]");
+      const title = card.querySelector("h3");
+      const matchKeys = [
+        source && normalizeLink(source.href),
+        image && normalizeLink(image.src),
+        title && title.textContent.trim()
+      ].filter(Boolean);
+      const point = matchKeys.map((key) => lookup.get(key)).find(Boolean);
+      if (!point || !point.note) return;
+
+      card.dataset.mapPoint = point.id;
+      if (title) title.textContent = point.name;
+      if (image) {
+        image.src = photoDisplayUrl(point.photo);
+        image.alt = point.name;
+        image.loading = image.loading || "lazy";
+      }
+      if (source && point.photoSource) source.href = point.photoSource;
+
+      let list = card.querySelector("ul");
+      if (!list) {
+        list = document.createElement("ul");
+        card.querySelector(".spot-body")?.append(list);
+      }
+      list.replaceChildren();
+      const item = document.createElement("li");
+      item.textContent = point.note;
+      list.append(item);
+    });
   }
 
   const GROUPS = {
@@ -118,6 +188,8 @@
     const itinerary = window.TravelItineraries && window.TravelItineraries[tripSlug];
     const main = document.querySelector("main");
     if (!itinerary || !main) return;
+
+    syncExistingCards(itinerary.points);
 
     const existing = collectExistingPhotos();
     const missing = itinerary.points.filter((point) => {
