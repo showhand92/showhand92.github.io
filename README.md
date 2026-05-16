@@ -15,9 +15,13 @@ Then open `http://127.0.0.1:4173/`.
 ## Structure
 
 - `index.html`: homepage
-- `blog/`: blog index and posts
-- `tags/`: tag pages
-- `css/style.css`: site styles
+- `sections/blog/`: blog index and posts
+- `sections/`: site index page
+- `sections/travel/`: travel landing page, shared travel CSS/JS, and trip plans under `plans/`
+- `home.css`: homepage styles
+- `sections/site-index.css`: shared Index / Blog / Travel landing styles
+- `sections/docs/site-structure.md`: site structure and non-travel layout notes
+- `sections/travel/docs/travel-plan-guidelines.md`: travel plan content and layout guidelines
 - `images/profile.png`: profile image
 - `CNAME`: custom domain for GitHub Pages
 - `preview.mjs`: local preview server

@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests">
+  <title>Han Shao | Updating This Website with Codex</title>
+  <link rel="stylesheet" href="/sections/travel/css/travel-common.css">
+  <style>
+    :root {
+      --ink: #2d241d;
+      --muted: #75675a;
+      --paper: #f8efe3;
+      --card: #fffaf2;
+      --line: #e2d2bf;
+      --accent: #a94424;
+      --accent-2: #c66b35;
+      --accent-3: #7a6f3a;
+      --travel-main-width: 1120px;
+      --travel-bg-warm: rgba(198, 107, 53, 0.18);
+      --travel-bg-cool: rgba(219, 157, 78, 0.16);
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.28) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.2) 1px, transparent 1px);
+      background-size: 32px 32px;
+      opacity: 0.38;
+    }
+
+    header {
+      padding-bottom: 26px;
+    }
+
+    .site-tabs {
+      margin-top: 0;
+      margin-bottom: 22px;
+    }
+
+    .eyebrow {
+      margin: 0 0 8px;
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .post-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 14px;
+    }
+
+    .post-meta span,
+    .post-meta a {
+      padding: 3px 8px;
+      border: 1px solid rgba(169, 68, 36, 0.14);
+      border-radius: 10px;
+      color: var(--accent);
+      background: rgba(169, 68, 36, 0.05);
+      font-size: 12px;
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .post-article {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 28px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(255, 250, 242, 0.94);
+      box-shadow: 0 12px 32px rgba(87, 55, 31, 0.09);
+    }
+
+    .post-article p {
+      margin: 0 0 18px;
+      color: var(--ink);
+      font-size: 17px;
+      line-height: 1.78;
+    }
+
+    .post-article p:last-child {
+      margin-bottom: 0;
+    }
+
+    footer {
+      max-width: var(--travel-main-width);
+      margin: 8px auto 0;
+      padding: 0 28px 28px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 820px) {
+      .post-article {
+        padding: 22px 18px;
+      }
+
+      footer {
+        padding-inline: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="page-tabs site-tabs" aria-label="主导航">
+      <a href="/sections/">Index</a>
+      <a class="active" href="/sections/blog/">Blog</a>
+      <a href="/sections/travel/">Travel</a>
+    </nav>
+    <p class="eyebrow">Blog post</p>
+    <h1>Updating This Website with Codex</h1>
+    <p class="subtitle">How this static GitHub Pages site is organized, and how Blog and Travel will be updated going forward.</p>
+    <div class="post-meta">
+      <span>May 16 2026</span>
+      <span>1 min read</span>
+    </div>
+  </header>
+
+  <main>
+    <article class="post-article">
+      <p>I recently started using Codex to update this personal website again. The site is still intentionally simple: a static GitHub Pages site with hand-written HTML, shared CSS, and a few lightweight content areas.</p>
+
+      <p>The current structure is organized around a small set of stable pages. The homepage remains an about page with education, publications, news, and selected links. Blog is for short notes like this one. Travel is for itinerary planning pages, including maps, photo references, and route notes.</p>
+
+      <p>For now I am keeping the site static instead of adding a full backend. This keeps deployment simple and makes it easy to edit content locally, commit changes, and publish through GitHub Pages. If I need online editing, login, or database-backed content later, I may revisit the architecture.</p>
+
+      <p>Going forward, I plan to use Blog for writing and technical notes, and Travel for trip plans. The first travel collection is a Kyushu itinerary covering Kumamoto, Kagoshima, Sakurajima, and Sengan-en.</p>
+    </article>
+  </main>
+
+  <footer>Copyright (c) 2022, Han Shao</footer>
+</body>
+</html>

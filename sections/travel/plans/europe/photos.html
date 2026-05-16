@@ -1,0 +1,486 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>欧洲景点照片清单｜瑞士 + 意大利 + 巴黎</title>
+  <link rel="stylesheet" href="../../css/travel-common.css">
+  <link rel="stylesheet" href="../../css/travel-photos.css">
+  <style>
+    :root {
+      --ink: #2d241d;
+      --muted: #75675a;
+      --paper: #f8efe3;
+      --card: #fffaf2;
+      --line: #e2d2bf;
+      --accent: #a94424;
+      --accent-2: #c66b35;
+      --accent-3: #7a6f3a;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 12% 8%, rgba(198, 107, 53, 0.18), transparent 28%),
+        radial-gradient(circle at 88% 18%, rgba(219, 157, 78, 0.16), transparent 30%),
+        var(--paper);
+      font-family: "Avenir Next", "Segoe UI", "Microsoft YaHei", sans-serif;
+      line-height: 1.65;
+    }
+
+    header {
+      padding: 34px var(--travel-header-padding-x) 22px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 250, 242, 0.82);
+      backdrop-filter: blur(10px);
+    }
+
+    main {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 28px;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(30px, 5vw, 52px);
+      line-height: 1.05;
+      letter-spacing: 0.02em;
+    }
+
+    h2 { margin: 30px 0 14px; font-size: 26px; }
+    h3 { margin: 0 0 8px; font-size: 20px; }
+    p { margin: 0 0 12px; }
+
+    a {
+      color: var(--accent);
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    a:hover { text-decoration: underline; }
+
+    .page-tabs {
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: 0;
+      margin: 18px 0 0;
+      padding: 4px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.7);
+      box-shadow: 0 10px 24px rgba(87, 55, 31, 0.08);
+    }
+
+    .page-tabs a {
+      min-height: 40px;
+      padding: 8px 14px;
+      border-radius: 10px;
+      color: var(--ink);
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .page-tabs a.active {
+      color: #fff;
+      background: var(--accent);
+    }
+
+    .subtitle {
+      max-width: 820px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .spot-card {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: rgba(255, 250, 242, 0.94);
+      box-shadow: 0 12px 32px rgba(87, 55, 31, 0.09);
+    }
+
+    .spot-card img {
+      display: block;
+      width: 100%;
+      height: 230px;
+      object-fit: cover;
+      background: #ddd;
+    }
+
+    .spot-body { padding: 16px; }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin: 8px 0 12px;
+    }
+
+    .tag {
+      padding: 3px 8px;
+      border-radius: 999px;
+      color: #fff;
+      background: var(--ink);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .tag.must { background: var(--accent); }
+    .tag.recommend { background: var(--accent-2); }
+    .tag.optional { background: var(--muted); }
+
+    ul { margin: 8px 0 0; padding-left: 20px; }
+    li { margin: 6px 0; }
+
+    .source {
+      display: inline-block;
+      margin-top: 10px;
+      font-size: 13px;
+    }
+
+    .back-top {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 20;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 52px;
+      min-height: 44px;
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--ink);
+      background: rgba(255, 250, 242, 0.92);
+      box-shadow: 0 12px 28px rgba(87, 55, 31, 0.14);
+      font-weight: 800;
+    }
+
+    .jump-menu {
+      position: fixed;
+      right: 18px;
+      bottom: 72px;
+      z-index: 21;
+      font-weight: 800;
+    }
+
+    .jump-menu summary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 58px;
+      min-height: 44px;
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--ink);
+      background: rgba(255, 250, 242, 0.94);
+      box-shadow: 0 12px 28px rgba(87, 55, 31, 0.14);
+      cursor: pointer;
+      list-style: none;
+    }
+
+    .jump-menu summary::-webkit-details-marker { display: none; }
+
+    .jump-panel {
+      position: absolute;
+      right: 0;
+      bottom: 54px;
+      display: grid;
+      gap: 4px;
+      width: min(240px, calc(100vw - 24px));
+      max-height: min(70vh, 460px);
+      overflow: auto;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255, 250, 242, 0.98);
+      box-shadow: 0 18px 44px rgba(87, 55, 31, 0.18);
+    }
+
+    .jump-panel a {
+      padding: 7px 9px;
+      border-radius: 10px;
+      color: var(--ink);
+      font-size: 14px;
+      text-decoration: none;
+    }
+
+    .jump-panel a:hover {
+      background: #f2e4d2;
+      text-decoration: none;
+    }
+
+    .jump-divider {
+      height: 1px;
+      margin: 5px 0;
+      background: var(--line);
+    }
+
+    @media (max-width: 980px) {
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 620px) {
+      main { padding: 18px; }
+      .grid { grid-template-columns: 1fr; }
+      .page-tabs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; }
+      .page-tabs a { text-align: center; }
+      .back-top { right: 12px; bottom: 12px; }
+      .jump-menu { right: 12px; bottom: 66px; }
+    }
+  </style>
+</head>
+<body id="top">
+  <header>
+    <h1>欧洲景点照片清单</h1>
+    <p class="subtitle">按瑞士、意大利、巴黎整理核心景点，方便快速建立路线画面感。</p>
+    <nav class="page-tabs" aria-label="旅行页面导航">
+      <a href="./">行程计划</a>
+      <a class="active" href="./photos.html">景点照片</a>
+      <a href="./map.html">交互地图</a>
+      <a href="/sections/travel/">Travel</a>
+    </nav>
+  </header>
+
+  <main>
+    <h2 id="swiss">瑞士</h2>
+    <section class="grid">
+      <article class="spot-card">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Jet%20d%27Eau%20Geneva.jpg?width=900" alt="日内瓦大喷泉">
+        <div class="spot-body">
+          <h3>日内瓦湖与大喷泉</h3>
+          <div class="tag-row"><span class="tag recommend">D1</span><span class="tag">城市</span></div>
+          <ul><li>入境后轻量步行点。</li><li>适合作为欧洲段第一张城市照片。</li></ul>
+          <a class="source" href="https://commons.wikimedia.org/wiki/File:Jet_d%27Eau_Geneva.jpg">图片来源</a>
+        </div>
+      </article>
+
+      <article class="spot-card">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Jungfrau%20seen%20from%20viewpoint%20Sphinx%20at%20Jungfraujoch%202022-10-02%2001.jpg?width=1200" alt="少女峰">
+        <div class="spot-body">
+          <h3>少女峰 Jungfraujoch</h3>
+          <div class="tag-row"><span class="tag must">D2 必看</span><span class="tag">雪山</span></div>
+          <ul><li>Top of Europe，全程瑞士段核心。</li><li>天气不好时和 D3 对调。</li></ul>
+          <a class="source" href="https://commons.wikimedia.org/wiki/File:Jungfrau_seen_from_viewpoint_Sphinx_at_Jungfraujoch_2022-10-02_01.jpg">图片来源</a>
+        </div>
+      </article>
+
+      <article class="spot-card">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Brienzersee.jpg?width=900" alt="布里恩茨湖">
+        <div class="spot-body">
+          <h3>布里恩茨湖 / Grindelwald First</h3>
+          <div class="tag-row"><span class="tag recommend">D3</span><span class="tag">湖泊</span></div>
+          <ul><li>游船、Iseltwald、First Cliff Walk 串联。</li><li>比少女峰轻松，可作为天气备选。</li></ul>
+          <a class="source" href="https://commons.wikimedia.org/wiki/File:Brienzersee.jpg">图片来源</a>
+        </div>
+      </article>
+
+      <article class="spot-card">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Cliff-Walk%20First%20Grindelwald.%20Sicht%20auf%20den%20Eiger.jpg?width=900" alt="Grindelwald First Cliff Walk">
+        <div class="spot-body">
+          <h3>Grindelwald First Cliff Walk</h3>
+          <div class="tag-row"><span class="tag recommend">D3</span><span class="tag">山景</span></div>
+          <ul><li>First 山区核心画面，和布里恩茨湖形成 D3 山湖组合。</li><li>天气好时优先安排，风大或云厚时可降级。</li></ul>
+          <a class="source" href="https://commons.wikimedia.org/wiki/File:Cliff-Walk_First_Grindelwald._Sicht_auf_den_Eiger.jpg">图片来源</a>
+        </div>
+      </article>
+
+      <article class="spot-card">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Lauterbrunnen%20-%20Staubbachfall.jpg?width=900" alt="劳特布伦嫩瀑布">
+        <div class="spot-body">
+          <h3>Lauterbrunnen / Staubbach Falls</h3>
+          <div class="tag-row"><span class="tag optional">D2 备选</span><span class="tag">山谷</span></div>
+          <ul><li>少女峰下山后可顺路停留。</li><li>比山顶轻松，适合作为天气或体力调整项。</li></ul>
+          <a class="source" href="https://commons.wikimedia.org/wiki/File:Lauterbrunnen_-_Staubbachfall.jpg">图片来源</a>
+        </div>
+      </article>
+    </section>
+
+    <h2 id="italy">意大利</h2>
+    <section class="grid">
+      <article class="spot-card">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Milan%20Cathedral%20from%20Piazza%20del%20Duomo.jpg?width=900" alt="米兰大教堂">
+        <div class="spot-body">
+          <h3>米兰大教堂 Duomo</h3>
+          <div class="tag-row"><span class="tag must">D4</span><span class="tag">登顶</span></div>
+          <ul><li>米兰半日核心。</li><li>登顶票建议提前预约。</li></ul>
+          <a class="source" href="https://commons.wikimedia.org/wiki/File:Milan_Cathedral_from_Piazza_del_Duomo.jpg">图片来源</a>
+        </div>
+      </article>
+
+      <article class="spot-card">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Galleria%20Vittorio%20Emanuele%20II%20%28Milan%29.jpg?width=900" alt="埃马努埃莱二世长廊">
+        <div class="spot-body">
+          <h3>埃马努埃莱二世长廊</h3>
+          <div class="tag-row"><span class="tag recommend">D4</span><span class="tag">城市</span></div>
+          <ul><li>和米兰大教堂连在一起，步行成本很低。</li><li>适合放在米兰半日精华线里。</li></ul>
+          <a class="source" href="https://commons.wikimedia.org/wiki/File:Galleria_Vittorio_Emanuele_II_(Milan).jpg">图片来源</a>
+        </div>
+      </article>
+      <article class="spot-card">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Ponte%20Vecchio%20from%20the%20Uffizi%2C%20Florence%20%289783212871%29.jpg?width=900" alt="佛罗伦萨老桥">
+        <div class="spot-body">
+          <h3>佛罗伦萨老城</h3>
+          <div class="tag-row"><span class="tag must">D5</span><span class="tag">艺术</span></div>
+          <ul><li>圣母百花、乌菲兹、老桥。</li><li>米开朗基罗广场适合看日落。</li></ul>
+          <a class="source" href="https://commons.wikimedia.org/wiki/File:Ponte_Vecchio_from_the_Uffizi,_Florence_(9783212871).jpg">图片来源</a>
+        </div>
+      </article>
+
+      <article class="spot-card">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Uffizi%20Gallery%2C%20Florence.jpg?width=900" alt="乌菲兹美术馆">
+        <div class="spot-body">
+          <h3>乌菲兹美术馆 Uffizi</h3>
+          <div class="tag-row"><span class="tag must">D5</span><span class="tag">美术馆</span></div>
+          <ul><li>佛罗伦萨最重要的预约项之一。</li><li>适合和老桥、米开朗基罗广场串联。</li></ul>
+          <a class="source" href="https://commons.wikimedia.org/wiki/File:Uffizi_Gallery,_Florence.jpg">图片来源</a>
+        </div>
+      </article>
+      <article class="spot-card">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Rome%20Pantheon%20interior.jpg?width=900" alt="万神殿内部">
+        <div class="spot-body">
+          <h3>万神殿 Pantheon</h3>
+          <div class="tag-row"><span class="tag recommend">D6</span><span class="tag">古迹</span></div>
+          <ul><li>罗马老城线核心点。</li><li>适合和许愿池、西班牙台阶、纳沃纳广场串联。</li></ul>
+          <a class="source" href="https://commons.wikimedia.org/wiki/File:Rome_Pantheon_interior.jpg">图片来源</a>
+        </div>
+      </article>
+
+      <article class="spot-card">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Colosseum%20in%20Rome%2C%20Italy%20-%20April%202007.jpg?width=900" alt="罗马斗兽场">
+        <div class="spot-body">
+          <h3>罗马斗兽场 / 古罗马广场</h3>
+          <div class="tag-row"><span class="tag must">D8</span><span class="tag">古迹</span></div>
+          <ul><li>罗马古遗迹主线。</li><li>早场票和 Arena Floor 更值得抢。</li></ul>
+          <a class="source" href="https://commons.wikimedia.org/wiki/File:Colosseum_in_Rome,_Italy_-_April_2007.jpg">图片来源</a>
+        </div>
+      </article>
+
+      <article class="spot-card">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Trevi%20Fountain%2C%20Rome%2C%20Italy%202%20-%20May%202007.jpg?width=900" alt="罗马许愿池">
+        <div class="spot-body">
+          <h3>许愿池 Trevi Fountain</h3>
+          <div class="tag-row"><span class="tag recommend">D6</span><span class="tag">城市</span></div>
+          <ul><li>罗马老城高人流景点。</li><li>适合早晚错峰，现场注意防盗和搭讪骗局。</li></ul>
+          <a class="source" href="https://commons.wikimedia.org/wiki/File:Trevi_Fountain,_Rome,_Italy_2_-_May_2007.jpg">图片来源</a>
+        </div>
+      </article>
+
+      <article class="spot-card">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Saint%20Peter%27s%20Basilica%20facade%2C%20Rome%2C%20Italy.jpg?width=900" alt="圣彼得大教堂">
+        <div class="spot-body">
+          <h3>梵蒂冈 / 圣彼得大教堂</h3>
+          <div class="tag-row"><span class="tag must">D7</span><span class="tag">博物馆</span></div>
+          <ul><li>梵蒂冈博物馆、西斯廷礼拜堂、圣彼得圆顶。</li><li>全程最需要提前抢票的部分。</li></ul>
+          <a class="source" href="https://commons.wikimedia.org/wiki/File:Saint_Peter%27s_Basilica_facade,_Rome,_Italy.jpg">图片来源</a>
+        </div>
+      </article>
+    </section>
+
+    <h2 id="france">法国</h2>
+    <section class="grid">
+      <article class="spot-card">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Louvre%20Museum%20Wikimedia%20Commons.jpg?width=900" alt="卢浮宫">
+        <div class="spot-body">
+          <h3>卢浮宫 Louvre</h3>
+          <div class="tag-row"><span class="tag must">D10</span><span class="tag">美术馆</span></div>
+          <ul><li>巴黎艺术线核心，优先看德农馆重点作品。</li><li>必须预约入场时段，避开金字塔地面长队。</li></ul>
+          <a class="source" href="https://commons.wikimedia.org/wiki/File:Louvre_Museum_Wikimedia_Commons.jpg">图片来源</a>
+        </div>
+      </article>
+
+      <article class="spot-card">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Mus%C3%A9e%20de%20l%27Orangerie%20February%2028%2C%202009.jpg?width=900" alt="橘园美术馆睡莲展厅">
+        <div class="spot-body">
+          <h3>橘园美术馆 Musée de l'Orangerie</h3>
+          <div class="tag-row"><span class="tag must">D10</span><span class="tag">睡莲</span></div>
+          <ul><li>重点是莫奈《睡莲》环形展厅。</li><li>和卢浮宫、奥赛同天时要控制停留时长。</li></ul>
+          <a class="source" href="https://commons.wikimedia.org/wiki/File:Mus%C3%A9e_de_l%27Orangerie_February_28,_2009.jpg">图片来源</a>
+        </div>
+      </article>
+
+      <article class="spot-card">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Mus%C3%A9e%20d%27Orsay%20clock.jpg?width=900" alt="奥赛博物馆时钟">
+        <div class="spot-body">
+          <h3>奥赛博物馆 Musée d'Orsay</h3>
+          <div class="tag-row"><span class="tag must">D10</span><span class="tag">美术馆</span></div>
+          <ul><li>巴黎艺术线的重要补充。</li><li>和卢浮宫、橘园放在同一天时要控制体力。</li></ul>
+          <a class="source" href="https://commons.wikimedia.org/wiki/File:Mus%C3%A9e_d%27Orsay_clock.jpg">图片来源</a>
+        </div>
+      </article>
+
+      <article class="spot-card">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Tour%20eiffel%20at%20sunrise%20from%20the%20trocadero.jpg?width=900" alt="埃菲尔铁塔">
+        <div class="spot-body">
+          <h3>埃菲尔铁塔 Eiffel Tower</h3>
+          <div class="tag-row"><span class="tag recommend">D9</span><span class="tag">夜景</span></div>
+          <ul><li>抵达巴黎后的第一晚重点夜景。</li><li>Trocadero 视角适合看铁塔全景和整点闪灯。</li></ul>
+          <a class="source" href="https://commons.wikimedia.org/wiki/File:Tour_eiffel_at_sunrise_from_the_trocadero.jpg">图片来源</a>
+        </div>
+      </article>
+
+      <article class="spot-card">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Arc%20de%20Triomphe%2C%20Paris.JPG?width=900" alt="巴黎凯旋门">
+        <div class="spot-body">
+          <h3>凯旋门 Arc de Triomphe</h3>
+          <div class="tag-row"><span class="tag recommend">D9</span><span class="tag">登顶</span></div>
+          <ul><li>抵达巴黎第一晚的核心点。</li><li>登顶可看香榭丽舍和城市轴线。</li></ul>
+          <a class="source" href="https://commons.wikimedia.org/wiki/File:Arc_de_Triomphe,_Paris.JPG">图片来源</a>
+        </div>
+      </article>
+
+      <article class="spot-card">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Sacre%20Coeur%20Paris%20France.jpg?width=900" alt="蒙马特圣心大教堂">
+        <div class="spot-body">
+          <h3>蒙马特 / 圣母院 / 圣礼拜堂</h3>
+          <div class="tag-row"><span class="tag recommend">D11</span><span class="tag">城市漫步</span></div>
+          <ul><li>巴黎生活线，早上先去蒙马特。</li><li>圣礼拜堂建议预约。</li></ul>
+          <a class="source" href="https://commons.wikimedia.org/wiki/File:Sacre_Coeur_Paris_France.jpg">图片来源</a>
+        </div>
+      </article>
+
+      <article class="spot-card">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/La-Sainte-Chapelle-interior.jpg?width=900" alt="圣礼拜堂彩窗">
+        <div class="spot-body">
+          <h3>圣礼拜堂 Sainte-Chapelle</h3>
+          <div class="tag-row"><span class="tag recommend">D11</span><span class="tag">彩窗</span></div>
+          <ul><li>西岱岛最值得预约的室内点。</li><li>空间小、安检慢，建议提前订时段。</li></ul>
+          <a class="source" href="https://commons.wikimedia.org/wiki/File:La-Sainte-Chapelle-interior.jpg">图片来源</a>
+        </div>
+      </article>
+    </section>
+  </main>
+  <details class="jump-menu">
+    <summary>目录</summary>
+    <div class="jump-panel">
+      <a href="#swiss">瑞士</a>
+      <a href="#italy">意大利</a>
+      <a href="#france">法国</a>
+      <span class="jump-divider"></span>
+      <a href="./">行程计划</a>
+      <a href="./map.html">交互地图</a>
+      <a href="/sections/travel/">Travel</a>
+    </div>
+  </details>
+  <a class="back-top" href="#top" aria-label="回到顶部">Top</a>
+  <script src="./itinerary-data.js"></script>
+  <script src="../../js/travel-photos-render.js"></script>
+  <script>
+    TravelPhotosRenderer.renderMapPhotoSuperset("europe");
+  </script>
+</body>
+</html>

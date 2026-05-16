@@ -4,6 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>九州景点照片清单｜熊本 + 鹿儿岛</title>
+  <link rel="stylesheet" href="../../css/travel-common.css">
+  <link rel="stylesheet" href="../../css/travel-photos.css">
   <style>
     :root {
       --ink: #1f261f;
@@ -18,6 +20,10 @@
 
     * { box-sizing: border-box; }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       margin: 0;
       color: var(--ink);
@@ -30,7 +36,7 @@
     }
 
     header {
-      padding: 34px 28px 22px;
+      padding: 34px var(--travel-header-padding-x) 22px;
       border-bottom: 1px solid var(--line);
       background: rgba(255, 253, 247, 0.78);
       backdrop-filter: blur(10px);
@@ -82,6 +88,110 @@
       border-color: var(--accent);
     }
 
+    .page-tabs {
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: 0;
+      padding: 4px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.7);
+      box-shadow: 0 10px 24px rgba(64, 55, 41, 0.08);
+    }
+
+    .page-tabs a {
+      min-height: 40px;
+      padding: 8px 14px;
+      border: 0;
+      border-radius: 10px;
+      background: transparent;
+    }
+
+    .page-tabs a.active {
+      background: var(--accent);
+      box-shadow: 0 8px 18px rgba(0, 109, 119, 0.16);
+    }
+
+    .back-top {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 20;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 52px;
+      min-height: 44px;
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--ink);
+      background: rgba(255, 253, 247, 0.92);
+      box-shadow: 0 12px 28px rgba(64, 55, 41, 0.14);
+      font-weight: 800;
+    }
+
+    .jump-menu {
+      position: fixed;
+      right: 18px;
+      bottom: 72px;
+      z-index: 21;
+      font-weight: 800;
+    }
+
+    .jump-menu summary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 58px;
+      min-height: 44px;
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--ink);
+      background: rgba(255, 253, 247, 0.94);
+      box-shadow: 0 12px 28px rgba(64, 55, 41, 0.14);
+      cursor: pointer;
+      list-style: none;
+    }
+
+    .jump-menu summary::-webkit-details-marker { display: none; }
+
+    .jump-panel {
+      position: absolute;
+      right: 0;
+      bottom: 54px;
+      display: grid;
+      gap: 4px;
+      width: min(240px, calc(100vw - 24px));
+      max-height: min(70vh, 460px);
+      overflow: auto;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255, 253, 247, 0.98);
+      box-shadow: 0 18px 44px rgba(64, 55, 41, 0.18);
+    }
+
+    .jump-panel a {
+      padding: 7px 9px;
+      border-radius: 10px;
+      color: var(--ink);
+      font-size: 14px;
+      text-decoration: none;
+    }
+
+    .jump-panel a:hover {
+      background: #f2eadc;
+      text-decoration: none;
+    }
+
+    .jump-divider {
+      height: 1px;
+      margin: 5px 0;
+      background: var(--line);
+    }
+
     .subtitle {
       max-width: 820px;
       margin: 0;
@@ -100,6 +210,10 @@
     .section-card {
       padding: 20px;
       margin: 0 0 22px;
+    }
+
+    #priority {
+      margin-top: 34px;
     }
 
     .priority {
@@ -237,37 +351,43 @@
         font-weight: 800;
         color: var(--accent);
       }
+
+      .page-tabs {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        width: 100%;
+      }
+
+      .page-tabs a {
+        text-align: center;
+      }
+
+      .back-top {
+        right: 12px;
+        bottom: 12px;
+      }
+
+      .jump-menu {
+        right: 12px;
+        bottom: 66px;
+      }
     }
   </style>
 </head>
-<body>
+<body id="top">
   <header>
     <h1>九州景点照片清单</h1>
-    <nav aria-label="旅行页面导航">
+    <p class="subtitle">按熊本、鹿儿岛和福冈周边整理核心景点照片，方便快速确认行程画面和取舍。</p>
+    <nav class="page-tabs" aria-label="旅行页面导航">
       <a href="./">行程计划</a>
-      <a href="./map.html">交互地图</a>
       <a class="active" href="./photos.html">景点照片</a>
-      <a href="/travel/">Travel</a>
+      <a href="./map.html">交互地图</a>
+      <a href="/sections/travel/">Travel</a>
     </nav>
   </header>
 
   <main>
-    <section class="section-card">
-      <h2>优先级</h2>
-      <table class="priority">
-        <thead><tr><th>优先级</th><th>景点</th><th>城市</th><th>适合这次吗</th><th>关键词</th></tr></thead>
-        <tbody>
-          <tr><td>必看</td><td>樱岛</td><td>鹿儿岛</td><td>是</td><td>活火山、锦江湾、海边火山</td></tr>
-          <tr><td>必看</td><td>仙岩园</td><td>鹿儿岛</td><td>是</td><td>借景庭园、樱岛远景</td></tr>
-          <tr><td>必看</td><td>熊本城</td><td>熊本</td><td>是</td><td>城堡、地标、修复后的天守</td></tr>
-          <tr><td>推荐</td><td>城山展望台</td><td>鹿儿岛</td><td>是</td><td>俯瞰鹿儿岛市区和樱岛</td></tr>
-          <tr><td>备选</td><td>草千里/阿苏</td><td>熊本</td><td>这次不建议硬塞</td><td>火山草原、阿苏山</td></tr>
-          <tr><td>备选</td><td>糸岛/立石山</td><td>福冈</td><td>不走鹿儿岛时推荐</td><td>海边短徒步、夕阳</td></tr>
-        </tbody>
-      </table>
-    </section>
-
-    <h2>鹿儿岛</h2>
+    <h2 id="kagoshima">鹿儿岛</h2>
     <section class="grid">
       <article class="spot-card">
         <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Sakurajima%20at%20Sunset.jpg?width=900" alt="樱岛">
@@ -322,7 +442,7 @@
       </article>
     </section>
 
-    <h2>熊本</h2>
+    <h2 id="kumamoto">熊本</h2>
     <section class="grid">
       <article class="spot-card">
         <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Kumamoto%20Castle%2006s5s4272.jpg?width=900" alt="熊本城">
@@ -333,7 +453,7 @@
             <li>熊本第一名片。</li>
             <li>第一天核心景点。</li>
           </ul>
-          <a class="source" href="https://commons.wikimedia.org/wiki/Category:Quality_images_of_Kumamoto_Castle">图片来源</a>
+          <a class="source" href="https://commons.wikimedia.org/wiki/File:Kumamoto_Castle_06s5s4272.jpg">图片来源</a>
         </div>
       </article>
 
@@ -346,7 +466,7 @@
             <li>池泉回游式庭园。</li>
             <li>熊本时间宽松时再加。</li>
           </ul>
-          <a class="source" href="https://commons.wikimedia.org/wiki/Category:Suizen-ji_J%C5%8Dju-en">图片来源</a>
+          <a class="source" href="https://commons.wikimedia.org/wiki/File:Suizen-ji_Garden,_Kumamoto.jpg">图片来源</a>
         </div>
       </article>
 
@@ -359,12 +479,12 @@
             <li>自然景观很强，但需要单独一天。</li>
             <li>这次会压缩鹿儿岛，所以不硬塞。</li>
           </ul>
-          <a class="source" href="https://commons.wikimedia.org/wiki/Category:Kusasenrigahama">图片来源</a>
+          <a class="source" href="https://commons.wikimedia.org/wiki/File:Kusasenrigahama_(29523206918).jpg">图片来源</a>
         </div>
       </article>
     </section>
 
-    <h2>福冈与备选</h2>
+    <h2 id="fukuoka">福冈与备选</h2>
     <section class="grid">
       <article class="spot-card">
         <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Canal%20City%20Hakata%20at%20night%2020170929-3.jpg?width=900" alt="Canal City Hakata">
@@ -375,7 +495,7 @@
             <li>最后一天博多附近短逛。</li>
             <li>必须控制时间，优先保证去机场。</li>
           </ul>
-          <a class="source" href="https://commons.wikimedia.org/wiki/Category:Canal_City_Hakata">图片来源</a>
+          <a class="source" href="https://commons.wikimedia.org/wiki/File:Canal_City_Hakata_at_night_20170929-3.jpg">图片来源</a>
         </div>
       </article>
 
@@ -388,7 +508,7 @@
             <li>白鸟居、夫妇岩、海边夕阳。</li>
             <li>如果不去鹿儿岛，才适合作为福冈自然线。</li>
           </ul>
-          <a class="source" href="https://commons.wikimedia.org/wiki/Category:Futamigaura_(Fukuoka)">图片来源</a>
+          <a class="source" href="https://commons.wikimedia.org/wiki/File:Futamigaura_Beach_and_Meoto-iwa_2014-05-18_(14207420571).jpg">图片来源</a>
         </div>
       </article>
 
@@ -401,7 +521,7 @@
             <li>从山上俯瞰糸岛海岸。</li>
             <li>适合福冈周边专门玩一天。</li>
           </ul>
-          <a class="source" href="https://commons.wikimedia.org/wiki/Category:Geography_of_Itoshima">图片来源</a>
+          <a class="source" href="https://commons.wikimedia.org/wiki/File:%E7%AB%8B%E7%9F%B3%E5%B1%B1%E3%81%8B%E3%82%89%E3%81%AE%E9%A2%A8%E6%99%AF.jpg">图片来源</a>
         </div>
       </article>
 
@@ -418,6 +538,40 @@
         </div>
       </article>
     </section>
+
+    <section id="priority" class="section-card">
+      <h2>优先级</h2>
+      <table class="priority">
+        <thead><tr><th>优先级</th><th>景点</th><th>城市</th><th>适合这次吗</th><th>关键词</th></tr></thead>
+        <tbody>
+          <tr><td>必看</td><td>樱岛</td><td>鹿儿岛</td><td>是</td><td>活火山、锦江湾、海边火山</td></tr>
+          <tr><td>必看</td><td>仙岩园</td><td>鹿儿岛</td><td>是</td><td>借景庭园、樱岛远景</td></tr>
+          <tr><td>必看</td><td>熊本城</td><td>熊本</td><td>是</td><td>城堡、地标、修复后的天守</td></tr>
+          <tr><td>推荐</td><td>城山展望台</td><td>鹿儿岛</td><td>是</td><td>俯瞰鹿儿岛市区和樱岛</td></tr>
+          <tr><td>备选</td><td>草千里/阿苏</td><td>熊本</td><td>这次不建议硬塞</td><td>火山草原、阿苏山</td></tr>
+          <tr><td>备选</td><td>糸岛/立石山</td><td>福冈</td><td>不走鹿儿岛时推荐</td><td>海边短徒步、夕阳</td></tr>
+        </tbody>
+      </table>
+    </section>
   </main>
+  <details class="jump-menu">
+    <summary>目录</summary>
+    <div class="jump-panel">
+      <a href="#kagoshima">鹿儿岛</a>
+      <a href="#kumamoto">熊本</a>
+      <a href="#fukuoka">福冈与备选</a>
+      <a href="#priority">优先级</a>
+      <span class="jump-divider"></span>
+      <a href="./">行程计划</a>
+      <a href="./map.html">交互地图</a>
+      <a href="/sections/travel/">Travel</a>
+    </div>
+  </details>
+  <a class="back-top" href="#top" aria-label="回到顶部">Top</a>
+  <script src="./itinerary-data.js"></script>
+  <script src="../../js/travel-photos-render.js"></script>
+  <script>
+    TravelPhotosRenderer.renderMapPhotoSuperset("kyushu");
+  </script>
 </body>
 </html>

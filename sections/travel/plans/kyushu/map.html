@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>九州行程地图</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://a.basemaps.cartocdn.com">
+  <link rel="preconnect" href="https://b.basemaps.cartocdn.com">
+  <link rel="preconnect" href="https://c.basemaps.cartocdn.com">
+  <link rel="preconnect" href="https://d.basemaps.cartocdn.com">
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css"
+    crossorigin="">
+  <link rel="stylesheet" href="../../css/travel-common.css">
+  <link rel="stylesheet" href="../../css/travel-map.css">
+  <style>
+    :root {
+      --ink: #1f261f;
+      --muted: #667066;
+      --line: #ded7c8;
+      --paper: #f7f1e6;
+      --panel: #fffdf7;
+      --accent: #2b8f86;
+      --accent-2: #c75f38;
+      --accent-3: #cc6f3d;
+      --accent-4: #b97842;
+      --sidebar-width: 420px;
+      --travel-map-width: 1560px;
+      --travel-main-width: var(--travel-map-width);
+      --travel-header-offset: 160px;
+      --day1: #2b8f86;
+      --day2: #bf4f3c;
+      --day3: #c9752f;
+      --day4: #9a7f35;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      height: 100%;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 12% 8%, rgba(229, 107, 47, 0.16), transparent 28%),
+        radial-gradient(circle at 88% 18%, rgba(47, 128, 237, 0.14), transparent 30%),
+        var(--paper);
+      font-family: "Avenir Next", "Segoe UI", "Microsoft YaHei", sans-serif;
+      line-height: 1.65;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    header {
+      padding: 34px var(--travel-header-padding-x) 22px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 253, 247, 0.78);
+      backdrop-filter: blur(10px);
+      flex: 0 0 auto;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(30px, 5vw, 52px);
+      line-height: 1.05;
+      letter-spacing: 0.02em;
+    }
+
+    .subtitle {
+      max-width: 820px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .page-tabs {
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: 0;
+      margin: 18px 0 0;
+      padding: 4px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.7);
+      box-shadow: 0 10px 24px rgba(64, 55, 41, 0.08);
+    }
+
+    .page-tabs a {
+      min-height: 40px;
+      padding: 8px 12px;
+      border: 0;
+      border-radius: 10px;
+      color: var(--ink);
+      background: transparent;
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .page-tabs a:hover {
+      text-decoration: underline;
+    }
+
+    .page-tabs a.active {
+      color: #fff;
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: var(--sidebar-width) 8px minmax(0, 1fr);
+      width: min(var(--travel-map-width, 1560px), calc(100vw - 56px));
+      max-width: none;
+      margin: 0 auto;
+      padding: 0;
+      flex: 1 1 auto;
+      min-height: 0;
+      border-left: 1px solid var(--line);
+      border-right: 1px solid var(--line);
+    }
+
+    aside {
+      padding: 18px;
+      min-height: 0;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      background: var(--panel);
+    }
+
+    .resizer {
+      cursor: col-resize;
+      border-left: 1px solid var(--line);
+      border-right: 1px solid var(--line);
+      background: linear-gradient(90deg, #eef3ed, #dce7dc, #eef3ed);
+    }
+
+    .resizer:hover,
+    .resizing .resizer {
+      background: #b8c9b8;
+    }
+
+    #map {
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+    }
+
+    .day-card {
+      margin: 0 0 16px;
+      padding: 14px 14px 12px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: white;
+      box-shadow: 0 8px 24px rgba(40, 55, 42, 0.06);
+      transition: box-shadow 160ms ease, transform 160ms ease, background 160ms ease;
+    }
+
+    .day-card.active {
+      background: #fffdf2;
+      box-shadow: 0 12px 34px rgba(40, 55, 42, 0.14);
+      transform: translateY(-1px);
+    }
+
+    .day-card h2 {
+      margin: 0 0 10px;
+      font-size: 18px;
+    }
+
+    .day-card[data-day="1"] { border-left: 5px solid var(--day1); }
+    .day-card[data-day="2"] { border-left: 5px solid var(--day2); }
+    .day-card[data-day="3"] { border-left: 5px solid var(--day3); }
+    .day-card[data-day="4"] { border-left: 5px solid var(--day4); }
+
+    .day-card[data-day="1"] h2 { color: var(--day1); }
+    .day-card[data-day="2"] h2 { color: var(--day2); }
+    .day-card[data-day="3"] h2 { color: var(--day3); }
+    .day-card[data-day="4"] h2 { color: var(--day4); }
+
+    .day-card ol {
+      margin: 0;
+      padding-left: 24px;
+    }
+
+    .day-card li {
+      margin: 8px 0;
+      line-height: 1.45;
+    }
+
+    .day-card li[data-target] {
+      cursor: pointer;
+      border-radius: 10px;
+      transition: background 140ms ease, transform 140ms ease;
+    }
+
+    .day-card li[data-target]:hover {
+      background: #f1f6ef;
+      transform: translateX(2px);
+    }
+
+    .time {
+      display: inline-block;
+      min-width: 86px;
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .photo-badge {
+      display: inline-block;
+      margin-left: 6px;
+      padding: 1px 6px;
+      border-radius: 999px;
+      color: #ffffff;
+      background: #17211b;
+      font-size: 11px;
+      font-weight: 800;
+      vertical-align: 1px;
+    }
+
+    .note {
+      margin: 16px 0 0;
+      padding: 12px;
+      border-left: 4px solid #b7c6b9;
+      color: var(--muted);
+      background: #f5f7f1;
+      line-height: 1.55;
+    }
+
+    .marker-label {
+      --label-color: var(--accent);
+      display: inline-flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 6px;
+      min-width: 48px;
+      min-height: 28px;
+      padding: 4px 10px 4px 7px;
+      border: 1px solid rgba(23, 33, 27, 0.16);
+      border-radius: 12px;
+      color: var(--ink);
+      background: rgba(255, 253, 247, 0.94);
+      box-shadow: 0 8px 18px rgba(31, 38, 31, 0.18), 0 0 0 2px rgba(255, 253, 247, 0.72);
+      font-size: 13px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .marker-label::before {
+      content: "";
+      flex: 0 0 auto;
+      width: 6px;
+      height: 16px;
+      border-radius: 999px;
+      background: var(--label-color);
+    }
+
+    .leaflet-tooltip {
+      padding: 6px 9px;
+      border: 0;
+      border-radius: 10px;
+      color: #17211b;
+      background: rgba(255, 255, 255, 0.96);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .popup-title {
+      margin: 0 0 4px;
+      font-weight: 700;
+    }
+
+    .popup-body {
+      margin: 0;
+      line-height: 1.45;
+    }
+
+    .popup-photo {
+      display: block;
+      width: 260px;
+      max-width: 100%;
+      margin: 8px 0 6px;
+      border-radius: 12px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.16);
+    }
+
+    .popup-link {
+      color: #2364aa;
+      font-size: 12px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .popup-link:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 900px) {
+      body {
+        display: block;
+        height: auto;
+        overflow: auto;
+      }
+
+      .page-tabs {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        width: 100%;
+      }
+
+      .page-tabs a {
+        text-align: center;
+      }
+
+      .layout {
+        display: block;
+        width: 100%;
+        margin: 0;
+        border-left: 0;
+        border-right: 0;
+      }
+
+      aside {
+        max-height: none;
+        overflow: visible;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .resizer {
+        display: none;
+      }
+
+      #map {
+        height: 70vh;
+        min-height: 70vh;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>九州行程地图</h1>
+    <p class="subtitle">Day 1-Day 4 主路线：福冈入境、熊本城、鹿儿岛市区、樱岛和仙岩园，最后经博多回福冈机场。</p>
+    <nav class="page-tabs" aria-label="旅行页面导航">
+      <a href="./">行程计划</a>
+      <a href="./photos.html">景点照片</a>
+      <a class="active" href="./map.html">交互地图</a>
+      <a href="/sections/travel/">Travel</a>
+    </nav>
+  </header>
+
+  <main class="layout">
+    <aside>
+      <section class="day-card" data-day="1">
+        <h2>Day 1｜福冈 -> 熊本</h2>
+        <ol>
+          <li data-target="D1-1"><span class="time">D1-1</span>9C6609 上海浦东 -> 福冈，10:55 抵达。</li>
+          <li data-target="D1-2"><span class="time">D1-2</span>12:25 地铁福冈机场站 -> 博多站。</li>
+          <li data-target="D1-3"><span class="time">D1-3</span>13:01 SAKURA 751 博多 -> 熊本。</li>
+          <li data-target="D1-4"><span class="time">D1-4</span>14:35 樱之马场城彩苑午餐/小吃。</li>
+          <li data-target="D1-5"><span class="time">D1-5</span>15:10 熊本城。<span class="photo-badge">照片</span></li>
+          <li data-target="D1-6"><span class="time">D1-6</span>18:30 下通/上通晚餐。</li>
+        </ol>
+      </section>
+
+      <section class="day-card" data-day="2">
+        <h2>Day 2｜熊本 -> 鹿儿岛</h2>
+        <ol>
+          <li data-target="D2-1"><span class="time">D2-1</span>09:10 水前寺成趣园，可选。<span class="photo-badge">照片</span></li>
+          <li data-target="D2-2"><span class="time">D2-2</span>12:40 SAKURA 749 熊本 -> 鹿儿岛中央。</li>
+          <li data-target="D2-3"><span class="time">D2-3</span>14:10 鹿儿岛中央/天文馆午餐。</li>
+          <li data-target="D2-4"><span class="time">D2-4</span>15:45 城山展望台看樱岛。<span class="photo-badge">照片</span></li>
+          <li data-target="D2-5"><span class="time">D2-5</span>18:30 天文馆晚餐。<span class="photo-badge">照片</span></li>
+        </ol>
+      </section>
+
+      <section class="day-card" data-day="3">
+        <h2>Day 3｜樱岛 + 仙岩园</h2>
+        <ol>
+          <li data-target="D3-1"><span class="time">D3-1</span>09:00 樱岛渡轮，鹿儿岛港 -> 樱岛港。</li>
+          <li data-target="D3-2"><span class="time">D3-2</span>09:30 Sakurajima Island View 巴士环线。</li>
+          <li data-target="D3-3"><span class="time">D3-3</span>10:30 汤之平展望所/熔岩步道。<span class="photo-badge">照片</span></li>
+          <li data-target="D3-4"><span class="time">D3-4</span>11:40 渡轮返回鹿儿岛港。</li>
+          <li data-target="D3-5"><span class="time">D3-5</span>12:45 仙岩园、尚古集成馆、咖啡。<span class="photo-badge">照片</span></li>
+          <li data-target="D3-6"><span class="time">D3-6</span>18:00 鹿儿岛最后一晚晚餐。<span class="photo-badge">照片</span></li>
+        </ol>
+      </section>
+
+      <section class="day-card" data-day="4">
+        <h2>Day 4｜鹿儿岛 -> 福冈机场</h2>
+        <ol>
+          <li data-target="D4-1"><span class="time">D4-1</span>10:44 SAKURA 752 鹿儿岛中央 -> 博多。</li>
+          <li data-target="D4-2"><span class="time">D4-2</span>12:30 博多站午餐/伴手礼。</li>
+          <li data-target="D4-3"><span class="time">D4-3</span>13:30 Canal City/櫛田神社短逛，可选。<span class="photo-badge">照片</span></li>
+          <li data-target="D4-4"><span class="time">D4-4</span>14:45 回博多站 -> 福冈机场，15:45 到达国际航站楼。</li>
+          <li data-target="D4-5"><span class="time">D4-5</span>18:00 9C6538 福冈 -> 上海浦东。</li>
+        </ol>
+      </section>
+
+      <div id="map-legend"></div>
+
+    </aside>
+
+    <div class="resizer" id="resizer" title="拖动调整左侧行程栏宽度"></div>
+    <div id="map"></div>
+  </main>
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"
+    crossorigin=""></script>
+  <script src="./itinerary-data.js"></script>
+  <script src="../../js/travel-map.js"></script>
+  <script>
+    const rootStyles = getComputedStyle(document.documentElement);
+    const dayColors = Object.fromEntries(
+      [1, 2, 3, 4].map((day) => [day, rootStyles.getPropertyValue(`--day${day}`).trim()])
+    );
+
+    const itinerary = window.TravelItineraries.kyushu;
+    const points = itinerary.points;
+    const routeSegments = itinerary.routeSegments;
+
+    const map = L.map("map", {
+      scrollWheelZoom: true
+    }).setView([32.55, 130.55], 7);
+
+    const cartoLight = L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
+      maxZoom: 19,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+    });
+
+    const openStreetMap = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    const routeStyles = {
+      shinkansen: { weight: 5, opacity: 0.82, dashArray: null },
+      "airport-subway": { weight: 4, opacity: 0.78, dashArray: "10 6" },
+      city: { weight: 4, opacity: 0.72, dashArray: "4 7" },
+      ferry: { weight: 4, opacity: 0.82, dashArray: "2 8" },
+      bus: { weight: 4, opacity: 0.76, dashArray: "8 7" }
+    };
+
+    TravelMap.renderLegend([
+      { type: "shinkansen", label: "新干线 / 长距离铁路" },
+      { type: "city", label: "步行 / 市内交通 / 机场接驳" },
+      { type: "bus", label: "巴士近似路线" },
+      { type: "ferry", label: "渡轮路线" }
+    ]);
+
+    TravelMap.createItineraryMap({
+      map,
+      points,
+      routeSegments,
+      days: itinerary.days,
+      dayColors,
+      routeStyles,
+      baseLayers: {
+        "OpenStreetMap": openStreetMap,
+        "轻量底图 Carto": cartoLight
+      },
+      layerName: (day) => `Day ${day}`,
+      activeMaxZoom: 12,
+      resetMaxZoom: 9,
+      labelOffsetOptions: {
+        minDistance: 58,
+        sameDayOnly: true,
+        manualOffsets: {
+          "D2-1": [42, -30],
+          "D2-2": [-42, 26]
+        }
+      }
+    });
+  </script>
+</body>
+</html>

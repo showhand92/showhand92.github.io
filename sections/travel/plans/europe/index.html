@@ -1,0 +1,1138 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>欧洲旅行计划｜瑞士 + 意大利 + 巴黎</title>
+  <link rel="stylesheet" href="../../css/travel-common.css">
+  <link rel="stylesheet" href="../../css/travel-plan.css">
+  <style>
+    :root {
+      --ink: #2d241d;
+      --muted: #75675a;
+      --paper: #f8efe3;
+      --card: #fffaf2;
+      --line: #e2d2bf;
+      --accent: #a94424;
+      --accent-2: #c66b35;
+      --accent-3: #7a6f3a;
+      --accent-4: #4f6f52;
+      --day1: #4c7fa9;
+      --day2: #3f929d;
+      --day3: #5c9a76;
+      --day4: #9d6a2f;
+      --day5: #b66f34;
+      --day6: #bf563e;
+      --day7: #c4524c;
+      --day8: #ab6f42;
+      --day9: #7464a8;
+      --day10: #865fb0;
+      --day11: #9b69a7;
+      --day12: #8b7898;
+      --shadow: 0 12px 32px rgba(87, 55, 31, 0.09);
+      --budget-local-label: "欧元估算";
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 12% 8%, rgba(198, 107, 53, 0.18), transparent 28%),
+        radial-gradient(circle at 88% 18%, rgba(219, 157, 78, 0.16), transparent 30%),
+        var(--paper);
+      font-family: "Avenir Next", "Segoe UI", "Microsoft YaHei", sans-serif;
+      line-height: 1.65;
+    }
+
+    header {
+      padding: 34px var(--travel-header-padding-x) 22px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 250, 242, 0.82);
+      backdrop-filter: blur(10px);
+    }
+
+    main {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 28px;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(30px, 5vw, 52px);
+      line-height: 1.05;
+      letter-spacing: 0.02em;
+    }
+
+    h2 { margin: 0 0 12px; font-size: 24px; }
+    h3 { margin: 18px 0 8px; font-size: 17px; }
+    p { margin: 0 0 12px; }
+
+    a {
+      color: var(--accent);
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    a:hover { text-decoration: underline; }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 18px 0 0;
+    }
+
+    nav a {
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.72);
+    }
+
+    nav a.active {
+      color: #fff;
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .page-tabs {
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: 0;
+      padding: 4px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.7);
+      box-shadow: var(--shadow);
+    }
+
+    .page-tabs a {
+      min-height: 40px;
+      padding: 8px 14px;
+      border: 0;
+      border-radius: 10px;
+      background: transparent;
+    }
+
+    .page-tabs a.active {
+      background: var(--accent);
+      box-shadow: 0 8px 18px rgba(169, 68, 36, 0.16);
+    }
+
+    .subtitle {
+      max-width: 820px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin: 22px 0 28px;
+    }
+
+    .summary-card,
+    .day-card,
+    .section-card {
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: rgba(255, 250, 242, 0.94);
+      box-shadow: var(--shadow);
+    }
+
+    .summary-card { padding: 16px; }
+    .summary-card strong { display: block; margin-bottom: 6px; color: var(--accent); }
+
+    .section-card {
+      margin: 18px 0;
+      padding: 20px;
+    }
+
+    .day-card {
+      margin: 18px 0;
+      padding: 20px;
+      overflow: hidden;
+    }
+
+    .day-card.day1 { border-left: 7px solid var(--day1); }
+    .day-card.day2 { border-left: 7px solid var(--day2); }
+    .day-card.day3 { border-left: 7px solid var(--day3); }
+    .day-card.day4 { border-left: 7px solid var(--day4); }
+    .day-card.day5 { border-left: 7px solid var(--day5); }
+    .day-card.day6 { border-left: 7px solid var(--day6); }
+    .day-card.day7 { border-left: 7px solid var(--day7); }
+    .day-card.day8 { border-left: 7px solid var(--day8); }
+    .day-card.day9 { border-left: 7px solid var(--day9); }
+    .day-card.day10 { border-left: 7px solid var(--day10); }
+    .day-card.day11 { border-left: 7px solid var(--day11); }
+    .day-card.day12 { border-left: 7px solid var(--day12); }
+
+    .day-card.day1 h2,
+    .day-card.day1 td:first-child { color: var(--day1); }
+    .day-card.day2 h2,
+    .day-card.day2 td:first-child { color: var(--day2); }
+    .day-card.day3 h2,
+    .day-card.day3 td:first-child { color: var(--day3); }
+    .day-card.day4 h2,
+    .day-card.day4 td:first-child { color: var(--day4); }
+    .day-card.day5 h2,
+    .day-card.day5 td:first-child { color: var(--day5); }
+    .day-card.day6 h2,
+    .day-card.day6 td:first-child { color: var(--day6); }
+    .day-card.day7 h2,
+    .day-card.day7 td:first-child { color: var(--day7); }
+    .day-card.day8 h2,
+    .day-card.day8 td:first-child { color: var(--day8); }
+    .day-card.day9 h2,
+    .day-card.day9 td:first-child { color: var(--day9); }
+    .day-card.day10 h2,
+    .day-card.day10 td:first-child { color: var(--day10); }
+    .day-card.day11 h2,
+    .day-card.day11 td:first-child { color: var(--day11); }
+    .day-card.day12 h2,
+    .day-card.day12 td:first-child { color: var(--day12); }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 10px 0 14px;
+    }
+
+    .tag {
+      padding: 4px 9px;
+      border-radius: 999px;
+      color: #fff;
+      background: var(--ink);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .tag.transport { background: var(--accent); }
+    .tag.ticket { background: var(--accent-2); }
+    .tag.flex { background: var(--accent-3); }
+    .tag.view { background: var(--accent-4); }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0 4px;
+      overflow: hidden;
+      border-radius: 14px;
+      table-layout: fixed;
+    }
+
+    th, td {
+      padding: 10px 11px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+      overflow-wrap: anywhere;
+    }
+
+    th:first-child,
+    td:first-child {
+      width: 132px;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    th:nth-child(2),
+    td:nth-child(2) {
+      width: auto;
+    }
+
+    th {
+      color: var(--muted);
+      background: #f2e4d2;
+      font-size: 13px;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    ul { margin: 8px 0 0; padding-left: 1.2em; }
+
+    .note {
+      margin-top: 14px;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      color: var(--muted);
+      background: #fff7ec;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .info-box {
+      padding: 15px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: #fff7ec;
+    }
+
+    .info-box h3 { margin-top: 0; }
+
+    .budget-note {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .budget-total td {
+      background: #fff7ec;
+      font-weight: 800;
+    }
+
+    .booking-table th:first-child,
+    .booking-table td:first-child {
+      width: 220px;
+      white-space: normal;
+      overflow-wrap: break-word;
+    }
+
+    .booking-table th:nth-child(2),
+    .booking-table td:nth-child(2) {
+      width: 150px;
+      white-space: nowrap;
+    }
+
+    .booking-table th:nth-child(3),
+    .booking-table td:nth-child(3) {
+      width: auto;
+    }
+
+    .budget-table th:first-child,
+    .budget-table td:first-child {
+      width: 130px;
+    }
+
+    .budget-table th:nth-child(2),
+    .budget-table td:nth-child(2) {
+      width: 130px;
+      white-space: normal;
+    }
+
+    .budget-table th:nth-child(3),
+    .budget-table td:nth-child(3) {
+      width: 160px;
+      white-space: normal;
+    }
+
+    .back-top {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 20;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 52px;
+      min-height: 44px;
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--ink);
+      background: rgba(255, 250, 242, 0.92);
+      box-shadow: 0 12px 28px rgba(87, 55, 31, 0.14);
+      font-weight: 800;
+    }
+
+    .jump-menu {
+      position: fixed;
+      right: 18px;
+      bottom: 72px;
+      z-index: 21;
+      font-weight: 800;
+    }
+
+    .jump-menu summary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 58px;
+      min-height: 44px;
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--ink);
+      background: rgba(255, 250, 242, 0.94);
+      box-shadow: 0 12px 28px rgba(87, 55, 31, 0.14);
+      cursor: pointer;
+      list-style: none;
+    }
+
+    .jump-menu summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .jump-panel {
+      position: absolute;
+      right: 0;
+      bottom: 54px;
+      display: grid;
+      gap: 4px;
+      width: min(280px, calc(100vw - 24px));
+      max-height: min(70vh, 560px);
+      overflow: auto;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255, 250, 242, 0.98);
+      box-shadow: 0 18px 44px rgba(87, 55, 31, 0.18);
+    }
+
+    .jump-panel a {
+      padding: 7px 9px;
+      border-radius: 10px;
+      color: var(--ink);
+      font-size: 14px;
+      text-decoration: none;
+    }
+
+    .jump-panel a:hover {
+      background: #f2e4d2;
+      text-decoration: none;
+    }
+
+    .jump-divider {
+      height: 1px;
+      margin: 5px 0;
+      background: var(--line);
+    }
+
+    @media (max-width: 820px) {
+      main { padding: 18px; }
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .info-grid { grid-template-columns: 1fr; }
+      table { font-size: 14px; }
+      .booking-table th:first-child,
+      .booking-table td:first-child { width: 180px; }
+      .booking-table th:nth-child(2),
+      .booking-table td:nth-child(2) { width: 118px; }
+    }
+
+    @media (max-width: 920px) {
+      .booking-table,
+      .booking-table thead,
+      .booking-table tbody,
+      .booking-table tr,
+      .booking-table th,
+      .booking-table td,
+      .budget-table,
+      .budget-table thead,
+      .budget-table tbody,
+      .budget-table tr,
+      .budget-table th,
+      .budget-table td {
+        display: block;
+        width: 100%;
+      }
+
+      .booking-table thead,
+      .budget-table thead {
+        display: none;
+      }
+
+      .booking-table,
+      .budget-table {
+        border-radius: 0;
+      }
+
+      .booking-table tr,
+      .budget-table tr {
+        margin: 0 0 12px;
+        padding: 12px;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.56);
+      }
+
+      .booking-table td,
+      .budget-table td {
+        display: grid;
+        grid-template-columns: 92px minmax(0, 1fr);
+        gap: 10px;
+        padding: 7px 0;
+        border-bottom: 1px solid rgba(226, 210, 191, 0.72);
+        white-space: normal;
+      }
+
+      .booking-table td:last-child,
+      .budget-table td:last-child {
+        border-bottom: 0;
+      }
+
+      .booking-table td::before,
+      .budget-table td::before {
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .booking-table td:nth-child(1)::before { content: "项目"; }
+      .booking-table td:nth-child(2)::before { content: "时机"; }
+      .booking-table td:nth-child(3)::before { content: "提醒"; }
+      .budget-table td:nth-child(1)::before { content: "项目"; }
+      .budget-table td:nth-child(2)::before { content: "欧元"; }
+      .budget-table td:nth-child(3)::before { content: "人民币"; }
+      .budget-table td:nth-child(4)::before { content: "说明"; }
+    }
+
+    @media (max-width: 560px) {
+      .grid { grid-template-columns: 1fr; }
+
+      table,
+      thead,
+      tbody,
+      tr,
+      th,
+      td {
+        display: block;
+        width: 100%;
+      }
+
+      thead { display: none; }
+      table { border-radius: 0; }
+
+      tr {
+        margin: 0 0 12px;
+        padding: 12px;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.56);
+      }
+
+      td {
+        display: grid;
+        grid-template-columns: 82px minmax(0, 1fr);
+        gap: 10px;
+        padding: 7px 0;
+        border-bottom: 1px solid rgba(226, 210, 191, 0.72);
+      }
+
+      td:last-child { border-bottom: 0; }
+
+      th:first-child,
+      td:first-child {
+        width: 100%;
+        white-space: normal;
+      }
+
+      td::before {
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .schedule-table td:nth-child(1)::before { content: "时间"; }
+      .schedule-table td:nth-child(2)::before { content: "安排"; }
+      .booking-table td:nth-child(1)::before { content: "项目"; }
+      .booking-table td:nth-child(2)::before { content: "时机"; }
+      .booking-table td:nth-child(3)::before { content: "提醒"; }
+      .budget-table td:nth-child(1)::before { content: "项目"; }
+      .budget-table td:nth-child(2)::before { content: "欧元"; }
+      .budget-table td:nth-child(3)::before { content: "人民币"; }
+      .budget-table td:nth-child(4)::before { content: "说明"; }
+
+      .budget-total td {
+        background: transparent;
+      }
+
+      .page-tabs {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        width: 100%;
+      }
+
+      .page-tabs a { text-align: center; }
+
+      .back-top {
+        right: 12px;
+        bottom: 12px;
+      }
+
+      .jump-menu {
+        right: 12px;
+        bottom: 66px;
+      }
+    }
+
+    .booking-table,
+    .booking-table thead,
+    .booking-table tbody,
+    .booking-table tr,
+    .booking-table th,
+    .booking-table td,
+    .budget-table,
+    .budget-table thead,
+    .budget-table tbody,
+    .budget-table tr,
+    .budget-table th,
+    .budget-table td {
+      display: block;
+      width: 100%;
+    }
+
+    .booking-table,
+    .budget-table {
+      border-radius: 0;
+    }
+
+    .booking-table thead,
+    .budget-table thead {
+      display: none;
+    }
+
+    .booking-table tbody,
+    .budget-table tbody {
+      display: grid;
+      gap: 12px;
+    }
+
+    .booking-table tr,
+    .budget-table tr {
+      margin: 0;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.56);
+    }
+
+    .booking-table td,
+    .budget-table td {
+      display: block;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(226, 210, 191, 0.72);
+      white-space: normal;
+      overflow-wrap: anywhere;
+    }
+
+    .booking-table td:last-child,
+    .budget-table td:last-child {
+      border-bottom: 0;
+    }
+
+    .booking-table td::before,
+    .budget-table td::before {
+      display: block;
+      margin-bottom: 2px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    .booking-table td:nth-child(1)::before { content: "项目"; }
+    .booking-table td:nth-child(2)::before { content: "预约时机"; }
+    .booking-table td:nth-child(3)::before { content: "注意事项"; }
+    .budget-table td:nth-child(1)::before { content: "项目"; }
+    .budget-table td:nth-child(2)::before { content: "欧元估算"; }
+    .budget-table td:nth-child(3)::before { content: "人民币估算"; }
+    .budget-table td:nth-child(4)::before { content: "说明"; }
+
+    .budget-table .budget-total {
+      background: #fff7ec;
+      font-weight: 800;
+    }
+
+    .budget-total td {
+      background: transparent;
+    }
+
+    @media (min-width: 760px) {
+      .booking-table tbody,
+      .budget-table tbody {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .budget-table .budget-total {
+        grid-column: 1 / -1;
+      }
+    }
+  </style>
+</head>
+<body id="top">
+  <header>
+    <h1>欧洲旅行计划</h1>
+    <p class="subtitle">瑞士阿尔卑斯、意大利文艺复兴与罗马古迹、巴黎艺术与回程串联。</p>
+    <nav class="page-tabs" aria-label="旅行页面导航">
+      <a class="active" href="./">行程计划</a>
+      <a href="./photos.html">景点照片</a>
+      <a href="./map.html">交互地图</a>
+      <a href="/sections/travel/">Travel</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="grid">
+      <article class="summary-card">
+        <strong>路线</strong>
+        上海 → 日内瓦 → 因特拉肯 → 米兰 → 佛罗伦萨 → 罗马 → 巴黎 → 法兰克福 → 上海
+      </article>
+      <article class="summary-card">
+        <strong>主线</strong>
+        雪山湖泊、文艺复兴、美术馆、古罗马、巴黎城市漫步。
+      </article>
+      <article class="summary-card">
+        <strong>交通</strong>
+        瑞士铁路、高铁、跨国列车、罗马飞巴黎、巴黎到法兰克福 ICE。
+      </article>
+      <article class="summary-card">
+        <strong>关键风险</strong>
+        瑞士天气、热门门票、节假日闭馆/罢工、巴黎与罗马防盗。
+      </article>
+    </section>
+
+    <section id="checklist" class="section-card">
+      <h2>出发前 Checklist</h2>
+      <ul>
+        <li>确认往返国际机票、内部机票与跨国火车票。</li>
+        <li>确认因特拉肯、米兰、佛罗伦萨、罗马、巴黎住宿。</li>
+        <li>准备入关材料：机票单、住宿单、行程单、保险、资金证明。</li>
+        <li>提前下载 <a href="https://www.sbb.ch/en">SBB</a>、MeteoSwiss、<a href="https://www.trenitalia.com/en.html">Trenitalia</a>/<a href="https://www.italotreno.com/en">Italo</a>、<a href="https://int.bahn.de/en">DB Navigator</a>、SNCF Connect、巴黎交通相关 App。</li>
+      </ul>
+    </section>
+
+    <article id="day1" class="day-card alps day1">
+      <h2>D1｜上海 → 日内瓦 → 因特拉肯</h2>
+      <div class="tag-row">
+        <span class="tag transport">入境</span>
+        <span class="tag transport">SBB</span>
+        <span class="tag view">日内瓦湖</span>
+      </div>
+      <table class="schedule-table">
+        <thead><tr><th>时间</th><th>安排</th></tr></thead>
+        <tbody>
+          <tr><td>07:50-09:00</td><td>抵达日内瓦机场，完成入境与取行李。</td></tr>
+          <tr><td>09:00-09:15</td><td>从机场搭火车前往 Genève-Cornavin，所有进城火车基本都会经过市中心站。</td></tr>
+          <tr><td>09:15-09:30</td><td>在 Genève-Cornavin 寄存大件行李，优先使用 <a href="https://www.sbb.ch/en">SBB</a> 自动储物柜。</td></tr>
+          <tr><td>09:30-12:30</td><td>日内瓦市区精华步行：大喷泉、花钟、圣彼得大教堂；午餐可选老城区芝士火锅或湖边简餐。</td></tr>
+          <tr><td>13:00-16:00</td><td>搭乘 <a href="https://www.sbb.ch/en">SBB</a> 前往因特拉肯，路线为 Genève → Bern → Interlaken West/Ost，离开日内瓦后尽量坐右侧看湖景。</td></tr>
+          <tr><td>16:30</td><td>抵达因特拉肯，办理入住，在 Hohematte 一带散步，看滑翔伞和少女峰方向雪山。</td></tr>
+        </tbody>
+      </table>
+      <h3>吃饭建议</h3>
+      <ul>
+        <li>日内瓦午餐以轻量为主，可选老城区芝士火锅、湖边简餐或车站附近快速餐。</li>
+        <li>因特拉肯第一晚建议住处附近解决，保留体力给 D2 少女峰；同时检查 MeteoSwiss，必要时和 D3 对调。</li>
+      </ul>
+    </article>
+
+    <article id="day2" class="day-card alps day2">
+      <h2>D2｜<a href="https://www.jungfrau.ch/en-gb/jungfraujoch-top-of-europe/buy-jungfraujoch-ticket/">少女峰 Jungfraujoch</a></h2>
+      <div class="tag-row">
+        <span class="tag ticket">少女峰</span>
+        <span class="tag transport">Eiger Express</span>
+        <span class="tag view">冰川</span>
+      </div>
+      <table class="schedule-table">
+        <thead><tr><th>时间</th><th>安排</th></tr></thead>
+        <tbody>
+          <tr><td>08:30</td><td>从 Interlaken Ost 出发，搭乘前往 Grindelwald 的列车，注意车厢拆分提示。</td></tr>
+          <tr><td>09:15-09:45</td><td>在 Grindelwald Terminal 换乘 <a href="https://www.jungfrau.ch/en-gb/eiger-express/">Eiger Express</a>，透过全景窗看艾格峰北壁。</td></tr>
+          <tr><td>10:15-10:45</td><td>换乘齿轨火车冲顶，中途 Eismeer 冰海站短暂停靠时下车看冰川窗景。</td></tr>
+          <tr><td>11:00-14:00</td><td>登顶 Top of Europe：Sphinx Observatory、Ice Palace、Glacier Plateau；午餐可选山顶餐厅或快餐。</td></tr>
+          <tr><td>14:30-16:30</td><td>经 Kleine Scheidegg 景观线下山，换乘前往 Lauterbrunnen，途中经过 Wengen。</td></tr>
+          <tr><td>17:00</td><td>在 Lauterbrunnen 看 Staubbach Falls，随后坐火车回 Interlaken。</td></tr>
+        </tbody>
+      </table>
+      <h3>吃饭建议</h3>
+      <ul>
+        <li>山顶午餐可选 Jungfraujoch 餐厅或自带三明治，避免排队影响观景时间。</li>
+        <li>下山后可在 Lauterbrunnen 简单补给，晚餐回 Interlaken 安排热食；山顶低温，热饮很实用。</li>
+      </ul>
+    </article>
+
+    <article id="day3" class="day-card alps day3">
+      <h2>D3｜布里恩茨湖 + Grindelwald First</h2>
+      <div class="tag-row">
+        <span class="tag view">湖光山色</span>
+        <span class="tag transport">游船</span>
+        <span class="tag flex">First</span>
+      </div>
+      <table class="schedule-table">
+        <thead><tr><th>时间</th><th>安排</th></tr></thead>
+        <tbody>
+          <tr><td>09:00-10:20</td><td>从 Interlaken Ost 码头乘 BLS 游船游布里恩茨湖，经过 Iseltwald，可视班次决定是否下船。</td></tr>
+          <tr><td>10:20-11:30</td><td>漫步 Brienz，看木雕小镇和 Brunngasse 老木屋街区。</td></tr>
+          <tr><td>11:30-12:00</td><td>从 Brienz 坐火车返回 Interlaken Ost，再转去 Grindelwald。</td></tr>
+          <tr><td>13:00-16:30</td><td>Grindelwald First：上缆车、走 First Cliff Walk；体力允许时徒步 Bachalpsee 或尝试 First Flyer / Mountain Cart。</td></tr>
+          <tr><td>17:00</td><td>下山，在 Grindelwald 找能看艾格峰的餐厅晚餐，或返回因特拉肯休整。</td></tr>
+        </tbody>
+      </table>
+      <h3>吃饭建议</h3>
+      <ul>
+        <li>Brienz 或 Iseltwald 适合安排湖边咖啡和轻午餐，不要把午餐排得太正式。</li>
+        <li>晚餐可在 Grindelwald 找能看雪山的餐厅；若天气不佳，可改 Harder Kulm 并减少高山段消耗。</li>
+      </ul>
+    </article>
+
+    <article id="day4" class="day-card italy day4">
+      <h2>D4｜因特拉肯 → 米兰</h2>
+      <div class="tag-row">
+        <span class="tag transport">跨国列车</span>
+        <span class="tag view">米兰大教堂</span>
+        <span class="tag ticket">登顶</span>
+      </div>
+      <table class="schedule-table">
+        <thead><tr><th>时间</th><th>安排</th></tr></thead>
+        <tbody>
+          <tr><td>08:30-09:00</td><td>从 Interlaken Ost 或 West 出发前往 Spiez，按酒店位置选择始发站。</td></tr>
+          <tr><td>09:05-12:40</td><td>在 Spiez 换乘 EuroCity 跨国列车前往 Milano Centrale；建议坐右侧看辛普伦线风景。</td></tr>
+          <tr><td>12:40-13:30</td><td>抵达米兰中央车站，寄存行李或前往酒店；午餐可在 Mercato Centrale 快速解决。</td></tr>
+          <tr><td>14:00-18:00</td><td>米兰半日精华：<a href="https://www.duomomilano.it/en/">米兰大教堂</a>登顶、埃马努埃莱二世长廊、斯福尔扎城堡周边散步。</td></tr>
+          <tr><td>晚上</td><td>可去 Navigli 运河区晚餐或体验 Aperitivo。</td></tr>
+        </tbody>
+      </table>
+      <h3>吃饭建议</h3>
+      <ul>
+        <li>中午刚到米兰时优先在 Milano Centrale 或 Mercato Centrale 快速解决。</li>
+        <li>晚上可去 Navigli 运河区体验 Aperitivo，也可以在 Duomo 周边找 Risotto alla Milanese 或 Cotoletta。</li>
+      </ul>
+    </article>
+
+    <article id="day5" class="day-card italy day5">
+      <h2>D5｜米兰 → 佛罗伦萨</h2>
+      <div class="tag-row">
+        <span class="tag transport">高铁</span>
+        <span class="tag ticket">乌菲兹</span>
+        <span class="tag view">落日</span>
+      </div>
+      <table class="schedule-table">
+        <thead><tr><th>时间</th><th>安排</th></tr></thead>
+        <tbody>
+          <tr><td>08:30-10:15</td><td>从 Milano Centrale 搭 <a href="https://www.trenitalia.com/en.html">Trenitalia</a> 或 <a href="https://www.italotreno.com/en">Italo</a> 高铁到 Firenze S.M. Novella，出站即可进入市中心步行范围。</td></tr>
+          <tr><td>10:30-12:30</td><td>圣母百花大教堂区域：外观、乔托钟楼、洗礼堂；如已预约可登 Brunelleschi's Dome。</td></tr>
+          <tr><td>12:30-13:30</td><td>Mercato Centrale 午餐，可选牛肚包或二楼美食区。</td></tr>
+          <tr><td>14:00-17:00</td><td><a href="https://www.uffizi.it/en/tickets/">乌菲兹美术馆</a>，重点看波提切利、达芬奇、米开朗基罗相关作品。</td></tr>
+          <tr><td>17:30-19:30</td><td>从老桥一路前往米开朗基罗广场，看佛罗伦萨红屋顶与落日。</td></tr>
+          <tr><td>20:00</td><td>晚餐可安排佛罗伦萨牛排，通常按公斤起卖，适合分享。</td></tr>
+        </tbody>
+      </table>
+      <h3>吃饭建议</h3>
+      <ul>
+        <li>午餐推荐 Mercato Centrale，牛肚包、意面和二楼美食区都方便控制时间。</li>
+        <li>晚餐可安排佛罗伦萨牛排，但通常按公斤起卖，适合多人分享；看完米开朗基罗广场日落后再回城吃。</li>
+      </ul>
+    </article>
+
+    <article id="day6" class="day-card italy day6">
+      <h2>D6｜佛罗伦萨 → 罗马</h2>
+      <div class="tag-row">
+        <span class="tag transport">高铁</span>
+        <span class="tag ticket">万神殿</span>
+        <span class="tag view">罗马老城</span>
+      </div>
+      <table class="schedule-table">
+        <thead><tr><th>时间</th><th>安排</th></tr></thead>
+        <tbody>
+          <tr><td>09:00-10:40</td><td>从 Firenze S.M. Novella 搭 <a href="https://www.trenitalia.com/en.html">Trenitalia</a> 或 <a href="https://www.italotreno.com/en">Italo</a> 高铁前往 Roma Termini。</td></tr>
+          <tr><td>11:00-12:30</td><td>酒店 Check-in 或寄存行李；午餐可在 Termini 附近 Mercato Centrale 或三明治店解决。</td></tr>
+          <tr><td>13:30-15:30</td><td>西班牙阶梯与许愿池，完成经典罗马老城打卡。</td></tr>
+          <tr><td>16:00-17:30</td><td>万神殿与周边遗迹，门票需提前准备。</td></tr>
+          <tr><td>18:00-20:00</td><td>纳沃纳广场与四河喷泉，之后在周边 Trattoria 晚餐。</td></tr>
+        </tbody>
+      </table>
+      <h3>吃饭建议</h3>
+      <ul>
+        <li>午餐可在 Termini 附近 Mercato Centrale 或简单三明治店解决，不要拖慢下午老城线。</li>
+        <li>晚餐安排在纳沃纳广场周边或 Campo de' Fiori 一带，注意避开纯游客菜单；罗马碎石路费脚，餐厅尽量靠步行线收尾。</li>
+      </ul>
+    </article>
+
+    <article id="day7" class="day-card rome day7">
+      <h2>D7｜罗马 - 梵蒂冈</h2>
+      <div class="tag-row">
+        <span class="tag ticket">梵蒂冈博物馆</span>
+        <span class="tag ticket">圣彼得大教堂</span>
+        <span class="tag view">圣天使堡</span>
+      </div>
+      <table class="schedule-table">
+        <thead><tr><th>时间</th><th>安排</th></tr></thead>
+        <tbody>
+          <tr><td>07:30-08:00</td><td>到达 <a href="https://tickets.museivaticani.va/home">梵蒂冈博物馆</a>，准备预约首批入场，现场仍需安检排队。</td></tr>
+          <tr><td>08:00-10:30</td><td>极速观展：直奔地图长廊、拉斐尔画室等重点区域。</td></tr>
+          <tr><td>10:30-11:30</td><td>西斯廷礼拜堂，安静欣赏《创世纪》和《末日审判》，注意禁止拍照。</td></tr>
+          <tr><td>11:30-12:30</td><td>看螺旋楼梯并离馆，避免在馆内绕太久影响下午节奏。</td></tr>
+          <tr><td>12:30-13:30</td><td>沿梵蒂冈围墙附近简餐，可选 Pizzarium Bonci 或周边快餐。</td></tr>
+          <tr><td>13:30-14:30</td><td>圣彼得大圆顶登顶，建议坐电梯节省体力。</td></tr>
+          <tr><td>14:30-15:30</td><td>圣彼得大教堂内部，看《圣殇》和贝尼尼青铜华盖。</td></tr>
+          <tr><td>16:30-18:30</td><td>圣天使堡与天使之桥，傍晚在桥上看夕阳。</td></tr>
+        </tbody>
+      </table>
+      <h3>吃饭建议</h3>
+      <ul>
+        <li>午餐可在梵蒂冈围墙附近快速解决，Pizzarium Bonci 或周边披萨切片店比较适合赶节奏。</li>
+        <li>晚餐可回罗马老城或 Prati 区安排；梵蒂冈着装和安检严格，不要带大件行李。</li>
+      </ul>
+    </article>
+
+    <article id="day8" class="day-card rome day8">
+      <h2>D8｜罗马古遗迹</h2>
+      <div class="tag-row">
+        <span class="tag ticket">斗兽场</span>
+        <span class="tag view">古罗马广场</span>
+        <span class="tag flex">Trastevere</span>
+      </div>
+      <table class="schedule-table">
+        <thead><tr><th>时间</th><th>安排</th></tr></thead>
+        <tbody>
+          <tr><td>08:30-11:00</td><td><a href="https://colosseo.it/en/visit/opening-times-and-tickets/">古罗马斗兽场</a>，优先预约第一批入场；如能买到 Arena Floor 视角更好。</td></tr>
+          <tr><td>11:00-13:00</td><td>古罗马广场与帕拉蒂尼山，从斗兽场内部动线衔接考古区。</td></tr>
+          <tr><td>13:00-14:30</td><td>威尼斯广场与祖国祭坛；午餐避开斗兽场正对面，向 Monti 区移动。</td></tr>
+          <tr><td>15:00-16:30</td><td>真理之口；如排队过长，只在围栏外合影，保留体力。</td></tr>
+          <tr><td>17:00-20:00</td><td>特拉斯提弗列小巷散步与晚餐，感受更生活化的罗马。</td></tr>
+        </tbody>
+      </table>
+      <h3>吃饭建议</h3>
+      <ul>
+        <li>午餐避开斗兽场正对面的游客餐厅，建议往 Monti 区移动。</li>
+        <li>晚餐放在 Trastevere 更合适，适合吃 Carbonara、Cacio e Pepe 或传统 Roman Trattoria。</li>
+      </ul>
+    </article>
+
+    <article id="day9" class="day-card paris day9">
+      <h2>D9｜罗马 → 巴黎</h2>
+      <div class="tag-row">
+        <span class="tag transport">内部航班</span>
+        <span class="tag view">凯旋门</span>
+        <span class="tag view">埃菲尔铁塔</span>
+      </div>
+      <table class="schedule-table">
+        <thead><tr><th>时间</th><th>安排</th></tr></thead>
+        <tbody>
+          <tr><td>07:30-08:30</td><td>酒店早餐、退房，携带行李前往 Roma Termini。</td></tr>
+          <tr><td>08:50-09:22</td><td>搭乘 Leonardo Express 前往 FCO 机场，避开市区早高峰。</td></tr>
+          <tr><td>09:30-11:30</td><td>机场值机与安检，预留跨国航班手续时间。</td></tr>
+          <tr><td>11:30-13:40</td><td>罗马飞巴黎，优先选择 CDG 或 ORY，避开离市区很远的机场。</td></tr>
+          <tr><td>14:30-16:00</td><td>入境巴黎并进城，CDG 可选 RER B 或 RoissyBus。</td></tr>
+          <tr><td>16:30-17:30</td><td>酒店 Check-in，建议住 1 区、2 区或 8 区。</td></tr>
+          <tr><td>18:00-20:30</td><td>凯旋门与香榭丽舍大街，凯旋门登顶建议提前购票。</td></tr>
+          <tr><td>21:00-22:00</td><td>Trocadero 看埃菲尔铁塔夜景和整点闪灯。</td></tr>
+        </tbody>
+      </table>
+      <h3>吃饭建议</h3>
+      <ul>
+        <li>机场和进城阶段以补给为主，不建议安排正式午餐，避免被航班和交通拖延影响。</li>
+        <li>晚餐可放在凯旋门、香榭丽舍或 Trocadero 附近；巴黎 RER B 进城线防盗优先级很高。</li>
+      </ul>
+    </article>
+
+    <article id="day10" class="day-card paris day10">
+      <h2>D10｜巴黎艺术线</h2>
+      <div class="tag-row">
+        <span class="tag ticket">卢浮宫</span>
+        <span class="tag ticket">橘园</span>
+        <span class="tag ticket">奥赛</span>
+      </div>
+      <table class="schedule-table">
+        <thead><tr><th>时间</th><th>安排</th></tr></thead>
+        <tbody>
+          <tr><td>08:15-08:45</td><td>到达 <a href="https://musee.louvre.fr/en/visit/hours-admission">卢浮宫</a>，优先使用预约入口或人少入口，避开金字塔地面长队。</td></tr>
+          <tr><td>09:00-12:00</td><td><a href="https://musee.louvre.fr/en/visit/hours-admission">卢浮宫</a>寻宝：德农馆、蒙娜丽莎、胜利女神、维纳斯等核心作品。</td></tr>
+          <tr><td>12:00-13:30</td><td>杜乐丽花园午餐，可选 Paul 简餐或 Angelina 甜品。</td></tr>
+          <tr><td>13:30-15:30</td><td><a href="https://www.musee-orangerie.fr/en/visit">橘园美术馆</a>，看莫奈《睡莲》环形展厅。</td></tr>
+          <tr><td>16:00-18:00</td><td>步行过皇家桥前往 <a href="https://www.musee-orsay.fr/en/visit">奥赛博物馆</a>，看印象派与车站时钟。</td></tr>
+          <tr><td>18:30-20:00</td><td>左岸散步，花神咖啡馆或双叟咖啡馆周边休息。</td></tr>
+          <tr><td>20:30+</td><td>圣日耳曼德佩区晚餐，可选法式 Bistro。</td></tr>
+        </tbody>
+      </table>
+      <h3>吃饭建议</h3>
+      <ul>
+        <li>午餐可在杜乐丽花园、Paul 或 Angelina 简单解决，避免博物馆日排队太久。</li>
+        <li>晚餐放在圣日耳曼德佩或左岸 Bistro；如果一天看多个博物馆，可评估 Paris Museum Pass。</li>
+      </ul>
+    </article>
+
+    <article id="day11" class="day-card paris day11">
+      <h2>D11｜巴黎生活线</h2>
+      <div class="tag-row">
+        <span class="tag view">蒙马特</span>
+        <span class="tag ticket">圣礼拜堂</span>
+        <span class="tag flex">购物</span>
+      </div>
+      <table class="schedule-table">
+        <thead><tr><th>时间</th><th>安排</th></tr></thead>
+        <tbody>
+          <tr><td>08:30-10:30</td><td>蒙马特高地清晨漫步：Abbesses、爱墙、圣心大教堂。</td></tr>
+          <tr><td>10:30-12:00</td><td>小丘广场与画家村，寻找梵高、毕加索相关足迹。</td></tr>
+          <tr><td>12:30-14:00</td><td>前往玛黑区午餐，可选 L'As du Fallafel 或 Marché des Enfants Rouges。</td></tr>
+          <tr><td>14:30-16:30</td><td>西岱岛：巴黎圣母院与 <a href="https://www.sainte-chapelle.fr/en/">圣礼拜堂</a>，圣礼拜堂建议提前预约。</td></tr>
+          <tr><td>17:00-18:30</td><td>莎士比亚书店与拉丁区，沿圣日耳曼大道散步，可路过先贤祠。</td></tr>
+          <tr><td>19:00+</td><td>塞纳河游船，或补完成购物、药妆和退税材料整理。</td></tr>
+        </tbody>
+      </table>
+      <h3>吃饭建议</h3>
+      <ul>
+        <li>午餐可安排在玛黑区，L'As du Fallafel 或 Marché des Enfants Rouges 都适合中途休整。</li>
+        <li>晚餐根据游船时间灵活安排，蒙马特圣心堂台阶附近注意红绳党，圣礼拜堂建议预约。</li>
+      </ul>
+    </article>
+
+    <article id="day12" class="day-card paris day12">
+      <h2>D12｜巴黎 → 法兰克福 → 上海</h2>
+      <div class="tag-row">
+        <span class="tag transport">ICE</span>
+        <span class="tag transport">S-Bahn</span>
+        <span class="tag ticket">退税</span>
+      </div>
+      <table class="schedule-table">
+        <thead><tr><th>时间</th><th>安排</th></tr></thead>
+        <tbody>
+          <tr><td>06:15-06:45</td><td>清晨离开酒店，打车或地铁前往 Gare de l'Est。</td></tr>
+          <tr><td>07:07-10:59</td><td>搭乘 <a href="https://int.bahn.de/en">ICE</a> 前往 Frankfurt Hbf，上车后可在餐车买咖啡和早餐。</td></tr>
+          <tr><td>11:00-11:20</td><td>抵达法兰克福总站后寻找 S-Bahn 地下站台。</td></tr>
+          <tr><td>11:35-11:50</td><td>搭乘 S8 或 S9 前往 Frankfurt Airport Regionalbahnhof。</td></tr>
+          <tr><td>12:00-13:30</td><td>办理值机与海关退税；退税单据必须随身带，不要放进托运行李。</td></tr>
+          <tr><td>14:30</td><td>搭乘国际航班回上海。</td></tr>
+        </tbody>
+      </table>
+      <h3>吃饭建议</h3>
+      <ul>
+        <li>早餐可在 ICE 餐车或巴黎东站提前买好，最后一天不要为了餐厅绕路。</li>
+        <li>午餐以法兰克福机场内解决为主；退税单据不要托运，DB 可能延误，务必用 <a href="https://int.bahn.de/en">DB Navigator</a> 盯通知。</li>
+      </ul>
+    </article>
+
+    <section id="booking" class="section-card">
+      <h2>关键预订与票务</h2>
+      <table class="booking-table">
+        <thead><tr><th>项目</th><th>时机</th><th>提醒</th></tr></thead>
+        <tbody>
+          <tr><td><a href="https://www.sbb.ch/en/tickets-offers/tickets/guests-from-abroad/swiss-travel-pass.html">瑞士交通</a></td><td>出发前确认</td><td>比较 Swiss Travel Pass、Saver Day Pass 和点对点票；瑞士段活动多时通票更省心。</td></tr>
+          <tr><td><a href="https://www.jungfrau.ch/en-gb/jungfraujoch-top-of-europe/buy-jungfraujoch-ticket/">少女峰</a></td><td>出发前确认天气与座位</td><td>建议预约 Eiger Express / Jungfraujoch 关键段，天气不好与 D3 对调。</td></tr>
+          <tr><td><a href="https://www.duomomilano.it/en/">米兰大教堂</a> / <a href="https://www.uffizi.it/en/tickets/">乌菲兹</a></td><td>提前预约</td><td>乌菲兹、穹顶、热门登顶都不建议现场排队。</td></tr>
+          <tr><td><a href="https://tickets.museivaticani.va/home">梵蒂冈博物馆</a></td><td>越早越好</td><td>全程最难抢之一，优先抢早场；没票再考虑正规第三方导览。</td></tr>
+          <tr><td><a href="https://colosseo.it/en/visit/opening-times-and-tickets/">斗兽场</a></td><td>提前卡点</td><td>竞技场平台或地下层更难抢，务必看官方放票时间。</td></tr>
+          <tr><td>巴黎博物馆</td><td>提前预约时段</td><td><a href="https://musee.louvre.fr/en/visit/hours-admission">卢浮宫</a>、<a href="https://www.musee-orsay.fr/en/visit">奥赛</a>、<a href="https://www.musee-orangerie.fr/en/visit">橘园</a>、<a href="https://www.sainte-chapelle.fr/en/">圣礼拜堂</a>都建议提前安排，PMP 也常需预约时段。</td></tr>
+          <tr><td>巴黎 → 法兰克福</td><td>提前购买</td><td><a href="https://int.bahn.de/en">ICE</a> 是赶飞机关键链路，建议买座位并下载 DB Navigator。</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="risk" class="section-card">
+      <h2>风险与调整原则</h2>
+      <ul>
+        <li>瑞士段以天气为最高优先级，少女峰和 First 可互换。</li>
+        <li>罗马与巴黎热门景点必须预约，没票就不要硬排，改成外观和城市漫步。</li>
+        <li>节假日前后可能有闭馆、缩短营业或交通罢工，前一晚检查官网和地图。</li>
+        <li>巴黎和罗马防盗优先级高于拍照，车站、地铁、热门广场少拿手机暴露。</li>
+        <li>最后一天所有安排都服务于赶飞机，购物和退税必须提前留余量。</li>
+      </ul>
+    </section>
+
+    <section id="budget" class="section-card">
+      <h2>住宿、交通、吃饭和预算</h2>
+      <p>以下按单人旅行做粗略估算，适合先判断预算量级。实际花费会受住宿档次、是否两人分摊、瑞士交通票策略和热门门票选择影响。</p>
+
+      <h3>总消费粗算</h3>
+      <p class="budget-note">人民币按 1 欧元约等于 7.8 元粗略折算；不含往返国际机票、购物、奢侈品和明显超预算餐厅。</p>
+      <table class="budget-table">
+        <thead><tr><th>项目</th><th>欧元估算</th><th>人民币估算</th><th>说明</th></tr></thead>
+        <tbody>
+          <tr><td>住宿</td><td>EUR 900-1,800</td><td>约 RMB 7,000-14,000</td><td>11 晚中档酒店或公寓粗算；如果两人分摊整间房，单人成本会明显下降。</td></tr>
+          <tr><td>城际交通</td><td>EUR 500-900</td><td>约 RMB 3,900-7,000</td><td><a href="https://www.sbb.ch/en">瑞士铁路</a>、<a href="https://www.jungfrau.ch/en-gb/jungfraujoch-top-of-europe/buy-jungfraujoch-ticket/">少女峰交通</a>、<a href="https://www.trenitalia.com/en.html">意大利高铁</a>、罗马飞巴黎、巴黎到法兰克福 <a href="https://int.bahn.de/en">ICE</a>。</td></tr>
+          <tr><td>市内交通</td><td>EUR 120-220</td><td>约 RMB 940-1,720</td><td>日内瓦、因特拉肯、米兰、佛罗伦萨、罗马、巴黎的公交地铁与机场接驳。</td></tr>
+          <tr><td>餐饮</td><td>EUR 480-840</td><td>约 RMB 3,750-6,550</td><td>12 天普通餐饮，包含咖啡甜点、简餐和少量正式餐。</td></tr>
+          <tr><td>门票</td><td>EUR 260-500</td><td>约 RMB 2,030-3,900</td><td><a href="https://www.jungfrau.ch/en-gb/jungfraujoch-top-of-europe/buy-jungfraujoch-ticket/">少女峰</a>、<a href="https://www.duomomilano.it/en/">米兰大教堂</a>、<a href="https://www.uffizi.it/en/tickets/">乌菲兹</a>、<a href="https://tickets.museivaticani.va/home">梵蒂冈</a>、<a href="https://colosseo.it/en/visit/opening-times-and-tickets/">斗兽场</a>、<a href="https://musee.louvre.fr/en/visit/hours-admission">卢浮宫</a>、<a href="https://www.musee-orsay.fr/en/visit">奥赛</a>、<a href="https://www.musee-orangerie.fr/en/visit">橘园</a>等。</td></tr>
+          <tr><td>杂费</td><td>EUR 120-250</td><td>约 RMB 940-1,950</td><td>行李寄存、饮水、零食、洗衣、临时打车和小额手续费。</td></tr>
+          <tr class="budget-total"><td>合计</td><td>EUR 2,380-4,510</td><td>约 RMB 18,560-35,180</td><td>瑞士段和巴黎住宿是预算波动最大的部分，少女峰当天也会显著抬高总额。</td></tr>
+        </tbody>
+      </table>
+
+      <div class="info-grid">
+        <article class="info-box">
+          <h3>住宿建议</h3>
+          <ul>
+            <li>因特拉肯优先住 Interlaken Ost / West 附近，方便少女峰和湖区交通。</li>
+            <li>米兰住 Centrale 或 Duomo 一带；佛罗伦萨住 SMN 车站到老城之间。</li>
+            <li>罗马住 Termini、Monti 或老城交通便利区域；巴黎优先选地铁方便且回程去 Gare de l'Est 顺路的区域。</li>
+          </ul>
+        </article>
+        <article class="info-box">
+          <h3>交通建议</h3>
+          <ul>
+            <li>瑞士段提前比较 <a href="https://www.sbb.ch/en/tickets-offers/tickets/guests-from-abroad/swiss-travel-pass.html">Swiss Travel Pass</a>、Saver Day Pass 和点对点票，不要只看单程票价。</li>
+            <li>意大利高铁比较 <a href="https://www.trenitalia.com/en.html">Trenitalia</a> 和 <a href="https://www.italotreno.com/en">Italo</a>，热门时段提前买通常更稳。</li>
+            <li>罗马飞巴黎、巴黎到法兰克福 <a href="https://int.bahn.de/en">ICE</a> 属于关键链路，建议优先保证时间余量。</li>
+          </ul>
+        </article>
+        <article class="info-box">
+          <h3>吃饭建议</h3>
+          <ul>
+            <li>瑞士可用超市、车站简餐和湖边轻食控制预算，把正式餐留给意大利和巴黎。</li>
+            <li>米兰可安排 aperitivo；佛罗伦萨牛排适合多人分食；罗马以 pasta、trattoria 和 gelato 为主线。</li>
+            <li>巴黎早餐和午间可用面包房、咖啡馆解决，晚餐再安排 bistro 或特色餐厅。</li>
+          </ul>
+        </article>
+        <article class="info-box">
+          <h3>门票与现金</h3>
+          <ul>
+            <li><a href="https://www.jungfrau.ch/en-gb/jungfraujoch-top-of-europe/buy-jungfraujoch-ticket/">少女峰</a>、<a href="https://tickets.museivaticani.va/home">梵蒂冈</a>、<a href="https://colosseo.it/en/visit/opening-times-and-tickets/">斗兽场</a>、<a href="https://www.uffizi.it/en/tickets/">乌菲兹</a>、<a href="https://musee.louvre.fr/en/visit/hours-admission">卢浮宫</a>、<a href="https://www.musee-orsay.fr/en/visit">奥赛</a>、<a href="https://www.musee-orangerie.fr/en/visit">橘园</a>建议提前确认票务。</li>
+            <li>大多数消费可刷卡，但仍建议准备少量现金用于小店、寄存柜、洗手间和临时交通。</li>
+            <li>退税材料最后一天要随身携带，不要放进托运行李。</li>
+          </ul>
+        </article>
+      </div>
+      <p>参考来源：
+        <a href="https://www.sbb.ch/en/tickets-offers/tickets/guests-from-abroad/swiss-travel-pass.html">SBB Swiss Travel Pass</a>、
+        <a href="https://www.jungfrau.ch/en-gb/jungfraujoch-top-of-europe/buy-jungfraujoch-ticket/">Jungfrau Jungfraujoch Tickets</a>、
+        <a href="https://www.trenitalia.com/en.html">Trenitalia</a>、
+        <a href="https://www.italotreno.com/en">Italo</a>、
+        <a href="https://www.duomomilano.it/en/">Duomo di Milano</a>、
+        <a href="https://www.uffizi.it/en/tickets/">Uffizi Galleries Tickets</a>、
+        <a href="https://tickets.museivaticani.va/home">Vatican Museums Tickets</a>、
+        <a href="https://colosseo.it/en/visit/opening-times-and-tickets/">Colosseum Official Tickets</a>、
+        <a href="https://musee.louvre.fr/en/visit/hours-admission">Louvre Hours & Admission</a>、
+        <a href="https://www.musee-orsay.fr/en/visit">Musee d'Orsay Visit</a>、
+        <a href="https://www.musee-orangerie.fr/en/visit">Musee de l'Orangerie Visit</a>、
+        <a href="https://int.bahn.de/en">Deutsche Bahn</a>。
+      </p>
+    </section>
+  </main>
+  <details class="jump-menu">
+    <summary>目录</summary>
+    <div class="jump-panel">
+      <a href="#checklist">出发前 Checklist</a>
+      <a href="#day1">D1｜日内瓦 -> 因特拉肯</a>
+      <a href="#day2">D2｜少女峰</a>
+      <a href="#day3">D3｜布里恩茨湖 + First</a>
+      <a href="#day4">D4｜因特拉肯 -> 米兰</a>
+      <a href="#day5">D5｜米兰 -> 佛罗伦萨</a>
+      <a href="#day6">D6｜佛罗伦萨 -> 罗马</a>
+      <a href="#day7">D7｜梵蒂冈</a>
+      <a href="#day8">D8｜罗马古遗迹</a>
+      <a href="#day9">D9｜罗马 -> 巴黎</a>
+      <a href="#day10">D10｜巴黎艺术线</a>
+      <a href="#day11">D11｜巴黎生活线</a>
+      <a href="#day12">D12｜巴黎 -> 法兰克福</a>
+      <a href="#booking">关键预订与票务</a>
+      <a href="#risk">风险与调整</a>
+      <a href="#budget">住宿交通预算</a>
+      <span class="jump-divider"></span>
+      <a href="./photos.html">景点照片</a>
+      <a href="./map.html">交互地图</a>
+      <a href="/sections/travel/">Travel</a>
+    </div>
+  </details>
+  <a class="back-top" href="#top" aria-label="回到顶部">Top</a>
+  <script src="./itinerary-data.js"></script>
+  <script src="../../js/travel-plan-render.js"></script>
+  <script>
+    TravelPlanRenderer.renderSchedule("europe");
+  </script>
+</body>
+</html>

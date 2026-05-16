@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>欧洲行程地图｜瑞士 + 意大利 + 巴黎</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://a.basemaps.cartocdn.com">
+  <link rel="preconnect" href="https://b.basemaps.cartocdn.com">
+  <link rel="preconnect" href="https://c.basemaps.cartocdn.com">
+  <link rel="preconnect" href="https://d.basemaps.cartocdn.com">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+  <link rel="stylesheet" href="../../css/travel-common.css">
+  <link rel="stylesheet" href="../../css/travel-map.css">
+  <style>
+    :root {
+      --ink: #2d241d;
+      --muted: #75675a;
+      --line: #e2d2bf;
+      --paper: #f8efe3;
+      --panel: #fffaf2;
+      --accent: #a94424;
+      --accent-2: #c66b35;
+      --accent-3: #7a6f3a;
+      --accent-4: #4f6f52;
+      --sidebar-width: 420px;
+      --travel-map-width: 1560px;
+      --travel-main-width: var(--travel-map-width);
+      --travel-header-offset: 164px;
+      --day1: #4c7fa9;
+      --day2: #3f929d;
+      --day3: #5c9a76;
+      --day4: #9d6a2f;
+      --day5: #b66f34;
+      --day6: #bf563e;
+      --day7: #c4524c;
+      --day8: #ab6f42;
+      --day9: #7464a8;
+      --day10: #865fb0;
+      --day11: #9b69a7;
+      --day12: #8b7898;
+    }
+
+    * { box-sizing: border-box; }
+
+    html,
+    body {
+      height: 100%;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 12% 8%, rgba(198, 107, 53, 0.18), transparent 28%),
+        radial-gradient(circle at 88% 18%, rgba(219, 157, 78, 0.16), transparent 30%),
+        var(--paper);
+      font-family: "Avenir Next", "Segoe UI", "Microsoft YaHei", sans-serif;
+      line-height: 1.65;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    header {
+      padding: 34px var(--travel-header-padding-x) 22px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 250, 242, 0.82);
+      backdrop-filter: blur(10px);
+      flex: 0 0 auto;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(30px, 5vw, 52px);
+      line-height: 1.05;
+      letter-spacing: 0.02em;
+    }
+
+    .subtitle {
+      max-width: 820px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .page-tabs {
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: 0;
+      margin: 18px 0 0;
+      padding: 4px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.7);
+      box-shadow: 0 10px 24px rgba(87, 55, 31, 0.08);
+    }
+
+    .page-tabs a {
+      min-height: 40px;
+      padding: 8px 14px;
+      border-radius: 10px;
+      color: var(--ink);
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .page-tabs a.active {
+      color: #fff;
+      background: var(--accent);
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: var(--sidebar-width) 8px minmax(0, 1fr);
+      width: min(var(--travel-map-width, 1560px), calc(100vw - 56px));
+      max-width: none;
+      margin: 0 auto;
+      padding: 0;
+      flex: 1 1 auto;
+      min-height: 0;
+      border-left: 1px solid var(--line);
+      border-right: 1px solid var(--line);
+    }
+
+    aside {
+      padding: 18px;
+      min-height: 0;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      background: var(--panel);
+    }
+
+    .resizer {
+      cursor: col-resize;
+      border-left: 1px solid var(--line);
+      border-right: 1px solid var(--line);
+      background: linear-gradient(90deg, #f4e8d8, #e4d1bb, #f4e8d8);
+    }
+
+    .resizer:hover,
+    .resizing .resizer {
+      background: #d0ad8b;
+    }
+
+    #map {
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+    }
+
+    .day-card {
+      margin: 0 0 16px;
+      padding: 14px 14px 12px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #fff;
+      box-shadow: 0 8px 24px rgba(87, 55, 31, 0.06);
+      transition: box-shadow 160ms ease, transform 160ms ease, background 160ms ease;
+    }
+
+    .day-card.active {
+      background: #fff8e9;
+      box-shadow: 0 12px 34px rgba(87, 55, 31, 0.14);
+      transform: translateY(-1px);
+    }
+
+    .day-card h2 {
+      margin: 0 0 10px;
+      font-size: 18px;
+    }
+
+    .day-card[data-day="1"] { border-left: 5px solid var(--day1); }
+    .day-card[data-day="2"] { border-left: 5px solid var(--day2); }
+    .day-card[data-day="3"] { border-left: 5px solid var(--day3); }
+    .day-card[data-day="4"] { border-left: 5px solid var(--day4); }
+    .day-card[data-day="5"] { border-left: 5px solid var(--day5); }
+    .day-card[data-day="6"] { border-left: 5px solid var(--day6); }
+    .day-card[data-day="7"] { border-left: 5px solid var(--day7); }
+    .day-card[data-day="8"] { border-left: 5px solid var(--day8); }
+    .day-card[data-day="9"] { border-left: 5px solid var(--day9); }
+    .day-card[data-day="10"] { border-left: 5px solid var(--day10); }
+    .day-card[data-day="11"] { border-left: 5px solid var(--day11); }
+    .day-card[data-day="12"] { border-left: 5px solid var(--day12); }
+
+    .day-card[data-day="1"] h2 { color: var(--day1); }
+    .day-card[data-day="2"] h2 { color: var(--day2); }
+    .day-card[data-day="3"] h2 { color: var(--day3); }
+    .day-card[data-day="4"] h2 { color: var(--day4); }
+    .day-card[data-day="5"] h2 { color: var(--day5); }
+    .day-card[data-day="6"] h2 { color: var(--day6); }
+    .day-card[data-day="7"] h2 { color: var(--day7); }
+    .day-card[data-day="8"] h2 { color: var(--day8); }
+    .day-card[data-day="9"] h2 { color: var(--day9); }
+    .day-card[data-day="10"] h2 { color: var(--day10); }
+    .day-card[data-day="11"] h2 { color: var(--day11); }
+    .day-card[data-day="12"] h2 { color: var(--day12); }
+
+    .day-card ol {
+      margin: 0;
+      padding-left: 24px;
+    }
+
+    .day-card li {
+      margin: 8px 0;
+      line-height: 1.45;
+    }
+
+    .day-card li[data-target] {
+      cursor: pointer;
+      border-radius: 10px;
+      transition: background 140ms ease, transform 140ms ease;
+    }
+
+    .day-card li[data-target]:hover {
+      background: #fbefe0;
+      transform: translateX(2px);
+    }
+
+    .time {
+      display: inline-block;
+      min-width: 86px;
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .photo-badge {
+      display: inline-block;
+      margin-left: 6px;
+      padding: 1px 6px;
+      border-radius: 999px;
+      color: #ffffff;
+      background: #2d241d;
+      font-size: 11px;
+      font-weight: 800;
+      vertical-align: 1px;
+    }
+
+    .marker-label {
+      --label-color: var(--accent);
+      display: inline-flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 6px;
+      min-width: 48px;
+      min-height: 28px;
+      padding: 4px 10px 4px 7px;
+      border: 1px solid rgba(45, 36, 29, 0.16);
+      border-radius: 12px;
+      color: var(--ink);
+      background: rgba(255, 250, 242, 0.94);
+      box-shadow: 0 8px 18px rgba(45, 36, 29, 0.18), 0 0 0 2px rgba(255, 250, 242, 0.72);
+      font-size: 13px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .marker-label::before {
+      content: "";
+      flex: 0 0 auto;
+      width: 6px;
+      height: 16px;
+      border-radius: 999px;
+      background: var(--label-color);
+    }
+
+    .leaflet-tooltip {
+      padding: 6px 9px;
+      border: 0;
+      border-radius: 10px;
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.96);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .popup-title {
+      margin: 0 0 4px;
+      font-weight: 700;
+    }
+
+    .popup-body {
+      margin: 0;
+      line-height: 1.45;
+    }
+
+    .popup-photo {
+      display: block;
+      width: 260px;
+      max-width: 100%;
+      margin: 8px 0 6px;
+      border-radius: 12px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.16);
+    }
+
+    .popup-link {
+      color: #a94424;
+      font-size: 12px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .popup-link:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 860px) {
+      body {
+        display: block;
+        height: auto;
+        overflow: auto;
+      }
+
+      .page-tabs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; }
+      .page-tabs a { text-align: center; }
+      .layout { display: block; width: 100%; margin: 0; border-left: 0; border-right: 0; }
+      aside { max-height: none; overflow: visible; border-bottom: 1px solid var(--line); }
+      .resizer { display: none; }
+      #map { height: 70vh; min-height: 70vh; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>欧洲行程地图</h1>
+    <p class="subtitle">D1-D12 主路线：瑞士阿尔卑斯、米兰、佛罗伦萨、罗马、巴黎与法兰克福回程。</p>
+    <nav class="page-tabs" aria-label="旅行页面导航">
+      <a href="./">行程计划</a>
+      <a href="./photos.html">景点照片</a>
+      <a class="active" href="./map.html">交互地图</a>
+      <a href="/sections/travel/">Travel</a>
+    </nav>
+  </header>
+
+  <main class="layout">
+    <aside>
+      <section class="day-card" data-day="1">
+        <h2>D1｜日内瓦 -> 因特拉肯</h2>
+        <ol>
+          <li data-target="D1-1"><span class="time">D1-1</span>07:50-09:00 抵达日内瓦机场，入境取行李。</li>
+          <li data-target="D1-2"><span class="time">D1-2</span>09:30-12:30 日内瓦湖、大喷泉、花钟、老城轻量步行。</li>
+          <li data-target="D1-3"><span class="time">D1-3</span>13:00-16:30 火车前往因特拉肯，入住瑞士段基地。</li>
+        </ol>
+      </section>
+
+      <section class="day-card" data-day="2">
+        <h2>D2｜少女峰 Jungfraujoch</h2>
+        <ol>
+          <li data-target="D2-1"><span class="time">D2-1</span>08:30-10:45 因特拉肯出发，经 Grindelwald / Kleine Scheidegg 上山。</li>
+          <li data-target="D2-2"><span class="time">D2-2</span>11:00-14:00 少女峰 Top of Europe、Sphinx 观景台、冰宫。<span class="photo-badge">照片</span></li>
+          <li data-target="D2-3"><span class="time">D2-3</span>17:00 回因特拉肯，晚餐休整。</li>
+        </ol>
+      </section>
+
+      <section class="day-card" data-day="3">
+        <h2>D3｜布里恩茨湖 + Grindelwald First</h2>
+        <ol>
+          <li data-target="D3-1"><span class="time">D3-1</span>09:00-11:30 布里恩茨湖 / Iseltwald 轻松湖区线。</li>
+          <li data-target="D3-2"><span class="time">D3-2</span>13:00-16:30 Grindelwald First、Cliff Walk、Bachalpsee。</li>
+          <li data-target="D3-3"><span class="time">D3-3</span>17:00 回因特拉肯，准备次日跨国移动。</li>
+        </ol>
+      </section>
+
+      <section class="day-card" data-day="4">
+        <h2>D4｜因特拉肯 -> 米兰</h2>
+        <ol>
+          <li data-target="D4-1"><span class="time">D4-1</span>08:30-12:40 因特拉肯出发，火车经 Spiez / Brig / Domodossola。</li>
+          <li data-target="D4-2"><span class="time">D4-2</span>12:40-13:30 抵达 Milano Centrale，寄存或入住。</li>
+          <li data-target="D4-3"><span class="time">D4-3</span>14:00-晚上 米兰大教堂、长廊、Navigli 晚餐。<span class="photo-badge">照片</span></li>
+        </ol>
+      </section>
+
+      <section class="day-card" data-day="5">
+        <h2>D5｜米兰 -> 佛罗伦萨</h2>
+        <ol>
+          <li data-target="D5-1"><span class="time">D5-1</span>08:30-10:15 高铁从米兰前往 Firenze Santa Maria Novella。</li>
+          <li data-target="D5-2"><span class="time">D5-2</span>10:30-17:00 圣母百花大教堂、乌菲兹、老桥。</li>
+          <li data-target="D5-3"><span class="time">D5-3</span>17:30-19:30 米开朗基罗广场看日落。<span class="photo-badge">照片</span></li>
+        </ol>
+      </section>
+
+      <section class="day-card" data-day="6">
+        <h2>D6｜佛罗伦萨 -> 罗马</h2>
+        <ol>
+          <li data-target="D6-1"><span class="time">D6-1</span>09:00-10:40 高铁到 Roma Termini。</li>
+          <li data-target="D6-2"><span class="time">D6-2</span>13:30-20:00 万神殿、许愿池、西班牙台阶老城线。</li>
+        </ol>
+      </section>
+
+      <section class="day-card" data-day="7">
+        <h2>D7｜梵蒂冈</h2>
+        <ol>
+          <li data-target="D7-1"><span class="time">D7-1</span>07:30-12:30 梵蒂冈博物馆、西斯廷礼拜堂。</li>
+          <li data-target="D7-2"><span class="time">D7-2</span>13:30-18:30 圣彼得大教堂和圆顶。<span class="photo-badge">照片</span></li>
+        </ol>
+      </section>
+
+      <section class="day-card" data-day="8">
+        <h2>D8｜古罗马遗迹</h2>
+        <ol>
+          <li data-target="D8-1"><span class="time">D8-1</span>08:30-13:00 斗兽场、古罗马广场、帕拉蒂尼山。<span class="photo-badge">照片</span></li>
+          <li data-target="D8-2"><span class="time">D8-2</span>17:00-20:00 Trastevere 晚餐散步。</li>
+        </ol>
+      </section>
+
+      <section class="day-card" data-day="9">
+        <h2>D9｜罗马 -> 巴黎</h2>
+        <ol>
+          <li data-target="D9-1"><span class="time">D9-1</span>07:30-16:00 罗马机场飞巴黎并进城。</li>
+          <li data-target="D9-2"><span class="time">D9-2</span>18:00-20:30 凯旋门、香榭丽舍。</li>
+          <li data-target="D9-3"><span class="time">D9-3</span>21:00-22:00 Trocadero / 埃菲尔铁塔夜景。<span class="photo-badge">照片</span></li>
+        </ol>
+      </section>
+
+      <section class="day-card" data-day="10">
+        <h2>D10｜巴黎艺术线</h2>
+        <ol>
+          <li data-target="D10-1"><span class="time">D10-1</span>08:15-12:00 卢浮宫。</li>
+          <li data-target="D10-2"><span class="time">D10-2</span>13:30-18:00 橘园 / 奥赛博物馆。</li>
+        </ol>
+      </section>
+
+      <section class="day-card" data-day="11">
+        <h2>D11｜蒙马特 + 西岱岛</h2>
+        <ol>
+          <li data-target="D11-1"><span class="time">D11-1</span>08:30-12:00 蒙马特、圣心大教堂。</li>
+          <li data-target="D11-2"><span class="time">D11-2</span>14:30-18:30 巴黎圣母院、圣礼拜堂、莎士比亚书店。</li>
+          <li data-target="D11-3"><span class="time">D11-3</span>19:00+ 塞纳河游船。</li>
+        </ol>
+      </section>
+
+      <section class="day-card" data-day="12">
+        <h2>D12｜巴黎 -> 法兰克福 -> 上海</h2>
+        <ol>
+          <li data-target="D12-1"><span class="time">D12-1</span>06:15-11:50 巴黎东站出发，ICE 前往法兰克福。</li>
+          <li data-target="D12-2"><span class="time">D12-2</span>12:00-14:30 法兰克福机场转机回上海。</li>
+        </ol>
+      </section>
+
+      <div id="map-legend"></div>
+    </aside>
+    <div class="resizer" id="resizer" title="拖动调整左侧行程栏宽度"></div>
+    <div id="map"></div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script src="./itinerary-data.js"></script>
+  <script src="../../js/travel-map.js"></script>
+  <script>
+    const rootStyles = getComputedStyle(document.documentElement);
+    const dayColors = Object.fromEntries(
+      Array.from({ length: 12 }, (_, index) => index + 1)
+        .map((day) => [day, rootStyles.getPropertyValue(`--day${day}`).trim()])
+    );
+
+    const itinerary = window.TravelItineraries.europe;
+    const points = itinerary.points;
+    const routeSegments = itinerary.routeSegments;
+
+    const map = L.map("map", { scrollWheelZoom: true }).setView([46.2, 7.7], 5);
+    const cartoLight = L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
+      maxZoom: 19,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+    });
+    const openStreetMap = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    const routeStyles = {
+      rail: { weight: 5, opacity: 0.82, dashArray: null },
+      city: { weight: 4, opacity: 0.72, dashArray: "4 7" },
+      flight: { weight: 4, opacity: 0.72, dashArray: "2 9" },
+      boat: { weight: 4, opacity: 0.78, dashArray: "2 8" }
+    };
+
+    TravelMap.renderLegend([
+      { type: "rail", label: "跨城火车 / 高铁主线" },
+      { type: "city", label: "步行 / 市内游览 / 接驳近似路线" },
+      { type: "boat", label: "湖区 / 游船近似路线" },
+      { type: "flight", label: "航班 / 回程大范围移动" }
+    ]);
+
+    TravelMap.createItineraryMap({
+      map,
+      points,
+      routeSegments,
+      days: itinerary.days,
+      dayColors,
+      routeStyles,
+      baseLayers: {
+        "OpenStreetMap": openStreetMap,
+        "轻量底图 Carto": cartoLight
+      },
+      layerName: (day) => `D${day}`,
+      activeMaxZoom: 11,
+      resetMaxZoom: 6,
+      labelOffsetOptions: {
+        minDistance: 58,
+        sameDayOnly: true,
+        manualOffsets: {
+          "D2-1": [46, -32],
+          "D2-2": [-34, -34],
+          "D2-3": [-46, 28],
+          "D3-2": [42, 30]
+        }
+      }
+    });
+    window.setTimeout(() => map.invalidateSize(), 120);
+  </script>
+</body>
+</html>
