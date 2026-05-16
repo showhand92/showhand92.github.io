@@ -346,6 +346,11 @@
       border-bottom: 1px solid var(--travel-mobile-row-line, rgba(226, 210, 191, 0.72));
     }
 
+    .schedule-table td::before {
+      display: none;
+      content: none;
+    }
+
     .schedule-table td:first-child {
       width: 100%;
       padding-bottom: 6px;
