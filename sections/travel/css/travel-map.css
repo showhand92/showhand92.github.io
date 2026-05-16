@@ -37,6 +37,8 @@
 
   .resizer {
     cursor: col-resize;
+    touch-action: none;
+    user-select: none;
     border-left: 1px solid var(--line);
     border-right: 1px solid var(--line);
     background: var(--travel-resizer-bg, linear-gradient(90deg, #eef3ed, #dce7dc, #eef3ed));
@@ -45,6 +47,11 @@
   .resizer:hover,
   .resizing .resizer {
     background: var(--travel-resizer-hover-bg, #b8c9b8);
+  }
+
+  .resizing {
+    cursor: col-resize;
+    user-select: none;
   }
 
   #map {

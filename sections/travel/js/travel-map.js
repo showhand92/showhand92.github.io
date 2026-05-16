@@ -310,22 +310,52 @@
     const resizer = document.getElementById(resizerId);
     if (resizer) {
       let isResizing = false;
+      let pendingWidth = null;
+      let resizeFrame = null;
+      const layout = resizer.closest(".layout");
+
+      function applyResizeFrame() {
+        resizeFrame = null;
+        if (pendingWidth === null) return;
+        root.style.setProperty("--sidebar-width", `${pendingWidth}px`);
+      }
+
+      function queueSidebarWidth(width) {
+        pendingWidth = width;
+        if (resizeFrame === null) {
+          resizeFrame = window.requestAnimationFrame(applyResizeFrame);
+        }
+      }
+
+      function finishResize() {
+        if (!isResizing) return;
+        isResizing = false;
+        document.body.classList.remove("resizing");
+        if (resizeFrame !== null) {
+          window.cancelAnimationFrame(resizeFrame);
+          applyResizeFrame();
+        }
+        map.invalidateSize();
+      }
+
       resizer.addEventListener("pointerdown", (event) => {
+        event.preventDefault();
         isResizing = true;
         document.body.classList.add("resizing");
         resizer.setPointerCapture(event.pointerId);
       });
+
       resizer.addEventListener("pointermove", (event) => {
         if (!isResizing) return;
-        const width = Math.min(Math.max(event.clientX, sidebarMinWidth), sidebarMaxWidth);
-        root.style.setProperty("--sidebar-width", `${width}px`);
-        map.invalidateSize();
+        event.preventDefault();
+        const layoutLeft = layout ? layout.getBoundingClientRect().left : 0;
+        const width = Math.min(Math.max(event.clientX - layoutLeft, sidebarMinWidth), sidebarMaxWidth);
+        queueSidebarWidth(width);
       });
-      resizer.addEventListener("pointerup", () => {
-        isResizing = false;
-        document.body.classList.remove("resizing");
-        map.invalidateSize();
-      });
+
+      resizer.addEventListener("pointerup", finishResize);
+      resizer.addEventListener("pointercancel", finishResize);
+      resizer.addEventListener("lostpointercapture", finishResize);
     }
 
     document.querySelectorAll("[data-target]").forEach((item) => {

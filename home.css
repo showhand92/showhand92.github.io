@@ -1,18 +1,3 @@
-:root {
-    --bg: #f8efe3;
-    --bg-soft: #fff7ec;
-    --surface: rgba(255, 250, 242, 0.92);
-    --surface-strong: #fffaf2;
-    --ink: #2d241d;
-    --muted: #75675a;
-    --accent: #a94424;
-    --accent-soft: #c66b35;
-    --border: #e2d2bf;
-    --shadow: 0 12px 32px rgba(87, 55, 31, 0.09);
-    --radius-lg: 22px;
-    --radius-md: 18px;
-}
-
 html {
     scroll-behavior: smooth;
 }
@@ -20,38 +5,33 @@ html {
 body.container {
     position: relative;
     max-width: 1120px;
-    min-height: 100vh;
     padding: 40px 22px 28px;
     font-family: "Avenir Next", "Segoe UI", "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", Arial, sans-serif;
     line-height: 1.65;
-    color: var(--ink);
-    background:
-        radial-gradient(circle at 12% 8%, rgba(198, 107, 53, 0.18), transparent 28%),
-        radial-gradient(circle at 88% 18%, rgba(219, 157, 78, 0.16), transparent 30%),
-        var(--bg);
+    color: #2d241d;
+    background: radial-gradient(circle at 12% 8%, rgba(198, 107, 53, 0.18), transparent 28%), radial-gradient(circle at 88% 18%, rgba(219, 157, 78, 0.16), transparent 30%), #f8efe3;
 }
 
-body.container::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background-image:
-        linear-gradient(rgba(255, 255, 255, 0.28) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.2) 1px, transparent 1px);
-    background-size: 32px 32px;
-    opacity: 0.4;
-    pointer-events: none;
-    z-index: -2;
-}
-
+body.container::before,
 body.container::after {
     content: "";
     position: fixed;
+    pointer-events: none;
+}
+
+body.container::before {
+    inset: 0;
+    z-index: -2;
+    opacity: 0.4;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.28) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.2) 1px, transparent 1px);
+    background-size: 32px 32px;
+}
+
+body.container::after {
     inset: 16px;
+    z-index: -1;
     border: 1px solid rgba(87, 55, 31, 0.1);
     border-radius: 24px;
-    pointer-events: none;
-    z-index: -1;
 }
 
 img {
@@ -59,7 +39,7 @@ img {
 }
 
 a {
-    color: var(--accent);
+    color: #a94424;
     text-decoration-thickness: 0.08em;
     text-underline-offset: 0.18em;
     transition: color 0.2s ease, background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
@@ -75,34 +55,12 @@ li {
     line-height: 1.75;
 }
 
-h1,
-h2,
-h3,
-h4 {
-    font-family: "Avenir Next", "Segoe UI", "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
-    letter-spacing: 0.02em;
-}
-
-.w-100 {
-    width: 100% !important;
-}
-
 .main_color {
-    color: var(--accent);
+    color: #a94424;
 }
 
 .text-muted {
-    color: var(--muted) !important;
-}
-
-.secondary_font,
-.about #email,
-.publication .section-1 .publication-date,
-.publication .section-1 .publication-name,
-.publication .section-2,
-.publication .section-3,
-footer {
-    font-family: "Avenir Next", "Segoe UI", "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+    color: #75675a !important;
 }
 
 body > .row.w-100 {
@@ -115,17 +73,20 @@ body > .row.w-100 > .col.w-100,
 .travel > .col,
 .news > .col,
 .publications > .col {
-    padding-left: 0;
     padding-right: 0;
+    padding-left: 0;
 }
 
 .about.row,
 .academia.row,
 .travel.row,
 .news.row,
-.publications.row {
-    margin-left: 0;
+.publications.row,
+.academia > .col > .row,
+.course > .row,
+.publication.row {
     margin-right: 0;
+    margin-left: 0;
 }
 
 .home-page .about,
@@ -135,10 +96,10 @@ body > .row.w-100 > .col.w-100,
 .home-page .publications {
     position: relative;
     overflow: hidden;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
+    border: 1px solid #e2d2bf;
+    border-radius: 22px;
     background: rgba(255, 250, 242, 0.94);
-    box-shadow: var(--shadow);
+    box-shadow: 0 12px 32px rgba(87, 55, 31, 0.09);
 }
 
 .home-page .about {
@@ -148,12 +109,12 @@ body > .row.w-100 > .col.w-100,
 .home-page .about::before {
     content: "";
     position: absolute;
-    right: -80px;
     top: -110px;
+    right: -80px;
     width: 280px;
     height: 280px;
-    background: radial-gradient(circle, rgba(169, 68, 36, 0.14), transparent 70%);
     pointer-events: none;
+    background: radial-gradient(circle, rgba(169, 68, 36, 0.14), transparent 70%);
 }
 
 #profile_picture {
@@ -182,17 +143,12 @@ body > .row.w-100 > .col.w-100,
 
 .about #title-name {
     display: flex;
-    justify-content: center;
-    align-items: baseline;
     flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: center;
     gap: 0.35rem;
-    margin-left: 0;
     margin-right: 0;
-}
-
-.about .affiliations #title,
-.about .affiliations #name {
-    padding-right: 0;
+    margin-left: 0;
 }
 
 .about .affiliations #title {
@@ -221,24 +177,36 @@ body > .row.w-100 > .col.w-100,
     gap: 0.75rem;
 }
 
-.about .socials a {
+.about .socials a,
+.travel-link,
+.publication .section-3 a,
+.publication .section-4 a {
     display: inline-flex;
-    flex: 0 0 48px;
     align-items: center;
     justify-content: center;
+    border: 1px solid rgba(169, 68, 36, 0.16);
+    background: rgba(169, 68, 36, 0.05);
+}
+
+.about .socials a {
+    flex: 0 0 48px;
     width: 48px;
     height: 48px;
     padding: 0;
-    margin-left: 0;
-    border: 1px solid rgba(169, 68, 36, 0.16);
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.72);
     box-shadow: 0 12px 24px rgba(66, 47, 28, 0.08);
 }
 
-.about .socials a:hover {
+.about .socials a:hover,
+.travel-link:hover,
+.publication .section-3 a:hover,
+.publication .section-4 a:hover {
     color: white;
-    background: var(--accent);
+    background-color: #a94424;
+}
+
+.about .socials a:hover {
     box-shadow: 0 16px 30px rgba(169, 68, 36, 0.18);
     transform: translateY(-2px);
 }
@@ -270,48 +238,21 @@ body > .row.w-100 > .col.w-100,
     font-size: 1.16rem !important;
 }
 
-.about .nav-pill {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 48px;
+.about .socials .nav-pill {
     min-width: 48px;
-    height: 48px;
-    padding: 0;
-    border: 1px solid rgba(169, 68, 36, 0.16);
     border-radius: 6px;
     background: rgba(255, 255, 255, 0.62);
     box-shadow: 0 10px 22px rgba(66, 47, 28, 0.06);
-    font-family: "Avenir Next", "Segoe UI", "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
-    font-size: 0.95rem;
-    letter-spacing: 0.12em;
-    line-height: 1;
-    text-align: center;
-    text-transform: uppercase;
-}
-
-.about .socials a.nav-pill {
-    flex-basis: 48px;
-    width: 48px;
-    min-width: 48px;
-    padding: 0;
-    border-radius: 6px;
 }
 
 .about .socials .nav-pill:hover {
-    color: white;
-    background: var(--accent);
+    border-color: #a94424;
     box-shadow: 0 14px 26px rgba(169, 68, 36, 0.18);
-    border-color: var(--accent);
-}
-
-.about .nav-pill span {
-    display: block;
 }
 
 .introduction {
-    margin-top: 0.8rem;
     justify-content: center;
+    margin-top: 0.8rem;
 }
 
 .introduction .col {
@@ -329,40 +270,31 @@ body > .row.w-100 > .col.w-100,
 
 .academia {
     margin-top: 24px;
+}
+
+.academia,
+.travel,
+.news,
+.publications {
+    padding: 28px 32px;
+}
+
+.academia {
     padding: 34px 36px;
-}
-
-.academia h3:not(.panel-title) {
-    margin-top: 0;
-    margin-bottom: 18px;
-    font-size: 2.2rem;
-}
-
-.course {
-    margin-top: 0;
-    padding: 14px 0;
-    border: 0;
-    border-radius: 0;
-    background: transparent;
-    box-shadow: none;
-}
-
-.academia > .col > .row {
-    margin-left: 0;
-    margin-right: 0;
 }
 
 .academia .row + .row {
     margin-top: 14px;
 }
 
-.academia > .col > .row + .row .course {
-    border-top: 1px solid rgba(87, 55, 31, 0.09);
+.course {
+    padding: 14px 0;
 }
 
-.course > .row {
-    margin-left: 0;
-    margin-right: 0;
+.academia > .col > .row + .row .course,
+.news_list li,
+.publication {
+    border-top: 1px solid rgba(87, 55, 31, 0.09);
 }
 
 .institution_dates {
@@ -392,37 +324,21 @@ body > .row.w-100 > .col.w-100,
     line-height: 1.5;
 }
 
-.section-title {
-    margin-top: 0;
-    margin-bottom: 0.3rem;
-    font-size: clamp(1.95rem, 4vw, 2.45rem);
-    line-height: 1.08;
-    margin-left: 0;
-    margin-right: 0;
-}
-
 .section-title.panel-title {
     display: flex;
     align-items: center;
     width: 100%;
     margin: 0 0 18px;
     padding: 0 0 12px;
-    border: 0;
     border-bottom: 1px solid rgba(169, 68, 36, 0.14);
-    border-radius: 0;
-    background: transparent;
     font-size: clamp(1.15rem, 2.6vw, 1.45rem);
     font-weight: 800;
     letter-spacing: 0.02em;
+    line-height: 1.08;
 }
 
-.news,
 .travel,
-.publications {
-    padding: 28px 32px;
-}
-
-.travel {
+.news {
     margin-top: 0.4rem;
 }
 
@@ -460,55 +376,51 @@ body > .row.w-100 > .col.w-100,
 .travel-card h4 {
     margin: 0 0 0.55rem;
     font-size: 1.55rem;
+    letter-spacing: 0.02em;
     line-height: 1.18;
 }
 
 .travel-card p {
     max-width: 680px;
     margin: 0;
-    color: var(--muted);
+    color: #75675a;
     font-size: 1rem;
     line-height: 1.65;
 }
 
-.travel-actions {
+.travel-actions,
+.publication .section-4 {
     display: flex;
-    flex: 0 0 auto;
     flex-wrap: wrap;
-    justify-content: flex-end;
     gap: 0.55rem;
 }
 
-.travel-link {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+.travel-actions {
     flex: 0 0 auto;
-    gap: 0.45rem;
-    min-height: 44px;
-    min-width: 94px;
-    padding: 0.55rem 1rem;
-    border: 1px solid rgba(169, 68, 36, 0.16);
+    justify-content: flex-end;
+}
+
+.travel-link,
+.publication .section-3 a,
+.publication .section-4 a {
     border-radius: 999px;
-    background: rgba(169, 68, 36, 0.05);
-    font-family: "Avenir Next", "Segoe UI", "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
-    font-size: 0.82rem;
     letter-spacing: 0.08em;
+    text-align: center;
     text-transform: uppercase;
 }
 
-.travel-link:hover {
-    background-color: var(--accent);
-    color: white;
+.travel-link {
+    flex: 0 0 auto;
+    gap: 0.45rem;
+    min-width: 94px;
+    min-height: 44px;
+    padding: 0.55rem 1rem;
+    font-size: 0.82rem;
 }
 
 .travel-link svg {
     width: 17px;
     height: 17px;
-}
-
-.news {
-    margin-top: 0.4rem;
 }
 
 .home-page .publications-section {
@@ -530,117 +442,79 @@ body > .row.w-100 > .col.w-100,
 .news_list {
     margin: 0;
     padding: 0;
-    list-style-type: none;
+    list-style: none;
 }
 
 .news_list li {
     position: relative;
     padding: 1rem 0 1rem 2rem;
-    border-top: 1px solid rgba(87, 55, 31, 0.09);
 }
 
-.news_list li:first-child {
+.news_list li:first-child,
+.publications .panel-title + .publication {
     border-top: 0;
 }
 
 .news_list svg {
     position: absolute;
-    left: 0;
     top: 1.2rem;
-    margin-right: 0;
-    color: var(--accent-soft);
-}
-
-.publications .publication {
-    margin-top: 0;
+    left: 0;
+    color: #c66b35;
 }
 
 .publication {
     padding: 22px 0;
-    border-top: 1px solid rgba(87, 55, 31, 0.09);
-}
-
-.publication.row {
-    margin-left: 0;
-    margin-right: 0;
-}
-
-.publication:first-child {
-    padding-top: 0;
-    border-top: 0;
 }
 
 .publications .panel-title + .publication {
     padding-top: 0;
-    border-top: 0;
 }
 
 .publication .section-1 {
-    font-family: "Avenir Next", "Segoe UI", "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
     font-size: 1.12rem;
     font-weight: 600;
     line-height: 1.35;
-    overflow-wrap: anywhere;
+}
+
+.publication .section-2,
+.publication .section-3 {
+    font-size: 0.95rem;
 }
 
 .publication .section-2 {
-    margin-top: 0.7rem;
-    margin-bottom: 0;
-    font-size: 0.95rem;
-    overflow-wrap: anywhere;
+    margin: 0.7rem 0 0;
 }
 
 .publication .section-3 {
     margin-top: 0.55rem;
-    font-size: 0.96rem;
-    text-decoration: none;
+}
+
+.publication .section-1,
+.publication .section-2,
+.publication .section-3 {
     overflow-wrap: anywhere;
 }
 
 .publication .section-4 {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.65rem;
     margin-top: 1rem;
+    gap: 0.65rem;
 }
 
 .publication .section-3 a,
 .publication .section-4 a {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.48rem 0.9rem;
-    margin-left: 0;
-    border: 1px solid rgba(169, 68, 36, 0.16);
-    border-radius: 999px;
-    background: rgba(169, 68, 36, 0.05);
-    font-family: "Avenir Next", "Segoe UI", "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
-    font-size: 0.8rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    text-decoration: none;
     max-width: 100%;
+    padding: 0.48rem 0.9rem;
+    font-size: 0.8rem;
+    text-decoration: none;
     white-space: normal;
-    text-align: center;
-}
-
-.publication .section-3 a:hover,
-.publication .section-4 a:hover {
-    border-radius: 999px;
-    background-color: var(--accent);
-    color: white;
-}
-
-.publication .separator {
-    margin-left: 0;
 }
 
 .title {
-    color: var(--ink);
+    color: #2d241d;
 }
 
 .title:hover {
-    color: var(--accent);
+    color: #a94424;
 }
 
 footer {
@@ -649,7 +523,7 @@ footer {
     border-top: 1px solid rgba(87, 55, 31, 0.09);
 }
 
-@media (max-width: 991.98px) {
+@media (max-width:991.98px) {
     body.container {
         padding: 30px 18px 24px;
     }
@@ -662,10 +536,7 @@ footer {
         border-radius: 24px;
     }
 
-    .home-page .about {
-        padding: 34px 28px 30px;
-    }
-
+    .home-page .about,
     .academia,
     .travel,
     .news,
@@ -673,9 +544,18 @@ footer {
         padding: 28px 24px;
     }
 
-    .travel-card {
+    .home-page .about {
+        padding-top: 34px;
+        padding-bottom: 30px;
+    }
+
+    .travel-card,
+    .institution_dates {
         align-items: flex-start;
         flex-direction: column;
+    }
+
+    .travel-card {
         gap: 1rem;
     }
 
@@ -688,17 +568,16 @@ footer {
     }
 
     .institution_dates {
-        flex-direction: column;
-        align-items: flex-start;
         gap: 0.35rem;
     }
 
     .publication .section-1 {
         font-size: 1.22rem;
     }
+
 }
 
-@media (max-width: 767.98px) {
+@media (max-width:767.98px) {
     body.container::after {
         inset: 10px;
         border-radius: 22px;
@@ -728,15 +607,8 @@ footer {
     .about .socials a {
         flex-basis: 44px;
         width: 44px;
-        height: 44px;
-    }
-
-    .about .socials a.nav-pill {
-        flex-basis: 44px;
-        width: 44px;
         min-width: 44px;
         height: 44px;
-        padding: 0;
     }
 
     .introduction p {
@@ -744,17 +616,8 @@ footer {
         line-height: 1.82;
     }
 
-    .academia h3:not(.panel-title),
-    .section-title {
-        font-size: 1.95rem;
-    }
-
     .section-title.panel-title {
         font-size: 1.35rem;
-    }
-
-    .course {
-        padding: 14px 0;
     }
 
     .news_list li {
@@ -766,17 +629,15 @@ footer {
         width: 16px;
         height: 16px;
     }
+
 }
 
-@media (max-width: 575.98px) {
+@media (max-width:575.98px) {
     body.container {
         padding: 20px 14px 18px;
     }
 
-    .home-page .about {
-        padding: 24px 18px 22px;
-    }
-
+    .home-page .about,
     .academia,
     .travel,
     .news,
@@ -784,10 +645,14 @@ footer {
         padding: 22px 18px;
     }
 
+    .home-page .about {
+        padding-top: 24px;
+    }
+
     .about #title-name {
         flex-direction: column;
-        gap: 0.18rem;
         align-items: center;
+        gap: 0.18rem;
     }
 
     .about .affiliations #title {
@@ -796,9 +661,9 @@ footer {
     }
 
     .about .affiliations #name {
-        text-align: center;
         font-size: 0.92rem;
         line-height: 1.45;
+        text-align: center;
     }
 
     .about #email {
@@ -806,15 +671,12 @@ footer {
         word-break: break-word;
     }
 
-    .section-title {
-        font-size: 1.65rem;
-    }
-
     .section-title.panel-title {
         font-size: 1.18rem;
     }
 
-    #institution_title {
+    #institution_title,
+    .publication .section-1 {
         font-size: 1rem;
     }
 
@@ -827,12 +689,12 @@ footer {
     }
 
     .publication .section-1 {
-        font-size: 1rem;
         line-height: 1.35;
     }
 
     .publication .section-2,
-    .publication .section-3 {
+    .publication .section-3,
+    .news_list li {
         font-size: 0.9rem;
     }
 
@@ -847,7 +709,4 @@ footer {
         letter-spacing: 0.05em;
     }
 
-    .news_list li {
-        font-size: 0.92rem;
-    }
 }
