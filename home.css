@@ -117,13 +117,24 @@ body > .row.w-100 > .col.w-100,
     background: radial-gradient(circle, rgba(169, 68, 36, 0.14), transparent 70%);
 }
 
-#profile_picture {
+.profile-avatar {
     width: clamp(148px, 19vw, 220px);
     aspect-ratio: 1;
-    object-fit: cover;
+    overflow: hidden;
+    border-radius: 50%;
     margin-top: 0;
     border: 6px solid rgba(255, 255, 255, 0.84);
     box-shadow: 0 20px 40px rgba(83, 58, 35, 0.18);
+}
+
+#profile_picture {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 70% center;
+    transform: scale(1.5);
+    transform-origin: 55% 42%;
 }
 
 .about #full_name {
@@ -587,7 +598,7 @@ footer {
         margin-bottom: 22px;
     }
 
-    #profile_picture {
+    .profile-avatar {
         width: min(46vw, 180px);
     }
 
